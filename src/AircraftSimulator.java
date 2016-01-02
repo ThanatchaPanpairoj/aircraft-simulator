@@ -1,0 +1,271 @@
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import javax.swing.JOptionPane;
+
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
+import java.awt.Toolkit;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Robot;
+import java.awt.image.BufferedImage;
+
+/**
+ * This is the GUITemplate class. This includes the JFrame, listeners, buttons, and the GUITemplateComponent which includes all the objects. The buttons and the components are all added to a panel, which is added to the frame.
+ * The main method starts the comp and sets everything up. 
+ *
+ * @author (Thanatcha Panpairoj)
+ * @version (7/25/15)
+ */
+
+public class AircraftSimulator extends JFrame
+{
+    private long startTime;
+    private int frame;
+    private double mouseX, mouseY, speed, zRotation, yRotation, xRotation;
+    private boolean xUp, xDown, yLeft, yRight, zLeft, zRight;
+    private static final double diagonalMoveSpeed = 50 / Math.sqrt(2);
+
+    public static void main(String[] args) throws Exception {
+        AircraftSimulator r = new AircraftSimulator();
+    }
+
+    public AircraftSimulator() throws Exception {
+        super();
+
+        startTime = System.currentTimeMillis();
+
+        xUp = false;
+        xDown = false;
+        yLeft = false;
+        yRight = false;
+        zLeft = false;
+        zRight = false;
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setSize((int)dim.getWidth(), (int)dim.getHeight() - 40);
+        this.setTitle("Display");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+
+        final int width = this.getWidth();
+        final int height = this.getHeight();
+
+        speed = 400;
+        zRotation = 0;
+        xRotation = 0;
+        yRotation = 0;
+
+        //System.out.println("" + width + ", " + height);
+
+        //         frame.setUndecorated(true);
+        //         frame.setShape(new Ellipse2D.Double(0,0, 800, 800));//circle frame?
+
+        JPanel panel = new JPanel();
+        panel.setDoubleBuffered(true);
+
+        AircraftSimulatorComponent comp = new AircraftSimulatorComponent(width, height);
+        
+        class TimeListener implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+                mouseX = MouseInfo.getPointerInfo().getLocation().getX() - getLocation().getX() - 3;
+                mouseY = MouseInfo.getPointerInfo().getLocation().getY() - getLocation().getY() - 25;
+
+                if(zLeft && !zRight) {
+                    comp.transform(new double[] {Math.cos(-0.03), Math.sin(-0.03), 0, 0,
+                            -Math.sin(-0.03), Math.cos(-0.03), 0, 0, 
+                            0, 0,                    1, 0,        
+                            0, 0,                    0, 1});
+                    zRotation -= 0.03;
+                } else if(zRight && !zLeft) {
+                    comp.transform(new double[] {Math.cos(0.03), Math.sin(0.03), 0, 0,
+                            -Math.sin(0.03), Math.cos(0.03), 0, 0, 
+                            0, 0,                    1, 0,        
+                            0, 0,                    0, 1});
+                    zRotation += 0.03;
+                }
+
+                if(xDown && !xUp) {
+                    comp.transform(new double[] {1,                     0,                    0, 0, 
+                            0,  Math.cos(-0.02), Math.sin(-0.02), 0, 
+                            0, -Math.sin(-0.02), Math.cos(-0.02), 0, 
+                            0,                     0,                    0, 1});
+                    xRotation -= 0.02;
+                } else if(xUp && !xDown) {
+                    comp.transform(new double[] {1,                     0,                    0, 0, 
+                            0,  Math.cos(0.02), Math.sin(0.02), 0, 
+                            0, -Math.sin(0.02), Math.cos(0.02), 0, 
+                            0,                     0,                    0, 1});
+                    xRotation += 0.02;
+                } 
+
+                if(yLeft && !yRight) {
+                    comp.transform(new double[] {Math.cos(-0.002), 0, -Math.sin(-0.002), 0,
+                            0, 1,                    0, 0,
+                            Math.sin(-0.002), 0, Math.cos(-0.002), 0, 
+                            0, 0,                    0, 1});
+                    yRotation -= 0.002;
+                } else if(yRight && !yLeft) {
+                    comp.transform(new double[] {Math.cos(0.002), 0, -Math.sin(0.002), 0,
+                            0, 1,                    0, 0,
+                            Math.sin(0.002), 0, Math.cos(0.002), 0, 
+                            0, 0,                    0, 1});
+                    yRotation += 0.002;
+                }
+
+                comp.transform(new double[] {1, 0, 0,      0, 
+                        0, 1, 0,      0, 
+                        0, 0, 1, -speed, 
+                        0, 0, 0,      1});
+
+                comp.repaint();
+                frame++;
+                if(System.currentTimeMillis() - startTime >= 1000) {
+                    startTime += 1000;
+                    comp.updateFPS(frame);
+                    frame = 0;
+                }
+            }
+        }
+
+        class KeyboardListener implements KeyListener {
+            /**
+             * Updates which keys are currently pressed.
+             * 
+             * @param  e  key pressed on the keyboard
+             * @return    void
+             */
+            public void keyPressed(KeyEvent e)
+            {
+                int k = e.getKeyCode();
+                if(k ==  KeyEvent.VK_ESCAPE) {
+                    System.exit(0);
+                } else if(k == KeyEvent.VK_A) {
+                    if(!yRight)
+                        yLeft = true;
+                } else if (k == KeyEvent.VK_D) {
+                    if(!yLeft)
+                        yRight = true;
+                } else if (k == KeyEvent.VK_W) {
+                    if(!xUp)
+                        xDown = true;
+                } else if (k == KeyEvent.VK_S) {
+                    if(!xDown)
+                        xUp = true;
+                } else if (k == KeyEvent.VK_Q) {
+                    if(!zRight)
+                        zLeft = true;
+                } else if (k == KeyEvent.VK_E) {
+                    if(!zLeft)
+                        zRight = true;
+                } 
+            }
+
+            /**
+             * Updates when a key is released.
+             * 
+             * @param  e  key released from the keyboard
+             * @return    void
+             */
+            public void keyReleased(KeyEvent e) {
+                int k = e.getKeyCode();
+                if(k == KeyEvent.VK_A) {
+                    yLeft = false;
+                } else if (k == KeyEvent.VK_D) {
+                    yRight = false;
+                } else if (k == KeyEvent.VK_W) {
+                    xDown = false;
+                } else if (k == KeyEvent.VK_S) {
+                    xUp = false;
+                } else if (k == KeyEvent.VK_Q) {
+                    zLeft = false;
+                } else if (k == KeyEvent.VK_E) {
+                    zRight = false;
+                } 
+            }
+
+            /**
+             * Updates when a key is typed.
+             * 
+             * @param  e  key typed on the keyboard
+             * @return    void
+             */
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+            }
+        }
+
+        class MousePressListener implements MouseListener
+        {
+            /**
+             * Updates when the mouse button is pressed.
+             * 
+             * @param  event  mouse button press
+             * @return        void
+             */
+            public void mousePressed(MouseEvent event)
+            {
+
+            }
+
+            /**
+             * Updates when the mouse button is released.
+             * 
+             * @param  event  mouse button is released
+             * @return        void
+             */
+            public void mouseReleased(MouseEvent event) {
+                comp.click();
+            }
+
+            public void mouseClicked(MouseEvent event) {}
+
+            public void mouseEntered(MouseEvent event) {}
+
+            public void mouseExited(MouseEvent event) {}
+        }
+
+        class ScrollListener implements MouseWheelListener
+        {
+            public void mouseWheelMoved(MouseWheelEvent e) {
+
+            }
+        }
+        comp.setPreferredSize(new Dimension(width, height));
+        comp.addKeyListener(new KeyboardListener());
+        comp.addMouseListener(new MousePressListener());
+        comp.addMouseWheelListener(new ScrollListener());
+        comp.setBounds(0, 0, width, height);
+        comp.setFocusable(true);
+        comp.setVisible(true);
+
+        final int DELAY = 1000 / 60;//60 frames per second
+        Timer t = new Timer(DELAY, new TimeListener());
+        t.start();
+
+        panel.setLayout(null);
+
+        panel.add(comp);
+        this.add(panel);
+
+        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        this.setVisible(true);
+
+        setResizable(false);
+        comp.requestFocus();
+    }
+}

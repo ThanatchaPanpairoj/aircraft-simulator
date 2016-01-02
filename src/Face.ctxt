@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=p1\ p2\ p3
+comment0.target=Face(Point,\ Point,\ Point)
+comment1.params=p1\ p2\ p3\ p4
+comment1.target=Face(Point,\ Point,\ Point,\ Point)
+comment2.params=p1\ p2\ p3\ p4\ p5
+comment2.target=Face(Point,\ Point,\ Point,\ Point,\ Point)
+comment3.params=p1\ p2\ p3\ p4\ p5\ p6\ p7\ p8
+comment3.target=Face(Point,\ Point,\ Point,\ Point,\ Point,\ Point,\ Point,\ Point)
+comment4.params=p1\ p2\ p3\ p4\ p5\ p6\ p7\ p8\ p9
+comment4.target=Face(Point,\ Point,\ Point,\ Point,\ Point,\ Point,\ Point,\ Point,\ Point)
+comment5.params=g2
+comment5.target=void\ draw(java.awt.Graphics2D)
+comment6.params=
+comment6.target=int\ getDistance()
+numComments=7

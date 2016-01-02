@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=width\ height
+comment0.target=AircraftSimulatorComponent(int,\ int)
+comment1.params=g
+comment1.target=void\ paintComponent(java.awt.Graphics)
+comment2.params=transformationMatrix
+comment2.target=void\ transform(double[])
+comment3.params=transformationMatrix
+comment3.target=void\ transformAll(double[])
+comment4.params=
+comment4.target=void\ click()
+comment5.params=fps
+comment5.target=void\ updateFPS(int)
+numComments=6
