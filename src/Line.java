@@ -19,14 +19,14 @@ public class Line
     public void draw(Graphics2D g2) {
         double p1Z = p1.getZ();
         double p2Z = p2.getZ();
-        if(p1Z >= 0 && p2Z >= 0) {
+        if(p1Z >= 10 && p2Z >= 10) {
             g2.draw(new Double(p1.get2Dx(), p1.get2Dy(), p2.get2Dx(), p2.get2Dy()));
             //g2.drawString("" + (int)p1.getX() + "," + (int)p1.getY() + "," + (int)p1.getZ(), (int)p1.get2Dx(), (int)p1.get2Dy());
             //g2.drawString("" + (int)p2.getX() + "," + (int)p2.getY() + "," + (int)p2.getZ(), (int)p2.get2Dx(), (int)p2.get2Dy());
-        } else if (p1Z >= 0) {
+        } else if (p1Z >= 10) {
             Point p3 = new Point(p1.getX() + p1Z * (p2.getX() - p1.getX()) / (p1Z - p2Z), p1.getY() + p1Z * (p2.getY() - p1.getY()) / (p1Z - p2Z), 0, 1);
             g2.draw(new Double(p1.get2Dx(), p1.get2Dy(), p3.get2Dx(), p3.get2Dy()));
-        } else if (p2Z >= 0) {
+        } else if (p2Z >= 10) {
             Point p3 = new Point(p2.getX() + p2Z * (p1.getX() - p2.getX()) / (p2Z - p1Z), p2.getY() + p2Z * (p1.getY() - p2.getY()) / (p2Z - p1Z), 0, 1);
             g2.draw(new Double(p2.get2Dx(), p2.get2Dy(), p3.get2Dx(), p3.get2Dy()));
         }

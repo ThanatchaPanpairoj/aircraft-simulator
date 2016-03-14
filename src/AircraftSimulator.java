@@ -36,9 +36,8 @@ public class AircraftSimulator extends JFrame
 {
     private long startTime;
     private int frame;
-    private double mouseX, mouseY, speed, zRotation, yRotation, xRotation;
+    private double mouseX, mouseY, zRotation, yRotation, xRotation;
     private boolean xUp, xDown, yLeft, yRight, zLeft, zRight;
-    private static final double diagonalMoveSpeed = 50 / Math.sqrt(2);
 
     public static void main(String[] args) throws Exception {
         AircraftSimulator r = new AircraftSimulator();
@@ -65,7 +64,6 @@ public class AircraftSimulator extends JFrame
         final int width = this.getWidth();
         final int height = this.getHeight();
 
-        speed = 400;
         zRotation = 0;
         xRotation = 0;
         yRotation = 0;
@@ -86,13 +84,13 @@ public class AircraftSimulator extends JFrame
                 mouseY = MouseInfo.getPointerInfo().getLocation().getY() - getLocation().getY() - 25;
 
                 if(zLeft && !zRight) {
-                    comp.transform(new double[] {Math.cos(-0.03), Math.sin(-0.03), 0, 0,
+                    comp.rotate(new double[] {Math.cos(-0.03), Math.sin(-0.03), 0, 0,
                             -Math.sin(-0.03), Math.cos(-0.03), 0, 0, 
                             0, 0,                    1, 0,        
                             0, 0,                    0, 1});
                     zRotation -= 0.03;
                 } else if(zRight && !zLeft) {
-                    comp.transform(new double[] {Math.cos(0.03), Math.sin(0.03), 0, 0,
+                    comp.rotate(new double[] {Math.cos(0.03), Math.sin(0.03), 0, 0,
                             -Math.sin(0.03), Math.cos(0.03), 0, 0, 
                             0, 0,                    1, 0,        
                             0, 0,                    0, 1});
@@ -100,13 +98,13 @@ public class AircraftSimulator extends JFrame
                 }
 
                 if(xDown && !xUp) {
-                    comp.transform(new double[] {1,                     0,                    0, 0, 
+                    comp.rotate(new double[] {1,                     0,                    0, 0, 
                             0,  Math.cos(-0.02), Math.sin(-0.02), 0, 
                             0, -Math.sin(-0.02), Math.cos(-0.02), 0, 
                             0,                     0,                    0, 1});
                     xRotation -= 0.02;
                 } else if(xUp && !xDown) {
-                    comp.transform(new double[] {1,                     0,                    0, 0, 
+                    comp.rotate(new double[] {1,                     0,                    0, 0, 
                             0,  Math.cos(0.02), Math.sin(0.02), 0, 
                             0, -Math.sin(0.02), Math.cos(0.02), 0, 
                             0,                     0,                    0, 1});
@@ -114,23 +112,18 @@ public class AircraftSimulator extends JFrame
                 } 
 
                 if(yLeft && !yRight) {
-                    comp.transform(new double[] {Math.cos(-0.002), 0, -Math.sin(-0.002), 0,
+                    comp.rotate(new double[] {Math.cos(-0.002), 0, -Math.sin(-0.002), 0,
                             0, 1,                    0, 0,
                             Math.sin(-0.002), 0, Math.cos(-0.002), 0, 
                             0, 0,                    0, 1});
                     yRotation -= 0.002;
                 } else if(yRight && !yLeft) {
-                    comp.transform(new double[] {Math.cos(0.002), 0, -Math.sin(0.002), 0,
+                    comp.rotate(new double[] {Math.cos(0.002), 0, -Math.sin(0.002), 0,
                             0, 1,                    0, 0,
                             Math.sin(0.002), 0, Math.cos(0.002), 0, 
                             0, 0,                    0, 1});
                     yRotation += 0.002;
                 }
-
-                comp.transform(new double[] {1, 0, 0,      0, 
-                        0, 1, 0,      0, 
-                        0, 0, 1, -speed, 
-                        0, 0, 0,      1});
 
                 comp.repaint();
                 frame++;
@@ -253,8 +246,7 @@ public class AircraftSimulator extends JFrame
         comp.setFocusable(true);
         comp.setVisible(true);
 
-        final int DELAY = 1000 / 60;//60 frames per second
-        Timer t = new Timer(DELAY, new TimeListener());
+        Timer t = new Timer(0, new TimeListener());
         t.start();
 
         panel.setLayout(null);
