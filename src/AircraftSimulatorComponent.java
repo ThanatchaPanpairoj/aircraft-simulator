@@ -187,6 +187,10 @@ public class AircraftSimulatorComponent extends JComponent
             s.transform(transformationMatrix);
         }
     }
+    
+    public void updateThrust(int newT) {
+        thrust = new Point(0, 0, -newT);
+    }
 
     public void click() {
         //

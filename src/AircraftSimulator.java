@@ -10,6 +10,8 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
@@ -23,6 +25,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
+import javax.swing.JSlider;
 
 /**
  * This is the GUITemplate class. This includes the JFrame, listeners, buttons, and the GUITemplateComponent which includes all the objects. The buttons and the components are all added to a panel, which is added to the frame.
@@ -69,17 +72,24 @@ public class AircraftSimulator extends JFrame
         yRotation = 0;
 
         //System.out.println("" + width + ", " + height);
-
         //         frame.setUndecorated(true);
         //         frame.setShape(new Ellipse2D.Double(0,0, 800, 800));//circle frame?
 
         JPanel panel = new JPanel();
         panel.setDoubleBuffered(true);
+        JSlider slider = new JSlider(JSlider.VERTICAL, 0, 10, 5);
+        slider.setBounds(width - 100, height / 3, 100, height / 3);
+        slider.setMajorTickSpacing(5);
+        slider.setMinorTickSpacing(1);
+        slider.setPaintTicks(true);
+        slider.setOpaque(false);
+        slider.setVisible(true);
 
         AircraftSimulatorComponent comp = new AircraftSimulatorComponent(width, height);
-        
+
         class TimeListener implements ActionListener {
             public void actionPerformed(ActionEvent e) {
+                comp.requestFocus();
                 mouseX = MouseInfo.getPointerInfo().getLocation().getX() - getLocation().getX() - 3;
                 mouseY = MouseInfo.getPointerInfo().getLocation().getY() - getLocation().getY() - 25;
 
@@ -202,8 +212,7 @@ public class AircraftSimulator extends JFrame
             }
         }
 
-        class MousePressListener implements MouseListener
-        {
+        class MousePressListener implements MouseListener {
             /**
              * Updates when the mouse button is pressed.
              * 
@@ -232,12 +241,19 @@ public class AircraftSimulator extends JFrame
             public void mouseExited(MouseEvent event) {}
         }
 
-        class ScrollListener implements MouseWheelListener
-        {
+        class ScrollListener implements MouseWheelListener {
             public void mouseWheelMoved(MouseWheelEvent e) {
 
             }
         }
+        
+        class SliderListener implements ChangeListener {
+            public void stateChanged(ChangeEvent e) {
+                comp.updateThrust(((JSlider)e.getSource()).getValue());
+            }
+        }
+        
+        slider.addChangeListener(new SliderListener());
         comp.setPreferredSize(new Dimension(width, height));
         comp.addKeyListener(new KeyboardListener());
         comp.addMouseListener(new MousePressListener());
@@ -251,6 +267,7 @@ public class AircraftSimulator extends JFrame
 
         panel.setLayout(null);
 
+        panel.add(slider);
         panel.add(comp);
         this.add(panel);
 
@@ -258,6 +275,5 @@ public class AircraftSimulator extends JFrame
         this.setVisible(true);
 
         setResizable(false);
-        comp.requestFocus();
     }
 }
