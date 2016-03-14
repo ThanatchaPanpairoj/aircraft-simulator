@@ -100,4 +100,6 @@ public class Ocean extends Shape
     public double getZ() {
         return z;
     }
+    
+    public void decompose(){}
 }

@@ -9,4 +9,6 @@ comment3.params=
 comment3.target=double\ getY()
 comment4.params=
 comment4.target=double\ getZ()
-numComments=5
+comment5.params=
+comment5.target=void\ decompose()
+numComments=6

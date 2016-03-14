@@ -17,4 +17,6 @@ comment7.params=
 comment7.target=double\ getY()
 comment8.params=
 comment8.target=double\ getZ()
-numComments=9
+comment9.params=
+comment9.target=void\ decompose()
+numComments=10
