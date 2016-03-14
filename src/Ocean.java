@@ -19,10 +19,10 @@ public class Ocean extends Shape
         this.x = 0;
         this.y = 0;
         this.z = 0;
-        p1 = new Point(-100000.1, 800, -100000.2);
-        p2 = new Point(100000.3, 800, -100000.4);
-        p3 = new Point(100000.5, 800, 100000.6);
-        p4 = new Point(-100000.7, 800, 100000.8);
+        p1 = new Point(-100000.1, 2000, -100000.2);
+        p2 = new Point(100000.3, 2000, -100000.4);
+        p3 = new Point(100000.5, 2000, 100000.6);
+        p4 = new Point(-100000.7, 2000, 100000.8);
         this.l1 = new Line(p1, p2);
         this.l2 = new Line(p2, p3);
         this.l3 = new Line(p3, p4);
@@ -45,16 +45,16 @@ public class Ocean extends Shape
                     l2.getPointTwo().get2Dx(), 
                     l3.getPointOne().get2Dx(), 
                     l3.getPointTwo().get2Dx(), 
-                    l4.getPointTwo().get2Dx(), 
-                    l4.getPointOne().get2Dx(),},
+                    l4.getPointOne().get2Dx(), 
+                    l4.getPointTwo().get2Dx(),},
                 new int[] {l1.getPointOne().get2Dy(), 
                     l1.getPointTwo().get2Dy(), 
                     l2.getPointOne().get2Dy(), 
                     l2.getPointTwo().get2Dy(), 
                     l3.getPointOne().get2Dy(), 
                     l3.getPointTwo().get2Dy(), 
-                    l4.getPointTwo().get2Dy(), 
-                    l4.getPointOne().get2Dy(),},
+                    l4.getPointOne().get2Dy(), 
+                    l4.getPointTwo().get2Dy(),},
                 8));
                         g2.setColor(Color.RED);
         l1.draw(g2);
