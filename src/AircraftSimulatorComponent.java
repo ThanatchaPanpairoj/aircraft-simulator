@@ -39,9 +39,9 @@ public class AircraftSimulatorComponent extends JComponent
         this.speed = 0;
         this.crash = false;
 
-        gravity = new Point(0, -1, 0);
-        thrust = new Point(0, 0, -5);
-        velocity = new Point(0, 0, -40);
+        gravity = new Point(0, -0.3266667, 0);
+        thrust = new Point(0, 0, -0.5);
+        velocity = new Point(0, 0, -50);
         altitudeReference1 = new Point(0, 2000, 0);
         altitudeReference2 = new Point(0, 2000.5, 0);
 
@@ -110,18 +110,22 @@ public class AircraftSimulatorComponent extends JComponent
             intro--;
         }
 
-        velocity.transform(new double[] {0.9, 0, 0,      thrust.getX() + gravity.getX(), 
-                0, 0.9, 0,      thrust.getY() + gravity.getY() + speed * 0.02, 
-                0, 0, 0.9,      thrust.getZ() + gravity.getZ() + Math.random() * 0.1 - 0.5, 
-                0, 0, 0,      1});
-
-        if(!crash)
+        if(!crash) {
+            velocity.transform(new double[] {0.99, 0, 0,      gravity.getX(), 
+                    0, 0.99, 0,      gravity.getY() + Math.abs(thrust.getZ() * 0.6533335), 
+                    0, 0, 0.99,      thrust.getZ() + gravity.getZ() + Math.random() * 0.1 - 0.05, 
+                    0, 0, 0,      1});
             translate(new double[] {1, 0, 0,      velocity.getX(), 
                     0, 1, 0,      velocity.getY(), 
                     0, 0, 1,      velocity.getZ(), 
                     0, 0, 0,      1});
-        else
+        } else {
+            velocity.transform(new double[] {0, 0, 0, 0, 
+                    0, 0, 0, 0, 
+                    0, 0, 0, 0, 
+                    0, 0, 0, 0});
             aircraft.decompose();
+        }
 
         speed = Math.sqrt(Math.pow(velocity.getX(), 2) + Math.pow(velocity.getY(), 2) + Math.pow(velocity.getZ(), 2));
 
@@ -153,6 +157,10 @@ public class AircraftSimulatorComponent extends JComponent
             crash = true;
         }
         return altitude;
+    }
+    
+    public double getRotationScale() {
+        return velocity.getZ() * -0.02;
     }
 
     public void translate(double[] transformationMatrix) {
@@ -190,7 +198,7 @@ public class AircraftSimulatorComponent extends JComponent
     }
 
     public void updateThrust(int newT) {
-        thrust = new Point(0, 0, -newT);
+        thrust = new Point(0, 0, -newT / 10.0);
     }
 
     public void click() {

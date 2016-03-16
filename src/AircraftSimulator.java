@@ -94,45 +94,51 @@ public class AircraftSimulator extends JFrame
                 mouseY = MouseInfo.getPointerInfo().getLocation().getY() - getLocation().getY() - 25;
 
                 if(zLeft && !zRight) {
-                    comp.rotate(new double[] {Math.cos(-0.03), Math.sin(-0.03), 0, 0,
-                            -Math.sin(-0.03), Math.cos(-0.03), 0, 0, 
+                    double angle = -0.03 * comp.getRotationScale();
+                    comp.rotate(new double[] {Math.cos(angle), Math.sin(angle), 0, 0,
+                            -Math.sin(angle), Math.cos(angle), 0, 0, 
                             0, 0,                    1, 0,        
                             0, 0,                    0, 1});
-                    zRotation -= 0.03;
+                    zRotation += angle;
                 } else if(zRight && !zLeft) {
-                    comp.rotate(new double[] {Math.cos(0.03), Math.sin(0.03), 0, 0,
-                            -Math.sin(0.03), Math.cos(0.03), 0, 0, 
+                    double angle = 0.03 * comp.getRotationScale();
+                    comp.rotate(new double[] {Math.cos(angle), Math.sin(angle), 0, 0,
+                            -Math.sin(angle), Math.cos(angle), 0, 0, 
                             0, 0,                    1, 0,        
                             0, 0,                    0, 1});
-                    zRotation += 0.03;
+                    zRotation += angle;
                 }
 
                 if(xDown && !xUp) {
+                    double angle = -0.02 * comp.getRotationScale();
                     comp.rotate(new double[] {1,                     0,                    0, 0, 
-                            0,  Math.cos(-0.02), Math.sin(-0.02), 0, 
-                            0, -Math.sin(-0.02), Math.cos(-0.02), 0, 
+                            0,  Math.cos(angle), Math.sin(angle), 0, 
+                            0, -Math.sin(angle), Math.cos(angle), 0, 
                             0,                     0,                    0, 1});
-                    xRotation -= 0.02;
+                    xRotation += angle;
                 } else if(xUp && !xDown) {
+                    double angle = 0.02 * comp.getRotationScale();
                     comp.rotate(new double[] {1,                     0,                    0, 0, 
-                            0,  Math.cos(0.02), Math.sin(0.02), 0, 
-                            0, -Math.sin(0.02), Math.cos(0.02), 0, 
+                            0,  Math.cos(angle), Math.sin(angle), 0, 
+                            0, -Math.sin(angle), Math.cos(angle), 0, 
                             0,                     0,                    0, 1});
-                    xRotation += 0.02;
+                    xRotation += angle;
                 } 
 
                 if(yLeft && !yRight) {
-                    comp.rotate(new double[] {Math.cos(-0.002), 0, -Math.sin(-0.002), 0,
+                    double angle = -0.002 * comp.getRotationScale();
+                    comp.rotate(new double[] {Math.cos(angle), 0, -Math.sin(angle), 0,
                             0, 1,                    0, 0,
-                            Math.sin(-0.002), 0, Math.cos(-0.002), 0, 
+                            Math.sin(angle), 0, Math.cos(angle), 0, 
                             0, 0,                    0, 1});
-                    yRotation -= 0.002;
+                    yRotation += angle;
                 } else if(yRight && !yLeft) {
-                    comp.rotate(new double[] {Math.cos(0.002), 0, -Math.sin(0.002), 0,
+                    double angle = 0.002 * comp.getRotationScale();
+                    comp.rotate(new double[] {Math.cos(angle), 0, -Math.sin(angle), 0,
                             0, 1,                    0, 0,
-                            Math.sin(0.002), 0, Math.cos(0.002), 0, 
+                            Math.sin(angle), 0, Math.cos(angle), 0, 
                             0, 0,                    0, 1});
-                    yRotation += 0.002;
+                    yRotation += angle;
                 }
 
                 comp.repaint();
@@ -246,13 +252,13 @@ public class AircraftSimulator extends JFrame
 
             }
         }
-        
+
         class SliderListener implements ChangeListener {
             public void stateChanged(ChangeEvent e) {
                 comp.updateThrust(((JSlider)e.getSource()).getValue());
             }
         }
-        
+
         slider.addChangeListener(new SliderListener());
         comp.setPreferredSize(new Dimension(width, height));
         comp.addKeyListener(new KeyboardListener());
