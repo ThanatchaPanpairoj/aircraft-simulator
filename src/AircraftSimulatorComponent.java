@@ -158,7 +158,7 @@ public class AircraftSimulatorComponent extends JComponent
         }
         return altitude;
     }
-
+    
     public float getRotationScale() {
         return velocity.getZ() * -0.02f;
     }
@@ -181,10 +181,6 @@ public class AircraftSimulatorComponent extends JComponent
         velocity.transform(transformationMatrix);
         altitudeReference1.transform(transformationMatrix);
         altitudeReference2.transform(transformationMatrix);
-    }
-
-    public void rotateAircraft(float[] transformationMatrix) {
-        aircraft.transform(transformationMatrix);
     }
 
     public void transformAll(float[] transformationMatrix) {
