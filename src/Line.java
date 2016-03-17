@@ -17,8 +17,8 @@ public class Line
     }
 
     public void draw(Graphics2D g2) {
-        float p1Z = p1.getZ();
-        float p2Z = p2.getZ();
+        double p1Z = p1.getZ();
+        double p2Z = p2.getZ();
         if(p1Z >= 10 && p2Z >= 10) {
             g2.draw(new Double(p1.get2Dx(), p1.get2Dy(), p2.get2Dx(), p2.get2Dy()));
             //g2.drawString("" + (int)p1.getX() + "," + (int)p1.getY() + "," + (int)p1.getZ(), (int)p1.get2Dx(), (int)p1.get2Dy());
@@ -32,7 +32,7 @@ public class Line
         }
     }
 
-    public void transform(float[] transformationMatrix) {
+    public void transform(double[] transformationMatrix) {
         p1.transform(transformationMatrix);
         p2.transform(transformationMatrix);
     }

@@ -11,13 +11,13 @@ public abstract class Shape
 {
     public abstract void draw(Graphics2D g2); 
 
-    public abstract void transform(float[] transformationMatrix);
+    public abstract void transform(double[] transformationMatrix);
 
-    public abstract float getX();
+    public abstract double getX();
 
-    public abstract float getY();
+    public abstract double getY();
 
-    public abstract float getZ();
+    public abstract double getZ();
     
     public abstract void decompose();
 }

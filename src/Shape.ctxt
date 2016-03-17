@@ -2,13 +2,13 @@
 comment0.params=g2
 comment0.target=void\ draw(java.awt.Graphics2D)
 comment1.params=transformationMatrix
-comment1.target=void\ transform(float[])
+comment1.target=void\ transform(double[])
 comment2.params=
-comment2.target=float\ getX()
+comment2.target=double\ getX()
 comment3.params=
-comment3.target=float\ getY()
+comment3.target=double\ getY()
 comment4.params=
-comment4.target=float\ getZ()
+comment4.target=double\ getZ()
 comment5.params=
 comment5.target=void\ decompose()
 numComments=6

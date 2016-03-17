@@ -10,7 +10,7 @@ import java.awt.Color;
  */
 public class Ocean extends Shape
 {
-    private float x, y, z;
+    private double x, y, z;
     private Point p1, p2, p3, p4;
     private Line l1, l2, l3, l4;
     private static final Color COLOR = new Color(72, 90, 163);
@@ -19,10 +19,10 @@ public class Ocean extends Shape
         this.x = 0;
         this.y = 0;
         this.z = 0;
-        p1 = new Point(-100000.1f, 2000, -100000.2f);
-        p2 = new Point(100000.3f, 2000, -100000.4f);
-        p3 = new Point(100000.5f, 2000, 100000.6f);
-        p4 = new Point(-100000.7f, 2000, 100000.8f);
+        p1 = new Point(-100000.1, 2000, -100000.2);
+        p2 = new Point(100000.3, 2000, -100000.4);
+        p3 = new Point(100000.5, 2000, 100000.6);
+        p4 = new Point(-100000.7, 2000, 100000.8);
         this.l1 = new Line(p1, p2);
         this.l2 = new Line(p2, p3);
         this.l3 = new Line(p3, p4);
@@ -63,15 +63,15 @@ public class Ocean extends Shape
         l4.draw(g2);
     }
 
-    public void transform(float[] transformationMatrix) {
+    public void transform(double[] transformationMatrix) {
         p1.transform(transformationMatrix);
         p2.transform(transformationMatrix);
         p3.transform(transformationMatrix);
         p4.transform(transformationMatrix);
 
-        float newX = x * transformationMatrix[0] + y * transformationMatrix[1] + z * transformationMatrix[2] + transformationMatrix[3];
-        float newY = x * transformationMatrix[4] + y * transformationMatrix[5] + z * transformationMatrix[6] + transformationMatrix[7];
-        float newZ = x * transformationMatrix[8] + y * transformationMatrix[9] + z * transformationMatrix[10] + transformationMatrix[11];
+        double newX = x * transformationMatrix[0] + y * transformationMatrix[1] + z * transformationMatrix[2] + transformationMatrix[3];
+        double newY = x * transformationMatrix[4] + y * transformationMatrix[5] + z * transformationMatrix[6] + transformationMatrix[7];
+        double newZ = x * transformationMatrix[8] + y * transformationMatrix[9] + z * transformationMatrix[10] + transformationMatrix[11];
         x = newX;
         y = newY;
         z = newZ;
@@ -89,15 +89,15 @@ public class Ocean extends Shape
         return p3;
     }
 
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public float getZ() {
+    public double getZ() {
         return z;
     }
     

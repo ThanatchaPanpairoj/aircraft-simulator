@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.params=x\ y\ z
-comment0.target=Jet(float,\ float,\ float)
+comment0.target=Jet(double,\ double,\ double)
 comment1.params=
 comment1.target=void\ loadFaces()
 comment2.params=
@@ -8,13 +8,13 @@ comment2.target=void\ loadFaces2()
 comment3.params=g2
 comment3.target=void\ draw(java.awt.Graphics2D)
 comment4.params=transformationMatrix
-comment4.target=void\ transform(float[])
+comment4.target=void\ transform(double[])
 comment5.params=
 comment5.target=void\ decompose()
 comment6.params=
-comment6.target=float\ getX()
+comment6.target=double\ getX()
 comment7.params=
-comment7.target=float\ getY()
+comment7.target=double\ getY()
 comment8.params=
-comment8.target=float\ getZ()
+comment8.target=double\ getZ()
 numComments=9
