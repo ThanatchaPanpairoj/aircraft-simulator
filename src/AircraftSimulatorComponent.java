@@ -18,9 +18,9 @@ public class AircraftSimulatorComponent extends JComponent
 {
     private int width, height, fps, intro;
     private static int halfW, halfH, sixthW, fourthH; 
-    private double speed;
+    private float speed;
     private boolean crash;
-    private static final double ninetiethPI = Math.PI * 0.0111111111;
+    private static final float ninetiethPI = (float)(Math.PI * 0.0111111111f);
     private Color LIGHT_BLUE = new Color(153, 204, 255);
     private Point gravity, thrust, velocity, altitudeReference1, altitudeReference2;
     private Ocean ocean;
@@ -31,19 +31,19 @@ public class AircraftSimulatorComponent extends JComponent
     public AircraftSimulatorComponent(int width, int height) {
         this.width = width;
         this.height = height;
-        this.halfW = width / 2;
-        this.halfH = height / 2;
+        this.halfW = width >> 1;
+        this.halfH = height >> 1;
         this.sixthW = width / 6;
-        this.fourthH = height / 4;
+        this.fourthH = height >> 2;
         this.intro = 100;
         this.speed = 0;
         this.crash = false;
 
-        gravity = new Point(0, -0.3266667, 0);
-        thrust = new Point(0, 0, -0.5);
-        velocity = new Point(0, 0, -50);
+        gravity = new Point(0, -0.3266667f, 0);
+        thrust = new Point(0, 0, -0.5f);
+        velocity = new Point(0, 0, -50f);
         altitudeReference1 = new Point(0, 2000, 0);
-        altitudeReference2 = new Point(0, 2000.5, 0);
+        altitudeReference2 = new Point(0, 2000.5f, 0);
 
         ocean = new Ocean();
         shapes = new ArrayList<Shape>();
@@ -72,17 +72,17 @@ public class AircraftSimulatorComponent extends JComponent
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
-        g2.translate(width / 2, height / 2);
+        g2.translate(halfW, halfH);
 
         if(intro > 0)
-            transformAll(new double[] {Math.cos(intro * ninetiethPI), 0, -Math.sin(intro * ninetiethPI), 0,
+            transformAll(new float[] {(float)Math.cos(intro * ninetiethPI), 0, -(float)Math.sin(intro * ninetiethPI), 0,
                     0, 1,                    0, 0,
-                    Math.sin(intro * ninetiethPI), 0, Math.cos(intro * ninetiethPI), 0, 
+                    (float)Math.sin(intro * ninetiethPI), 0, (float)Math.cos(intro * ninetiethPI), 0, 
                     0, 0,                    0, 1});
 
-        transformAll(new double[] {1, 0, 0,     0, 
+        transformAll(new float[] {1, 0, 0,     0, 
                 0, 1, 0,     1, 
-                0, 0, 1, 7.5 + thrust.getZ() * 0.2 + intro * 0.1, 
+                0, 0, 1, (float)(7.5 + thrust.getZ() * 0.2 + intro * 0.1), 
                 0, 0, 0,     1});
 
         ocean.draw(g2);
@@ -97,37 +97,37 @@ public class AircraftSimulatorComponent extends JComponent
             s.draw(g2);
         }
 
-        transformAll(new double[] {1, 0, 0,     -0, 
+        transformAll(new float[] {1, 0, 0,     -0, 
                 0, 1, 0,     -1, 
-                0, 0, 1, -7.5 - thrust.getZ() * 0.2 - intro * 0.1, 
+                0, 0, 1, (float)(-7.5 - thrust.getZ() * 0.2 - intro * 0.1), 
                 0, 0, 0,     1});
 
         if(intro > 0) {
-            transformAll(new double[] {Math.cos(-intro * ninetiethPI), 0, -Math.sin(-intro * ninetiethPI), 0,
+            transformAll(new float[] {(float)Math.cos(-intro * ninetiethPI), 0, -(float)Math.sin(-intro * ninetiethPI), 0,
                     0, 1,                    0, 0,
-                    Math.sin(-intro * ninetiethPI), 0, Math.cos(-intro * ninetiethPI), 0, 
+                    (float)Math.sin(-intro * ninetiethPI), 0, (float)Math.cos(-intro * ninetiethPI), 0, 
                     0, 0,                    0, 1});
             intro--;
         }
 
         if(!crash) {
-            velocity.transform(new double[] {0.99, 0, 0,      gravity.getX(), 
-                    0, 0.99, 0,      gravity.getY() + Math.abs(thrust.getZ() * 0.6533335), 
-                    0, 0, 0.99,      thrust.getZ() + gravity.getZ() + Math.random() * 0.1 - 0.05, 
+            velocity.transform(new float[] {0.99f, 0, 0,      gravity.getX(), 
+                    0, 0.99f, 0,      gravity.getY() + (float)Math.abs(thrust.getZ() * 0.6533335), 
+                    0, 0, 0.99f,      thrust.getZ() + gravity.getZ() + (float)Math.random() * 0.1f - 0.05f, 
                     0, 0, 0,      1});
-            translate(new double[] {1, 0, 0,      velocity.getX(), 
+            translate(new float[] {1, 0, 0,      velocity.getX(), 
                     0, 1, 0,      velocity.getY(), 
                     0, 0, 1,      velocity.getZ(), 
                     0, 0, 0,      1});
         } else {
-            velocity.transform(new double[] {0, 0, 0, 0, 
+            velocity.transform(new float[] {0, 0, 0, 0, 
                     0, 0, 0, 0, 
                     0, 0, 0, 0, 
                     0, 0, 0, 0});
             aircraft.decompose();
         }
 
-        speed = Math.sqrt(Math.pow(velocity.getX(), 2) + Math.pow(velocity.getY(), 2) + Math.pow(velocity.getZ(), 2));
+        speed = (float)Math.sqrt(Math.pow(velocity.getX(), 2) + Math.pow(velocity.getY(), 2) + Math.pow(velocity.getZ(), 2));
 
         g2.setColor(Color.BLACK);
         g2.drawString("WASD to turn", -halfW + 5, - halfH + 17);
@@ -150,8 +150,8 @@ public class AircraftSimulatorComponent extends JComponent
         }
     }
 
-    public double getAltitude() {
-        double altitude = 0.25 + Math.pow(altitudeReference2.getX(), 2) + Math.pow(altitudeReference2.getY(), 2) + Math.pow(altitudeReference2.getZ(), 2) - Math.pow(altitudeReference1.getX(), 2) - Math.pow(altitudeReference1.getY(), 2) - Math.pow(altitudeReference1.getZ(), 2);
+    public float getAltitude() {
+        float altitude = 0.25f + (float)(Math.pow(altitudeReference2.getX(), 2) + Math.pow(altitudeReference2.getY(), 2) + Math.pow(altitudeReference2.getZ(), 2) - Math.pow(altitudeReference1.getX(), 2) - Math.pow(altitudeReference1.getY(), 2) - Math.pow(altitudeReference1.getZ(), 2));
         if(altitude < 20) {
             thrust = new Point(0, 0, 0);
             crash = true;
@@ -159,11 +159,11 @@ public class AircraftSimulatorComponent extends JComponent
         return altitude;
     }
     
-    public double getRotationScale() {
-        return velocity.getZ() * -0.02;
+    public float getRotationScale() {
+        return velocity.getZ() * -0.02f;
     }
 
-    public void translate(double[] transformationMatrix) {
+    public void translate(float[] transformationMatrix) {
         for(Line l : grid) {
             l.transform(transformationMatrix);
         }
@@ -172,7 +172,7 @@ public class AircraftSimulatorComponent extends JComponent
         altitudeReference2.transform(transformationMatrix);
     }
 
-    public void rotate(double[] transformationMatrix) {
+    public void rotate(float[] transformationMatrix) {
         for(Line l : grid) {
             l.transform(transformationMatrix);
         }
@@ -183,7 +183,7 @@ public class AircraftSimulatorComponent extends JComponent
         altitudeReference2.transform(transformationMatrix);
     }
 
-    public void transformAll(double[] transformationMatrix) {
+    public void transformAll(float[] transformationMatrix) {
         for(Line l : grid) {
             l.transform(transformationMatrix);
         }
@@ -198,7 +198,7 @@ public class AircraftSimulatorComponent extends JComponent
     }
 
     public void updateThrust(int newT) {
-        thrust = new Point(0, 0, -newT / 10.0);
+        thrust = new Point(0, 0, -newT * 0.1f);
     }
 
     public void click() {

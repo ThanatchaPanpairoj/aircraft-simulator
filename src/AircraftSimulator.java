@@ -39,7 +39,7 @@ public class AircraftSimulator extends JFrame
 {
     private long startTime;
     private int frame;
-    private double mouseX, mouseY, zRotation, yRotation, xRotation;
+    private float mouseX, mouseY, zRotation, yRotation, xRotation;
     private boolean xUp, xDown, yLeft, yRight, zLeft, zRight;
 
     public static void main(String[] args) throws Exception {
@@ -73,7 +73,7 @@ public class AircraftSimulator extends JFrame
 
         //System.out.println("" + width + ", " + height);
         //         frame.setUndecorated(true);
-        //         frame.setShape(new Ellipse2D.Double(0,0, 800, 800));//circle frame?
+        //         frame.setShape(new Ellipse2D.float(0,0, 800, 800));//circle frame?
 
         JPanel panel = new JPanel();
         panel.setDoubleBuffered(true);
@@ -90,53 +90,65 @@ public class AircraftSimulator extends JFrame
         class TimeListener implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 comp.requestFocus();
-                mouseX = MouseInfo.getPointerInfo().getLocation().getX() - getLocation().getX() - 3;
-                mouseY = MouseInfo.getPointerInfo().getLocation().getY() - getLocation().getY() - 25;
+                mouseX = (float)(MouseInfo.getPointerInfo().getLocation().getX() - getLocation().getX()) - 3;
+                mouseY = (float)(MouseInfo.getPointerInfo().getLocation().getY() - getLocation().getY()) - 25;
 
                 if(zLeft && !zRight) {
-                    double angle = -0.03 * comp.getRotationScale();
-                    comp.rotate(new double[] {Math.cos(angle), Math.sin(angle), 0, 0,
-                            -Math.sin(angle), Math.cos(angle), 0, 0, 
+                    float angle = -0.03f * comp.getRotationScale();
+                    float sineA = (float)Math.sin(angle);
+                    float cosineA = (float)Math.cos(angle);
+                    comp.rotate(new float[] {cosineA, sineA, 0, 0,
+                            -sineA, cosineA, 0, 0, 
                             0, 0,                    1, 0,        
                             0, 0,                    0, 1});
                     zRotation += angle;
                 } else if(zRight && !zLeft) {
-                    double angle = 0.03 * comp.getRotationScale();
-                    comp.rotate(new double[] {Math.cos(angle), Math.sin(angle), 0, 0,
-                            -Math.sin(angle), Math.cos(angle), 0, 0, 
+                    float angle = 0.03f * comp.getRotationScale();
+                    float sineA = (float)Math.sin(angle);
+                    float cosineA = (float)Math.cos(angle);
+                    comp.rotate(new float[] {cosineA, sineA, 0, 0,
+                            -sineA, cosineA, 0, 0, 
                             0, 0,                    1, 0,        
                             0, 0,                    0, 1});
                     zRotation += angle;
                 }
 
                 if(xDown && !xUp) {
-                    double angle = -0.02 * comp.getRotationScale();
-                    comp.rotate(new double[] {1,                     0,                    0, 0, 
-                            0,  Math.cos(angle), Math.sin(angle), 0, 
-                            0, -Math.sin(angle), Math.cos(angle), 0, 
+                    float angle = -0.02f * comp.getRotationScale();
+                    float sineA = (float)Math.sin(angle);
+                    float cosineA = (float)Math.cos(angle);
+                    comp.rotate(new float[] {1,                     0,                    0, 0, 
+                            0,  cosineA, sineA, 0, 
+                            0, -sineA, cosineA, 0, 
                             0,                     0,                    0, 1});
                     xRotation += angle;
                 } else if(xUp && !xDown) {
-                    double angle = 0.02 * comp.getRotationScale();
-                    comp.rotate(new double[] {1,                     0,                    0, 0, 
-                            0,  Math.cos(angle), Math.sin(angle), 0, 
-                            0, -Math.sin(angle), Math.cos(angle), 0, 
+                    float angle = 0.02f * comp.getRotationScale();
+                    float sineA = (float)Math.sin(angle);
+                    float cosineA = (float)Math.cos(angle);
+                    comp.rotate(new float[] {1,                     0,                    0, 0, 
+                            0,  cosineA, sineA, 0, 
+                            0, -sineA, cosineA, 0, 
                             0,                     0,                    0, 1});
                     xRotation += angle;
                 } 
 
                 if(yLeft && !yRight) {
-                    double angle = -0.002 * comp.getRotationScale();
-                    comp.rotate(new double[] {Math.cos(angle), 0, -Math.sin(angle), 0,
+                    float angle = -0.002f * comp.getRotationScale();
+                    float sineA = (float)Math.sin(angle);
+                    float cosineA = (float)Math.cos(angle);
+                    comp.rotate(new float[] {cosineA, 0, -sineA, 0,
                             0, 1,                    0, 0,
-                            Math.sin(angle), 0, Math.cos(angle), 0, 
+                            sineA, 0, cosineA, 0, 
                             0, 0,                    0, 1});
                     yRotation += angle;
                 } else if(yRight && !yLeft) {
-                    double angle = 0.002 * comp.getRotationScale();
-                    comp.rotate(new double[] {Math.cos(angle), 0, -Math.sin(angle), 0,
+                    float angle = 0.002f * comp.getRotationScale();
+                    float sineA = (float)Math.sin(angle);
+                    float cosineA = (float)Math.cos(angle);
+                    comp.rotate(new float[] {cosineA, 0, -sineA, 0,
                             0, 1,                    0, 0,
-                            Math.sin(angle), 0, Math.cos(angle), 0, 
+                            sineA, 0, cosineA, 0, 
                             0, 0,                    0, 1});
                     yRotation += angle;
                 }
