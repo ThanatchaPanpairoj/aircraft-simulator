@@ -176,11 +176,31 @@ public class AircraftSimulator extends JFrame
                 if(k ==  KeyEvent.VK_ESCAPE) {
                     System.exit(0);
                 } else if(k == KeyEvent.VK_A) {
-                    if(!yRight)
+                    if(!yRight) {
+                        if(!yLeft) {
+                            float angle = 0.004f * comp.getRotationScale();
+                            float sineA = (float)Math.sin(angle);
+                            float cosineA = (float)Math.cos(angle);
+                            comp.rotateAircraft(new float[] {cosineA, 0, -sineA, 0,
+                                    0, 1,                    0, 0,
+                                    sineA, 0, cosineA, 0, 
+                                    0, 0,                    0, 1});
+                        }
                         yLeft = true;
+                    }
                 } else if (k == KeyEvent.VK_D) {
-                    if(!yLeft)
+                    if(!yLeft) {
+                        if(!yRight) {
+                            float angle = -0.004f * comp.getRotationScale();
+                            float sineA = (float)Math.sin(angle);
+                            float cosineA = (float)Math.cos(angle);
+                            comp.rotateAircraft(new float[] {cosineA, 0, -sineA, 0,
+                                    0, 1,                    0, 0,
+                                    sineA, 0, cosineA, 0, 
+                                    0, 0,                    0, 1});
+                        }
                         yRight = true;
+                    }
                 } else if (k == KeyEvent.VK_W) {
                     if(!xUp)
                         xDown = true;
@@ -188,11 +208,31 @@ public class AircraftSimulator extends JFrame
                     if(!xDown)
                         xUp = true;
                 } else if (k == KeyEvent.VK_Q) {
-                    if(!zRight)
+                    if(!zRight) {
+                        if(!zLeft) {
+                            float angle = 0.06f * comp.getRotationScale();
+                            float sineA = (float)Math.sin(angle);
+                            float cosineA = (float)Math.cos(angle);
+                            comp.rotateAircraft(new float[] {cosineA, sineA, 0, 0,
+                                    -sineA, cosineA, 0, 0, 
+                                    0, 0,                    1, 0,        
+                                    0, 0,                    0, 1});
+                        }
                         zLeft = true;
+                    }
                 } else if (k == KeyEvent.VK_E) {
-                    if(!zLeft)
+                    if(!zLeft) {
+                        if(!zRight) {
+                            float angle = -0.06f * comp.getRotationScale();
+                            float sineA = (float)Math.sin(angle);
+                            float cosineA = (float)Math.cos(angle);
+                            comp.rotateAircraft(new float[] {cosineA, sineA, 0, 0,
+                                    -sineA, cosineA, 0, 0, 
+                                    0, 0,                    1, 0,        
+                                    0, 0,                    0, 1});
+                        }
                         zRight = true;
+                    }
                 } 
             }
 
@@ -205,16 +245,52 @@ public class AircraftSimulator extends JFrame
             public void keyReleased(KeyEvent e) {
                 int k = e.getKeyCode();
                 if(k == KeyEvent.VK_A) {
+                    if(yLeft) {
+                        float angle = -0.004f * comp.getRotationScale();
+                        float sineA = (float)Math.sin(angle);
+                        float cosineA = (float)Math.cos(angle);
+                        comp.rotateAircraft(new float[] {cosineA, 0, -sineA, 0,
+                                0, 1,                    0, 0,
+                                sineA, 0, cosineA, 0, 
+                                0, 0,                    0, 1});
+                    }
                     yLeft = false;
                 } else if (k == KeyEvent.VK_D) {
+                    if(yRight) {
+                        float angle = 0.004f * comp.getRotationScale();
+                        float sineA = (float)Math.sin(angle);
+                        float cosineA = (float)Math.cos(angle);
+                        comp.rotateAircraft(new float[] {cosineA, 0, -sineA, 0,
+                                0, 1,                    0, 0,
+                                sineA, 0, cosineA, 0, 
+                                0, 0,                    0, 1});
+                    }
                     yRight = false;
                 } else if (k == KeyEvent.VK_W) {
                     xDown = false;
                 } else if (k == KeyEvent.VK_S) {
                     xUp = false;
                 } else if (k == KeyEvent.VK_Q) {
+                    if(zLeft) {
+                        float angle = -0.06f * comp.getRotationScale();
+                        float sineA = (float)Math.sin(angle);
+                        float cosineA = (float)Math.cos(angle);
+                        comp.rotateAircraft(new float[] {cosineA, sineA, 0, 0,
+                                -sineA, cosineA, 0, 0, 
+                                0, 0,                    1, 0,        
+                                0, 0,                    0, 1});
+                    }
                     zLeft = false;
                 } else if (k == KeyEvent.VK_E) {
+                    if(zRight) {
+                        float angle = 0.06f * comp.getRotationScale();
+                        float sineA = (float)Math.sin(angle);
+                        float cosineA = (float)Math.cos(angle);
+                        comp.rotateAircraft(new float[] {cosineA, sineA, 0, 0,
+                                -sineA, cosineA, 0, 0, 
+                                0, 0,                    1, 0,        
+                                0, 0,                    0, 1});
+                    }
                     zRight = false;
                 } 
             }
