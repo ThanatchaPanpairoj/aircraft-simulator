@@ -21,7 +21,7 @@ public class AircraftSimulatorComponent extends JComponent
     private double speed;
     private boolean crash;
     private static final double oneEightithPI = Math.PI * 0.005555555;
-    private Color LIGHT_BLUE = new Color(153, 204, 255);
+    private Color LIGHT_BLUE = new Color(153, 204, 255), LIGHT_GREEN = new Color(0, 225, 0);
     private Point gravity, thrust, velocity, altitudeReference1, altitudeReference2;
     private Ocean ocean;
     private Shape aircraft;
@@ -42,8 +42,8 @@ public class AircraftSimulatorComponent extends JComponent
         gravity = new Point(0, -0.3266667, 0);
         thrust = new Point(0, 0, -0.5);
         velocity = new Point(0, 0, -50);
-        altitudeReference1 = new Point(0, 2000, 0);
-        altitudeReference2 = new Point(0, 2000.5, 0);
+        altitudeReference1 = new Point(0, 10000, 0);
+        altitudeReference2 = new Point(0, 10000.5, 0);
 
         ocean = new Ocean();
         shapes = new ArrayList<Shape>();
@@ -51,22 +51,22 @@ public class AircraftSimulatorComponent extends JComponent
 
         grid = new ArrayList<Line>();
         for(int w = -100000; w <= 100000; w += 800) {
-            grid.add(new Line(new Point(w, 2000, -100000, 1), new Point(w, 2000, 100000, 1)));
-            grid.add(new Line(new Point(-100000, 2000, w, 1), new Point(100000, 2000, w, 1)));
+            grid.add(new Line(new Point(w, 10000, -100000, 1), new Point(w, 10000, 100000, 1)));
+            grid.add(new Line(new Point(-100000, 10000, w, 1), new Point(100000, 10000, w, 1)));
 
             if(w >= 0) {
-                grid.add(new Line(new Point(-100000, -98000 + w, -100000, 1), new Point(100000, -98000 + w, -100000, 1)));
-                grid.add(new Line(new Point(-100000, -98000 + w, 100000, 1), new Point(100000, -98000 + w, 100000, 1)));
-                grid.add(new Line(new Point(-100000, -98000 + w, -100000, 1), new Point(-100000, -98000 + w, 100000, 1)));
-                grid.add(new Line(new Point(100000, -98000 + w, -100000, 1), new Point(100000, -98000 + w, 100000, 1)));
+                grid.add(new Line(new Point(-100000, -90000 + w, -100000, 1), new Point(100000, -90000 + w, -100000, 1)));
+                grid.add(new Line(new Point(-100000, -90000 + w, 100000, 1), new Point(100000, -90000 + w, 100000, 1)));
+                grid.add(new Line(new Point(-100000, -90000 + w, -100000, 1), new Point(-100000, -90000 + w, 100000, 1)));
+                grid.add(new Line(new Point(100000, -90000 + w, -100000, 1), new Point(100000, -90000 + w, 100000, 1)));
             }
-            grid.add(new Line(new Point(w, 2000, -100000, 1), new Point(w, -98000, -100000, 1)));
-            grid.add(new Line(new Point(w, 2000, 100000, 1), new Point(w, -98000, 100000, 1)));
-            grid.add(new Line(new Point(-100000, 2000, w, 1), new Point(-100000, -98000, w, 1)));
-            grid.add(new Line(new Point(100000, 2000, w, 1), new Point(100000, -98000, w, 1)));
+            grid.add(new Line(new Point(w, 10000, -100000, 1), new Point(w, -90000, -100000, 1)));
+            grid.add(new Line(new Point(w, 10000, 100000, 1), new Point(w, -90000, 100000, 1)));
+            grid.add(new Line(new Point(-100000, 10000, w, 1), new Point(-100000, -90000, w, 1)));
+            grid.add(new Line(new Point(100000, 10000, w, 1), new Point(100000, -90000, w, 1)));
 
-            grid.add(new Line(new Point(w, -98000, -100000, 1), new Point(w, -98000, 100000, 1)));
-            grid.add(new Line(new Point(-100000, -98000, w, 1), new Point(100000, -98000, w, 1)));
+            grid.add(new Line(new Point(w, -90000, -100000, 1), new Point(w, -90000, 100000, 1)));
+            grid.add(new Line(new Point(-100000, -90000, w, 1), new Point(100000, -90000, w, 1)));
         }
     }
 
@@ -135,11 +135,11 @@ public class AircraftSimulatorComponent extends JComponent
         g2.drawString("WASD to turn", -halfW + 5, - halfH + 17);
         g2.drawString("QE to spin", -halfW + 5, - halfH + 34);
         g2.drawString("ESC to exit", -halfW + 5, - halfH + 51);
-        g2.drawString("FPS: " + fps, halfW - 50, - halfH + 17);
+        g2.drawString("FPS: " + fps, halfW - 65, - halfH + 17);
 
         if(intro == 0) {
             g2.setFont (new Font (Font.SANS_SERIF, Font.BOLD, 20));
-            g2.setColor(Color.GREEN);
+            g2.setColor(LIGHT_GREEN);
             g2.drawString((int)(speed * 10.8) + "kph", -sixthW - 80, 0);
             g2.drawString((int)(getAltitude() * 0.05) + "m", sixthW + 5, 0);
             g2.setStroke(new BasicStroke(2));
