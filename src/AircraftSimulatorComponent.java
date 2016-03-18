@@ -73,9 +73,9 @@ public class AircraftSimulatorComponent extends JComponent
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         g2.translate(halfW, halfH);
-        
+
         aircraft.calculateNewlightingScale(gravity.getX(), gravity.getY(), gravity.getZ());
-        
+
         if(intro > 0)
             transformAll(new double[] {Math.cos(intro * oneEightithPI), 0, -Math.sin(intro * oneEightithPI), 0,
                     0, 1,                    0, 0,
@@ -92,6 +92,28 @@ public class AircraftSimulatorComponent extends JComponent
         g2.setColor(LIGHT_BLUE);
         for(Line l : grid) {
             l.draw(g2);
+        }
+
+        speed = Math.sqrt(Math.pow(velocity.getX(), 2) + Math.pow(velocity.getY(), 2) + Math.pow(velocity.getZ(), 2));
+
+        g2.setColor(Color.BLACK);
+        g2.drawString("WASD to turn", -halfW + 5, - halfH + 17);
+        g2.drawString("QE to spin", -halfW + 5, - halfH + 34);
+        g2.drawString("ESC to exit", -halfW + 5, - halfH + 51);
+        g2.drawString("FPS: " + fps, halfW - 65, - halfH + 17);
+
+        if(intro == 0) {
+            g2.setFont (new Font (Font.SANS_SERIF, Font.BOLD, 20));
+            g2.setColor(LIGHT_GREEN);
+            g2.drawString((int)(speed * 10.8) + "kph", -sixthW - 80, 0);
+            g2.drawString((int)(getAltitude() * 0.05) + "m", sixthW + 5, 0);
+            g2.setStroke(new BasicStroke(2));
+            g2.drawLine(-sixthW, -fourthH, -sixthW + 20, -fourthH);
+            g2.drawLine(-sixthW, -fourthH, -sixthW, fourthH);
+            g2.drawLine(-sixthW, fourthH, -sixthW + 20, fourthH);
+            g2.drawLine(sixthW, -fourthH, sixthW - 20, -fourthH);
+            g2.drawLine(sixthW, -fourthH, sixthW, fourthH);
+            g2.drawLine(sixthW, fourthH, sixthW - 20, fourthH);
         }
 
         shapes.sort(new DistanceComparator());
@@ -127,28 +149,6 @@ public class AircraftSimulatorComponent extends JComponent
                     0, 0, 0, 0, 
                     0, 0, 0, 0});
             aircraft.decompose();
-        }
-
-        speed = Math.sqrt(Math.pow(velocity.getX(), 2) + Math.pow(velocity.getY(), 2) + Math.pow(velocity.getZ(), 2));
-
-        g2.setColor(Color.BLACK);
-        g2.drawString("WASD to turn", -halfW + 5, - halfH + 17);
-        g2.drawString("QE to spin", -halfW + 5, - halfH + 34);
-        g2.drawString("ESC to exit", -halfW + 5, - halfH + 51);
-        g2.drawString("FPS: " + fps, halfW - 65, - halfH + 17);
-
-        if(intro == 0) {
-            g2.setFont (new Font (Font.SANS_SERIF, Font.BOLD, 20));
-            g2.setColor(LIGHT_GREEN);
-            g2.drawString((int)(speed * 10.8) + "kph", -sixthW - 80, 0);
-            g2.drawString((int)(getAltitude() * 0.05) + "m", sixthW + 5, 0);
-            g2.setStroke(new BasicStroke(2));
-            g2.drawLine(-sixthW, -fourthH, -sixthW + 20, -fourthH);
-            g2.drawLine(-sixthW, -fourthH, -sixthW, fourthH);
-            g2.drawLine(-sixthW, fourthH, -sixthW + 20, fourthH);
-            g2.drawLine(sixthW, -fourthH, sixthW - 20, -fourthH);
-            g2.drawLine(sixthW, -fourthH, sixthW, fourthH);
-            g2.drawLine(sixthW, fourthH, sixthW - 20, fourthH);
         }
     }
 
