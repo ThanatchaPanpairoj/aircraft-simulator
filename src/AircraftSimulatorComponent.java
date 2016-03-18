@@ -31,10 +31,10 @@ public class AircraftSimulatorComponent extends JComponent
     public AircraftSimulatorComponent(int width, int height) {
         this.width = width;
         this.height = height;
-        this.halfW = width / 2;
-        this.halfH = height / 2;
+        this.halfW = width >> 1;
+        this.halfH = height >> 1;
         this.sixthW = width / 6;
-        this.fourthH = height / 4;
+        this.fourthH = height >> 2;
         this.intro = 100;
         this.speed = 0;
         this.crash = false;
@@ -72,8 +72,8 @@ public class AircraftSimulatorComponent extends JComponent
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
-        g2.translate(width / 2, height / 2);
-
+        g2.translate(halfW, halfH);
+        aircraft.calculateNewLightingAngle(gravity.getX(), gravity.getY(), gravity.getZ());
         if(intro > 0)
             transformAll(new double[] {Math.cos(intro * ninetiethPI), 0, -Math.sin(intro * ninetiethPI), 0,
                     0, 1,                    0, 0,
@@ -96,7 +96,7 @@ public class AircraftSimulatorComponent extends JComponent
         for(Shape s : shapes) {
             s.draw(g2);
         }
-
+ 
         transformAll(new double[] {1, 0, 0,     -0, 
                 0, 1, 0,     -1, 
                 0, 0, 1, -7.5 - thrust.getZ() * 0.2 - intro * 0.1, 
@@ -152,13 +152,13 @@ public class AircraftSimulatorComponent extends JComponent
 
     public double getAltitude() {
         double altitude = 0.25 + Math.pow(altitudeReference2.getX(), 2) + Math.pow(altitudeReference2.getY(), 2) + Math.pow(altitudeReference2.getZ(), 2) - Math.pow(altitudeReference1.getX(), 2) - Math.pow(altitudeReference1.getY(), 2) - Math.pow(altitudeReference1.getZ(), 2);
-        if(altitude < 20) {
+        if(altitude < 20 || altitude > 100000) {
             thrust = new Point(0, 0, 0);
             crash = true;
         }
         return altitude;
     }
-    
+
     public double getRotationScale() {
         return velocity.getZ() * -0.02;
     }
@@ -178,6 +178,7 @@ public class AircraftSimulatorComponent extends JComponent
         }
         ocean.transform(transformationMatrix);
         gravity.transform(transformationMatrix);
+        aircraft.calculateNewLightingAngle(gravity.getX(), gravity.getY(), gravity.getZ());
         velocity.transform(transformationMatrix);
         altitudeReference1.transform(transformationMatrix);
         altitudeReference2.transform(transformationMatrix);
@@ -189,12 +190,10 @@ public class AircraftSimulatorComponent extends JComponent
         }
         ocean.transform(transformationMatrix);
         gravity.transform(transformationMatrix);
+        aircraft.transform(transformationMatrix);
         velocity.transform(transformationMatrix);
         altitudeReference1.transform(transformationMatrix);
         altitudeReference2.transform(transformationMatrix);
-        for(Shape s : shapes) {
-            s.transform(transformationMatrix);
-        }
     }
 
     public void updateThrust(int newT) {

@@ -101,5 +101,7 @@ public class Ocean extends Shape
         return z;
     }
     
+    public void calculateNewLightingAngle(double gravityX, double gravityY, double gravityZ) {}
+    
     public void decompose(){}
 }

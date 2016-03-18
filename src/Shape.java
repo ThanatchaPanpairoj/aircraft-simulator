@@ -19,5 +19,7 @@ public abstract class Shape
 
     public abstract double getZ();
     
+    public abstract void calculateNewLightingAngle(double gravityX, double gravityY, double gravityZ);
+    
     public abstract void decompose();
 }

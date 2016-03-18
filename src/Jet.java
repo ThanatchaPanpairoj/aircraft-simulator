@@ -38,9 +38,9 @@ public class Jet extends Shape
                 -Math.sin(Math.PI), Math.cos(Math.PI), 0, 0, 
                 0, 0,                    1, 0,        
                 0, 0,                    0, 1});
-        transform(new double[] {Math.cos(Math.PI / 2), 0, -Math.sin(Math.PI / 2), 0,
+        transform(new double[] {Math.cos(Math.PI * 0.5), 0, -Math.sin(Math.PI * 0.5), 0,
                 0, 1,                    0, 0,
-                Math.sin(Math.PI / 2), 0, Math.cos(Math.PI / 2), 0, 
+                Math.sin(Math.PI * 0.5), 0, Math.cos(Math.PI * 0.5), 0, 
                 0, 0,                    0, 2});
     }
 
@@ -73,6 +73,10 @@ public class Jet extends Shape
         for(Point p : points) {
             p.transform(transformationMatrix);
         }
+        
+        for(Face f : faces) {
+            f.transform(transformationMatrix);
+        }
 
         double newX = x * transformationMatrix[0] + y * transformationMatrix[1] + z * transformationMatrix[2] + transformationMatrix[3];
         double newY = x * transformationMatrix[4] + y * transformationMatrix[5] + z * transformationMatrix[6] + transformationMatrix[7];
@@ -80,6 +84,12 @@ public class Jet extends Shape
         x = newX;
         y = newY;
         z = newZ;
+    }
+    
+    public void calculateNewLightingAngle(double gravityX, double gravityY, double gravityZ) {
+        for(Face f : faces) {
+            f.calculateNewLightingAngle(gravityX, gravityY, gravityZ);
+        }
     }
 
     public void decompose() {
