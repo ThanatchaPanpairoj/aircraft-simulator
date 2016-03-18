@@ -10,7 +10,7 @@ import java.awt.Color;
  */
 public class Face {
     private int distance;
-    private double oneOverVW, lightingAngle;
+    private double lightingScaleConstant, lightingScale;
     private Point p1, p2, p3, p4, p5, p6, p7, p8, p9, normal;
     private static final Color EXHUAST_COLOR = new Color(255, 240, 210), MISSILE_BACK_COLOR = new Color(194, 195, 195);
 
@@ -28,7 +28,7 @@ public class Face {
         double vy = p3.getY() - p2.getY();
         double vz = p3.getZ() - p2.getZ();
         normal = new Point(uy * vz - uz - vy, uz * vx - ux * vz, ux * vy - uy * vx);
-        oneOverVW = 1 / (0.3266667 * Math.sqrt(Math.pow(normal.getX(), 2) + Math.pow(normal.getY(), 2) + Math.pow(normal.getZ(), 2))); 
+        lightingScaleConstant = 0.7 / (0.3266667 * Math.sqrt(Math.pow(normal.getX(), 2) + Math.pow(normal.getY(), 2) + Math.pow(normal.getZ(), 2))); 
     }
 
     public Face(Point p1, Point p2, Point p3, Point p4) {
@@ -46,7 +46,7 @@ public class Face {
         double vy = p3.getY() - p2.getY();
         double vz = p3.getZ() - p2.getZ();
         normal = new Point(uy * vz - uz - vy, uz * vx - ux * vz, ux * vy - uy * vx);
-        oneOverVW = 1 / (0.3266667 * Math.sqrt(Math.pow(normal.getX(), 2) + Math.pow(normal.getY(), 2) + Math.pow(normal.getZ(), 2))); 
+        lightingScaleConstant = 0.7 / (0.3266667 * Math.sqrt(Math.pow(normal.getX(), 2) + Math.pow(normal.getY(), 2) + Math.pow(normal.getZ(), 2))); 
     }
 
     public Face(Point p1, Point p2, Point p3, Point p4, Point p5) {
@@ -65,7 +65,7 @@ public class Face {
         double vy = p3.getY() - p2.getY();
         double vz = p3.getZ() - p2.getZ();
         normal = new Point(uy * vz - uz - vy, uz * vx - ux * vz, ux * vy - uy * vx);
-        oneOverVW = 1 / (0.3266667 * Math.sqrt(Math.pow(normal.getX(), 2) + Math.pow(normal.getY(), 2) + Math.pow(normal.getZ(), 2))); 
+        lightingScaleConstant = 0.7 / (0.3266667 * Math.sqrt(Math.pow(normal.getX(), 2) + Math.pow(normal.getY(), 2) + Math.pow(normal.getZ(), 2))); 
     }
 
     public Face(Point p1, Point p2, Point p3, Point p4, Point p5, Point p6, Point p7, Point p8) {
@@ -77,17 +77,6 @@ public class Face {
         this.p6 = p6;
         this.p7 = p7;
         this.p8 = p8;
-        distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX() + p4.getX() + p5.getX() + p6.getX() + p7.getX() + p8.getX())* 0.125, 2)
-            + Math.pow((p1.getY() + p2.getY() + p3.getY() + p4.getY() + p5.getY() + p6.getY() + p7.getY() + p8.getY()) * 0.125, 2) 
-            + Math.pow((p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ() + p5.getZ() + p6.getZ() + p7.getZ() + p8.getZ()) * 0.125, 2));
-            double ux = p2.getX() - p1.getX();
-        double uy = p2.getY() - p1.getY();
-        double uz = p2.getZ() - p1.getZ();
-        double vx = p3.getX() - p2.getX();
-        double vy = p3.getY() - p2.getY();
-        double vz = p3.getZ() - p2.getZ();
-        normal = new Point(uy * vz - uz - vy, uz * vx - ux * vz, ux * vy - uy * vx);
-        oneOverVW = 1 / (0.3266667 * Math.sqrt(Math.pow(normal.getX(), 2) + Math.pow(normal.getY(), 2) + Math.pow(normal.getZ(), 2))); 
     }
 
     public Face(Point p1, Point p2, Point p3, Point p4, Point p5, Point p6, Point p7, Point p8, Point p9) {
@@ -100,23 +89,12 @@ public class Face {
         this.p7 = p7;
         this.p8 = p8;
         this.p9 = p9;
-        distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX() + p4.getX() + p5.getX() + p6.getX() + p7.getX() + p8.getX() + p9.getX()) * 0.11, 2)
-            + Math.pow((p1.getY() + p2.getY() + p3.getY() + p4.getY() + p5.getY() + p6.getY() + p7.getY() + p8.getY() + p9.getY()) * 0.11, 2) 
-            + Math.pow((p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ() + p5.getZ() + p6.getZ() + p7.getZ() + p8.getZ() + p9.getZ()) * 0.11, 2));
-            double ux = p2.getX() - p1.getX();
-        double uy = p2.getY() - p1.getY();
-        double uz = p2.getZ() - p1.getZ();
-        double vx = p3.getX() - p2.getX();
-        double vy = p3.getY() - p2.getY();
-        double vz = p3.getZ() - p2.getZ();
-        normal = new Point(uy * vz - uz - vy, uz * vx - ux * vz, ux * vy - uy * vx);
-        oneOverVW = 1 / (0.3266667 * Math.sqrt(Math.pow(normal.getX(), 2) + Math.pow(normal.getY(), 2) + Math.pow(normal.getZ(), 2))); 
     }
 
     public void draw(Graphics2D g2) {
         if(p1.getZ() > 0 && p2.getZ() > 0 && p3.getZ() > 0)
             if(p4 == null) {
-                g2.setColor(new Color(134 + (int)(101 * lightingAngle), 135 + (int)(100 * lightingAngle), 145 + (int)(90 * lightingAngle)));
+                g2.setColor(new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
                 g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx()}, 
                         new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy()}, 3));
 
@@ -124,7 +102,7 @@ public class Face {
                     + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2) 
                     + Math.pow((p1.getZ() + p2.getZ() + p3.getZ()) * 0.33, 2));
             } else if (p5 == null) {
-                g2.setColor(new Color(134 + (int)(101 * lightingAngle), 135 + (int)(100 * lightingAngle), 145 + (int)(90 * lightingAngle)));
+                g2.setColor(new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
                 g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx(), p4.get2Dx()}, 
                         new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy(), p4.get2Dy()}, 4));
 
@@ -132,7 +110,7 @@ public class Face {
                     + Math.pow((p1.getY() + p2.getY() + p3.getY() + p4.getY()) * 0.25, 2) 
                     + Math.pow((p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ()) * 0.25, 2));
             } else if (p6 == null) {
-                g2.setColor(new Color(134 + (int)(101 * lightingAngle), 135 + (int)(100 * lightingAngle), 145 + (int)(90 * lightingAngle)));
+                g2.setColor(new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
                 g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx(), p4.get2Dx(), p5.get2Dx()}, 
                         new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy(), p4.get2Dy(), p5.get2Dy()}, 5));
 
@@ -163,10 +141,9 @@ public class Face {
             normal.transform(transformationMatrix);
     }
 
-    public void calculateNewLightingAngle(double gravityX, double gravityY, double gravityZ) {
-        if(normal != null) {
-            lightingAngle = Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * oneOverVW * 0.7, -0.4);
-        }
+    public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
+        if(normal != null)
+            lightingScale = Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4);
     }
 
     public int getDistance() {

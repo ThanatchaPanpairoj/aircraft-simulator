@@ -20,5 +20,5 @@ comment7.target=double\ getY()
 comment8.params=
 comment8.target=double\ getZ()
 comment9.params=gravityX\ gravityY\ gravityZ
-comment9.target=void\ calculateNewLightingAngle(double,\ double,\ double)
+comment9.target=void\ calculateNewlightingScale(double,\ double,\ double)
 numComments=11

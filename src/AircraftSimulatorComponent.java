@@ -20,7 +20,7 @@ public class AircraftSimulatorComponent extends JComponent
     private static int halfW, halfH, sixthW, fourthH; 
     private double speed;
     private boolean crash;
-    private static final double ninetiethPI = Math.PI * 0.0111111111;
+    private static final double oneEightithPI = Math.PI * 0.005555555;
     private Color LIGHT_BLUE = new Color(153, 204, 255);
     private Point gravity, thrust, velocity, altitudeReference1, altitudeReference2;
     private Ocean ocean;
@@ -35,7 +35,7 @@ public class AircraftSimulatorComponent extends JComponent
         this.halfH = height >> 1;
         this.sixthW = width / 6;
         this.fourthH = height >> 2;
-        this.intro = 100;
+        this.intro = 200;
         this.speed = 0;
         this.crash = false;
 
@@ -73,11 +73,13 @@ public class AircraftSimulatorComponent extends JComponent
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         g2.translate(halfW, halfH);
-        aircraft.calculateNewLightingAngle(gravity.getX(), gravity.getY(), gravity.getZ());
+        
+        aircraft.calculateNewlightingScale(gravity.getX(), gravity.getY(), gravity.getZ());
+        
         if(intro > 0)
-            transformAll(new double[] {Math.cos(intro * ninetiethPI), 0, -Math.sin(intro * ninetiethPI), 0,
+            transformAll(new double[] {Math.cos(intro * oneEightithPI), 0, -Math.sin(intro * oneEightithPI), 0,
                     0, 1,                    0, 0,
-                    Math.sin(intro * ninetiethPI), 0, Math.cos(intro * ninetiethPI), 0, 
+                    Math.sin(intro * oneEightithPI), 0, Math.cos(intro * oneEightithPI), 0, 
                     0, 0,                    0, 1});
 
         transformAll(new double[] {1, 0, 0,     0, 
@@ -96,16 +98,16 @@ public class AircraftSimulatorComponent extends JComponent
         for(Shape s : shapes) {
             s.draw(g2);
         }
- 
+
         transformAll(new double[] {1, 0, 0,     -0, 
                 0, 1, 0,     -1, 
                 0, 0, 1, -7.5 - thrust.getZ() * 0.2 - intro * 0.1, 
                 0, 0, 0,     1});
 
         if(intro > 0) {
-            transformAll(new double[] {Math.cos(-intro * ninetiethPI), 0, -Math.sin(-intro * ninetiethPI), 0,
+            transformAll(new double[] {Math.cos(-intro * oneEightithPI), 0, -Math.sin(-intro * oneEightithPI), 0,
                     0, 1,                    0, 0,
-                    Math.sin(-intro * ninetiethPI), 0, Math.cos(-intro * ninetiethPI), 0, 
+                    Math.sin(-intro * oneEightithPI), 0, Math.cos(-intro * oneEightithPI), 0, 
                     0, 0,                    0, 1});
             intro--;
         }
@@ -178,7 +180,7 @@ public class AircraftSimulatorComponent extends JComponent
         }
         ocean.transform(transformationMatrix);
         gravity.transform(transformationMatrix);
-        aircraft.calculateNewLightingAngle(gravity.getX(), gravity.getY(), gravity.getZ());
+        aircraft.calculateNewlightingScale(gravity.getX(), gravity.getY(), gravity.getZ());
         velocity.transform(transformationMatrix);
         altitudeReference1.transform(transformationMatrix);
         altitudeReference2.transform(transformationMatrix);
@@ -197,7 +199,7 @@ public class AircraftSimulatorComponent extends JComponent
     }
 
     public void updateThrust(int newT) {
-        thrust = new Point(0, 0, -newT / 10.0);
+        thrust = new Point(0, 0, -newT * 0.1);
     }
 
     public void click() {

@@ -86,9 +86,9 @@ public class Jet extends Shape
         z = newZ;
     }
     
-    public void calculateNewLightingAngle(double gravityX, double gravityY, double gravityZ) {
+    public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
         for(Face f : faces) {
-            f.calculateNewLightingAngle(gravityX, gravityY, gravityZ);
+            f.calculateNewlightingScale(gravityX, gravityY, gravityZ);
         }
     }
 
