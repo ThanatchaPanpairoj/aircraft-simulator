@@ -9,7 +9,7 @@ import java.awt.Toolkit;
 public class Point
 {
     private double x, y, z, s, depthScale;
-    private int twoDX, twoDY;
+    private double twoDX, twoDY;
     private static final double WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.5;
 
     public Point(double x, double y, double z, double s) {
@@ -18,8 +18,8 @@ public class Point
         this.z = z;
         this.s = s;
         depthScale = s * WIDTH / (10 + z);
-        twoDX = (int)(depthScale * x);
-        twoDY = (int)(depthScale * y);
+        twoDX = (depthScale * x);
+        twoDY = (depthScale * y);
     }
 
     public Point(double x, double y, double z) {
@@ -36,15 +36,15 @@ public class Point
         z = newZ;
         s = newS;
         depthScale = s * WIDTH / (10 + z);
-        twoDX = (int)(depthScale * x);
-        twoDY = (int)(depthScale * y);
+        twoDX = (depthScale * x);
+        twoDY = (depthScale * y);
     }
 
-    public int get2Dx() {
+    public double get2Dx() {
         return twoDX;
     }
 
-    public int get2Dy() {
+    public double get2Dy() {
         return twoDY;
     }
 
