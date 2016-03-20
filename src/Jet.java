@@ -25,7 +25,7 @@ public class Jet extends Shape
         this.faces = new ArrayList<Face>();
         points.add(new Point(x, y, z, 1));
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("aircraft data/f16.obj"));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("aircraft data/f16.obj")));
             String line = null;
             for(int i = 0; (line = bufferedReader.readLine()) != null; i++) {
                 String type = line.substring(0, 2);
