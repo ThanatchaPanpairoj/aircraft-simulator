@@ -39,22 +39,22 @@ public class Ocean extends Shape
 //         + " " + l3.getPointTwo().getZ()
 //         + " " + l4.getPointOne().getZ()
 //         + " " + l4.getPointTwo().getZ());
-        g2.fillPolygon(new Polygon(new int[] {l1.getPointOne().get2Dx(), 
-                    l1.getPointTwo().get2Dx(), 
-                    l2.getPointOne().get2Dx(), 
-                    l2.getPointTwo().get2Dx(), 
-                    l3.getPointOne().get2Dx(), 
-                    l3.getPointTwo().get2Dx(), 
-                    l4.getPointOne().get2Dx(), 
-                    l4.getPointTwo().get2Dx(),},
-                new int[] {l1.getPointOne().get2Dy(), 
-                    l1.getPointTwo().get2Dy(), 
-                    l2.getPointOne().get2Dy(), 
-                    l2.getPointTwo().get2Dy(), 
-                    l3.getPointOne().get2Dy(), 
-                    l3.getPointTwo().get2Dy(), 
-                    l4.getPointOne().get2Dy(), 
-                    l4.getPointTwo().get2Dy(),},
+        g2.fillPolygon(new Polygon(new int[] {(int)l1.getPointOne().get2Dx(), 
+                    (int)l1.getPointTwo().get2Dx(), 
+                    (int)l2.getPointOne().get2Dx(), 
+                    (int)l2.getPointTwo().get2Dx(), 
+                    (int)l3.getPointOne().get2Dx(), 
+                    (int)l3.getPointTwo().get2Dx(), 
+                    (int)l4.getPointOne().get2Dx(), 
+                    (int)l4.getPointTwo().get2Dx(),},
+                new int[] {(int)l1.getPointOne().get2Dy(), 
+                    (int)l1.getPointTwo().get2Dy(), 
+                    (int)l2.getPointOne().get2Dy(), 
+                    (int)l2.getPointTwo().get2Dy(), 
+                    (int)l3.getPointOne().get2Dy(), 
+                    (int)l3.getPointTwo().get2Dy(), 
+                    (int)l4.getPointOne().get2Dy(), 
+                    (int)l4.getPointTwo().get2Dy(),},
                 8));
                         g2.setColor(Color.RED);
         l1.draw(g2);
