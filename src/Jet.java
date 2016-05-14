@@ -13,6 +13,7 @@ public class Jet extends Shape
 {
     private ArrayList<Point> points;
     private ArrayList<Face> faces;
+    private Missile missile1, missile2, missile3, missile4;
     private double x, y, z;
     private int decomposing;
 
@@ -25,7 +26,7 @@ public class Jet extends Shape
         this.faces = new ArrayList<Face>();
         points.add(new Point(x, y, z, 1));
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("aircraft data/f16.obj"));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("aircraft data/f16.obj")));
             String line = null;
             for(int i = 0; (line = bufferedReader.readLine()) != null; i++) {
                 String type = line.substring(0, 2);
@@ -51,14 +52,14 @@ public class Jet extends Shape
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
                                 points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
                                 points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2)))),
-                                 points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3))))));
+                                points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3))))));
                     } else if(space5 == -1)
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
                                 points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
                                 points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2)))),
                                 points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3)))),
                                 points.get(Integer.parseInt(line.substring(space4 + 1, line.indexOf('/', space4))))));
-                    else if(space8 == -1)
+                    else if(space8 == -1) {
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
                                 points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
                                 points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2)))),
@@ -67,7 +68,7 @@ public class Jet extends Shape
                                 points.get(Integer.parseInt(line.substring(space5 + 1, line.indexOf('/', space5)))),
                                 points.get(Integer.parseInt(line.substring(space6 + 1, line.indexOf('/', space6)))),
                                 points.get(Integer.parseInt(line.substring(space7 + 1, line.indexOf('/', space7))))));
-                    else if(space9 == -1)
+                    } else if(space9 == -1)
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
                                 points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
                                 points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2)))),
@@ -101,6 +102,27 @@ public class Jet extends Shape
         for(int i = 1007; i < 1095; i++) {
             faces.get(i).setOrange(true);
         }
+
+        missile1 = new Missile();
+        for(int i = 979; i < 1027; i++) {
+            missile1.add(points.get(i));
+        }
+        missile3 = new Missile();
+        for(int i = 891; i < 979; i++) {
+            missile3.add(points.get(i));
+        }
+        missile2 = new Missile();
+        for(int i = 843; i < 891; i++) {
+            missile2.add(points.get(i));
+        }
+        missile4 = new Missile();
+        for(int i = 755; i < 843; i++) {
+            missile4.add(points.get(i));
+        }
+
+        for(int i = 0; i < 272; i++) {
+            points.remove(points.get(755));
+        }
     }
 
     public void draw(Graphics2D g2) {
@@ -116,6 +138,19 @@ public class Jet extends Shape
             faces.sort(new FaceDistanceComparator());
             for(Face t : faces) {
                 t.draw(g2);
+            }
+
+            if(missile1.getFired()) {
+                missile1.fly();
+                if(missile2.getFired()) {
+                    missile2.fly();
+                    if(missile3.getFired()) {
+                        missile3.fly();
+                        if(missile4.getFired()) {
+                            missile4.fly();
+                        }
+                    }
+                }
             }
 
             //             for(Point p : points) {
@@ -145,10 +180,33 @@ public class Jet extends Shape
         z = newZ;
     }
 
+    public void transformMissiles(double[] transformationMatrix, boolean zoom, boolean transformVelocity) {
+        if(zoom || missile1.getFired())
+            missile1.transform(transformationMatrix, transformVelocity);
+        if(zoom || missile2.getFired())
+            missile2.transform(transformationMatrix, transformVelocity);
+        if(zoom || missile3.getFired())
+            missile3.transform(transformationMatrix, transformVelocity);
+        if(zoom || missile4.getFired())
+            missile4.transform(transformationMatrix, transformVelocity);
+    }
+
     public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
         for(Face f : faces) {
             f.calculateNewlightingScale(gravityX, gravityY, gravityZ);
         }
+    }
+
+    public void fire(double jetX, double jetY, double jetZ) {
+        if(!missile1.getFired()) {
+            missile1.fire(jetX, jetY, jetZ);
+        } else if(!missile2.getFired()) {
+            missile2.fire(jetX, jetY, jetZ);
+        } else if(!missile3.getFired()) {
+            missile3.fire(jetX, jetY, jetZ);
+        } else if(!missile4.getFired()) {
+            missile4.fire(jetX, jetY, jetZ);
+        } 
     }
 
     public void decompose() {

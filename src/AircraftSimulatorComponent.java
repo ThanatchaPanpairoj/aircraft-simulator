@@ -77,15 +77,15 @@ public class AircraftSimulatorComponent extends JComponent
         aircraft.calculateNewlightingScale(gravity.getX(), gravity.getY(), gravity.getZ());
 
         if(intro > 0)
-            transformAll(new double[] {Math.cos(intro * oneEightithPI), 0, -Math.sin(intro * oneEightithPI), 0,
+            rotateAll(new double[] {Math.cos(intro * oneEightithPI), 0, -Math.sin(intro * oneEightithPI), 0,
                     0, 1,                    0, 0,
                     Math.sin(intro * oneEightithPI), 0, Math.cos(intro * oneEightithPI), 0, 
-                    0, 0,                    0, 1});
+                    0, 0,                    0, 1}, true, true);
 
-        transformAll(new double[] {1, 0, 0,     0, 
+        translateAll(new double[] {1, 0, 0,     0, 
                 0, 1, 0,     1, 
                 0, 0, 1, 7.5 + thrust.getZ() * 0.2 + intro * 0.1, 
-                0, 0, 0,     1});
+                0, 0, 0,     1}, true, false);
 
         ocean.draw(g2);
 
@@ -121,16 +121,16 @@ public class AircraftSimulatorComponent extends JComponent
             s.draw(g2);
         }
 
-        transformAll(new double[] {1, 0, 0,     -0, 
+        translateAll(new double[] {1, 0, 0,     -0, 
                 0, 1, 0,     -1, 
                 0, 0, 1, -7.5 - thrust.getZ() * 0.2 - intro * 0.1, 
-                0, 0, 0,     1});
-
+                0, 0, 0,     1}, true, false);
+                
         if(intro > 0) {
-            transformAll(new double[] {Math.cos(-intro * oneEightithPI), 0, -Math.sin(-intro * oneEightithPI), 0,
+            rotateAll(new double[] {Math.cos(-intro * oneEightithPI), 0, -Math.sin(-intro * oneEightithPI), 0,
                     0, 1,                    0, 0,
                     Math.sin(-intro * oneEightithPI), 0, Math.cos(-intro * oneEightithPI), 0, 
-                    0, 0,                    0, 1});
+                    0, 0,                    0, 1}, true, true);
             intro--;
         }
 
@@ -143,6 +143,7 @@ public class AircraftSimulatorComponent extends JComponent
                     0, 1, 0,      velocity.getY(), 
                     0, 0, 1,      velocity.getZ(), 
                     0, 0, 0,      1});
+                    //System.out.println(velocity.getY());
         } else {
             velocity.transform(new double[] {0, 0, 0, 0, 
                     0, 0, 0, 0, 
@@ -170,6 +171,7 @@ public class AircraftSimulatorComponent extends JComponent
             l.transform(transformationMatrix);
         }
         ocean.transform(transformationMatrix);
+        ((Jet)aircraft).transformMissiles(transformationMatrix, false, false);
         altitudeReference1.transform(transformationMatrix);
         altitudeReference2.transform(transformationMatrix);
     }
@@ -181,18 +183,33 @@ public class AircraftSimulatorComponent extends JComponent
         ocean.transform(transformationMatrix);
         gravity.transform(transformationMatrix);
         aircraft.calculateNewlightingScale(gravity.getX(), gravity.getY(), gravity.getZ());
+        ((Jet)aircraft).transformMissiles(transformationMatrix, false, true);
         velocity.transform(transformationMatrix);
         altitudeReference1.transform(transformationMatrix);
         altitudeReference2.transform(transformationMatrix);
     }
 
-    public void transformAll(double[] transformationMatrix) {
+    public void translateAll(double[] transformationMatrix, boolean transformMissileIfNotFired, boolean transformVelocity) {
         for(Line l : grid) {
             l.transform(transformationMatrix);
         }
         ocean.transform(transformationMatrix);
         gravity.transform(transformationMatrix);
         aircraft.transform(transformationMatrix);
+        ((Jet)aircraft).transformMissiles(transformationMatrix, true, false);
+        velocity.transform(transformationMatrix);
+        altitudeReference1.transform(transformationMatrix);
+        altitudeReference2.transform(transformationMatrix);
+    }
+    
+    public void rotateAll(double[] transformationMatrix, boolean transformMissileIfNotFired, boolean transformVelocity) {
+        for(Line l : grid) {
+            l.transform(transformationMatrix);
+        }
+        ocean.transform(transformationMatrix);
+        gravity.transform(transformationMatrix);
+        aircraft.transform(transformationMatrix);
+        ((Jet)aircraft).transformMissiles(transformationMatrix, true, true);
         velocity.transform(transformationMatrix);
         altitudeReference1.transform(transformationMatrix);
         altitudeReference2.transform(transformationMatrix);
@@ -200,6 +217,11 @@ public class AircraftSimulatorComponent extends JComponent
 
     public void updateThrust(int newT) {
         thrust = new Point(0, 0, -newT * 0.1);
+    }
+
+    public void fire() {
+        //((Jet)aircraft).fire(0, 0, 0);
+        ((Jet)aircraft).fire(velocity.getX(), velocity.getY(), velocity.getZ());
     }
 
     public void click() {

@@ -193,7 +193,9 @@ public class AircraftSimulator extends JFrame
                 } else if (k == KeyEvent.VK_E) {
                     if(!zLeft)
                         zRight = true;
-                } 
+                } else if (k == KeyEvent.VK_SPACE) {
+                    comp.fire();
+                }
             }
 
             /**

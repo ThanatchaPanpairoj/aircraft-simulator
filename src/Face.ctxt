@@ -19,6 +19,6 @@ comment7.params=transformationMatrix
 comment7.target=void\ transform(double[])
 comment8.params=gravityX\ gravityY\ gravityZ
 comment8.target=void\ calculateNewlightingScale(double,\ double,\ double)
-comment9.params=p1\ p2\ p3\ g2
+comment9.params=pa\ pb\ pc\ g2
 comment9.target=void\ drawTriangle(Point,\ Point,\ Point,\ java.awt.Graphics2D)
 numComments=11
