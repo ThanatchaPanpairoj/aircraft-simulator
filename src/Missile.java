@@ -9,46 +9,50 @@ import java.util.ArrayList;
 public class Missile
 {
     private boolean fired;
-    private Point velocity;
+    private Point thrust, velocity;
     private ArrayList<Point> points;
-    
+
     public Missile() {
         fired = false;
-        velocity = new Point(0, 0, 1);
+        thrust = new Point(0, 0, 1);
         points = new ArrayList<Point>();
     }
-    
+
     public void add(Point p) {
         points.add(p);
     }
-    
+
     public void fire(double jetX, double jetY, double jetZ) {
         fired = true;
-        velocity.transform(new double[] {1, 0, 0, -jetX,
-                0, 1, 0, -jetY,
-                0, 0, 1, -jetZ,
-                0, 0, 0, 1});
+        velocity = new Point(jetX, jetY, jetZ);
     }
-    
+
     public void fly() {
+        if(Math.sqrt(Math.pow(thrust.getX(), 2) + Math.pow(thrust.getZ(), 2) + Math.pow(thrust.getZ(), 2)) < 150)
+            thrust.transform(new double[] {1, 0, 0, 0.01 * thrust.getX(),
+                    0, 1, 0, 0.01 * thrust.getY(),
+                    0, 0, 1, 0.01 * thrust.getZ(),
+                    0, 0, 0, 1});
         for(Point p : points) {
-            p.transform(new double[] {1, 0, 0, velocity.getX(),
-                0, 1, 0, velocity.getY(),
-                0, 0, 1, velocity.getZ(),
-                0, 0, 0, 1});
+            p.transform(new double[] {1, 0, 0, thrust.getX() - velocity.getX(),
+                    0, 1, 0, thrust.getY() - velocity.getY(),
+                    0, 0, 1, thrust.getZ() - velocity.getZ(),
+                    0, 0, 0, 1});
         }
         //System.out.println(points.get(0).getZ() + "  " +  velocity.getX()  + "  " +  velocity.getY() + "  " +  velocity.getZ());
     }
-    
-    public void transform(double[] transformationMatrix, boolean transformVelocity) {
+
+    public void transform(double[] transformationMatrix, boolean transformThrust) {
         for(Point p : points) {
             p.transform(transformationMatrix);
         }
-        if(transformVelocity) {
-            velocity.transform(transformationMatrix);
+        if(transformThrust) {
+            thrust.transform(transformationMatrix);
+            if(velocity != null)
+                velocity.transform(transformationMatrix);
         }
     }
-    
+
     public boolean getFired() {
         return fired;
     }

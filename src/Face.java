@@ -109,63 +109,71 @@ public class Face {
     }
 
     public void draw(Graphics2D g2) {
-        if(p4 == null) {
-            g2.setColor(new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
-            g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx()}, 
-                    new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy()}, 3));
-            //drawTriangle(p1, p2, p3, g2);
-            distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
-                + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2) 
-                + Math.pow((p1.getZ() + p2.getZ() + p3.getZ()) * 0.33, 2));
-        } else if (p5 == null) {
-            if(!orange)
+        if((p2.getX() * normal.getX() + p2.getY() * (normal.getY()) + p2.getZ() * (normal.getZ())) < 0)
+            if(p4 == null) {
                 g2.setColor(new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
-            else
-                g2.setColor(new Color(106 + (int)(20 * lightingScale), 89 + (int)(20 * lightingScale), 79 + (int)(20 * lightingScale)));
-                         g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx(), p4.get2Dx()}, 
-                                 new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy(), p4.get2Dy()}, 4));
-            //drawTriangle(p1, p2, p3, g2);
-            //drawTriangle(p3, p4, p1, g2);
-            distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX() + p4.getX()) * 0.25, 2)
-                + Math.pow((p1.getY() + p2.getY() + p3.getY() + p4.getY()) * 0.25, 2) 
-                + Math.pow((p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ()) * 0.25, 2));
-        } else if (p6 == null) {
-            g2.setColor(new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
-            g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx(), p4.get2Dx(), p5.get2Dx()}, 
-                    new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy(), p4.get2Dy(), p5.get2Dy()}, 5));
-            //drawTriangle(p1, p2, p3, g2);
-            //drawTriangle(p3, p4, p1, g2);
-            //drawTriangle(p4, p5, p1, g2);
-            distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX() + p4.getX() + p5.getX()) * 0.2, 2)
-                + Math.pow((p1.getY() + p2.getY() + p3.getY() + p4.getY() + p5.getY()) * 0.2, 2) 
-                + Math.pow((p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ() + p5.getZ()) * 0.2, 2));
-        } else if (p9 == null) {
-            g2.setColor(MISSILE_BACK_COLOR);
-            g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx(), p4.get2Dx(), p5.get2Dx(), p6.get2Dx(), p7.get2Dx(), p8.get2Dx()}, 
-                    new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy(), p4.get2Dy(), p5.get2Dy(), p6.get2Dy(), p7.get2Dy(), p8.get2Dy()}, 8));
-            //drawTriangle(p1, p2, p3, g2);
-            //drawTriangle(p3, p4, p1, g2);
-            //drawTriangle(p4, p5, p1, g2);
-            //drawTriangle(p5, p6, p1, g2);
-            //drawTriangle(p6, p7, p1, g2);
-            //drawTriangle(p7, p8, p1, g2);
-            distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX() + p4.getX() + p5.getX() + p6.getX() + p7.getX() + p8.getX()) * 0.125, 2)
-                + Math.pow((p1.getY() + p2.getY() + p3.getY() + p4.getY() + p5.getY() + p6.getY() + p7.getY() + p8.getY()) * 0.125, 2) 
-                + Math.pow((p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ() + p5.getZ() + p6.getZ() + p7.getZ() + p8.getZ()) * 0.125, 2));
-        } else {
-            g2.setColor(EXHUAST_COLOR);
-            g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx(), p4.get2Dx(), p5.get2Dx(), p6.get2Dx(), p7.get2Dx(), p8.get2Dx(), p9.get2Dx()}, 
-                    new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy(), p4.get2Dy(), p5.get2Dy(), p6.get2Dy(), p7.get2Dy(), p8.get2Dy(), p9.get2Dy()}, 9));
-            //drawTriangle(p1, p2, p3, g2);
-            //drawTriangle(p3, p4, p1, g2);
-            //drawTriangle(p4, p5, p1, g2);
-            //drawTriangle(p5, p6, p1, g2);
-            //drawTriangle(p6, p7, p1, g2);
-            //drawTriangle(p7, p8, p1, g2);
-            //drawTriangle(p8, p9, p1, g2);
-            distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX() + p4.getX() + p5.getX() + p6.getX() + p7.getX() + p8.getX() + p9.getX()) * 0.11, 2)
-                + Math.pow((p1.getY() + p2.getY() + p3.getY() + p4.getY() + p5.getY() + p6.getY() + p7.getY() + p8.getY() + p9.getY()) * 0.11, 2) 
-                + Math.pow((p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ() + p5.getZ() + p6.getZ() + p7.getZ() + p8.getZ() + p9.getZ()) * 0.11, 2));
+                g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx()}, 
+                        new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy()}, 3));
+                //drawTriangle(p1, p2, p3, g2);
+                distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
+                    + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2) 
+                    + Math.pow((p1.getZ() + p2.getZ() + p3.getZ()) * 0.33, 2));
+            } else if (p5 == null) {
+                if(!orange)
+                    g2.setColor(new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
+                else
+                    g2.setColor(new Color(106 + (int)(20 * lightingScale), 89 + (int)(20 * lightingScale), 79 + (int)(20 * lightingScale), 150));
+                g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx(), p4.get2Dx()}, 
+                        new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy(), p4.get2Dy()}, 4));
+                //drawTriangle(p1, p2, p3, g2);
+                //drawTriangle(p3, p4, p1, g2);
+                distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX() + p4.getX()) * 0.25, 2)
+                    + Math.pow((p1.getY() + p2.getY() + p3.getY() + p4.getY()) * 0.25, 2) 
+                    + Math.pow((p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ()) * 0.25, 2));
+            } else if (p6 == null) {
+                g2.setColor(new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
+                g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx(), p4.get2Dx(), p5.get2Dx()}, 
+                        new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy(), p4.get2Dy(), p5.get2Dy()}, 5));
+                //drawTriangle(p1, p2, p3, g2);
+                //drawTriangle(p3, p4, p1, g2);
+                //drawTriangle(p4, p5, p1, g2);
+                distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX() + p4.getX() + p5.getX()) * 0.2, 2)
+                    + Math.pow((p1.getY() + p2.getY() + p3.getY() + p4.getY() + p5.getY()) * 0.2, 2) 
+                    + Math.pow((p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ() + p5.getZ()) * 0.2, 2));
+            } else if (p9 == null) {
+                g2.setColor(MISSILE_BACK_COLOR);
+                g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx(), p4.get2Dx(), p5.get2Dx(), p6.get2Dx(), p7.get2Dx(), p8.get2Dx()}, 
+                        new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy(), p4.get2Dy(), p5.get2Dy(), p6.get2Dy(), p7.get2Dy(), p8.get2Dy()}, 8));
+                //drawTriangle(p1, p2, p3, g2);
+                //drawTriangle(p3, p4, p1, g2);
+                //drawTriangle(p4, p5, p1, g2);
+                //drawTriangle(p5, p6, p1, g2);
+                //drawTriangle(p6, p7, p1, g2);
+                //drawTriangle(p7, p8, p1, g2);
+                distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX() + p4.getX() + p5.getX() + p6.getX() + p7.getX() + p8.getX()) * 0.125, 2)
+                    + Math.pow((p1.getY() + p2.getY() + p3.getY() + p4.getY() + p5.getY() + p6.getY() + p7.getY() + p8.getY()) * 0.125, 2) 
+                    + Math.pow((p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ() + p5.getZ() + p6.getZ() + p7.getZ() + p8.getZ()) * 0.125, 2));
+            } else {
+                g2.setColor(EXHUAST_COLOR);
+                g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx(), p4.get2Dx(), p5.get2Dx(), p6.get2Dx(), p7.get2Dx(), p8.get2Dx(), p9.get2Dx()}, 
+                        new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy(), p4.get2Dy(), p5.get2Dy(), p6.get2Dy(), p7.get2Dy(), p8.get2Dy(), p9.get2Dy()}, 9));
+                //drawTriangle(p1, p2, p3, g2);
+                //drawTriangle(p3, p4, p1, g2);
+                //drawTriangle(p4, p5, p1, g2);
+                //drawTriangle(p5, p6, p1, g2);
+                //drawTriangle(p6, p7, p1, g2);
+                //drawTriangle(p7, p8, p1, g2);
+                //drawTriangle(p8, p9, p1, g2);
+                distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX() + p4.getX() + p5.getX() + p6.getX() + p7.getX() + p8.getX() + p9.getX()) * 0.11, 2)
+                    + Math.pow((p1.getY() + p2.getY() + p3.getY() + p4.getY() + p5.getY() + p6.getY() + p7.getY() + p8.getY() + p9.getY()) * 0.11, 2) 
+                    + Math.pow((p1.getZ() + p2.getZ() + p3.getZ() + p4.getZ() + p5.getZ() + p6.getZ() + p7.getZ() + p8.getZ() + p9.getZ()) * 0.11, 2));
+            }
+        else {
+            g2.setColor(Color.RED);
+            //g2.drawLine(p2.get2Dx(), p2.get2Dy(), p2.get2Dx() + normal.get2Dx(), p2.get2Dy() + normal.get2Dy());
+            //                 g2.drawLine(p1.get2Dx(), p1.get2Dy(), p2.get2Dx(), p2.get2Dy());
+            //                 g2.drawLine(p2.get2Dx(), p2.get2Dy(), p3.get2Dx(), p3.get2Dy());
+            //                 g2.drawLine(p3.get2Dx(), p3.get2Dy(), p1.get2Dx(), p1.get2Dy());
         }
     }
 

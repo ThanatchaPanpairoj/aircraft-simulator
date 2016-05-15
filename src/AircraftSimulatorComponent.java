@@ -121,7 +121,7 @@ public class AircraftSimulatorComponent extends JComponent
             s.draw(g2);
         }
 
-        translateAll(new double[] {1, 0, 0,     -0, 
+        translateAll(new double[] {1, 0, 0,     0, 
                 0, 1, 0,     -1, 
                 0, 0, 1, -7.5 - thrust.getZ() * 0.2 - intro * 0.1, 
                 0, 0, 0,     1}, true, false);
@@ -208,7 +208,7 @@ public class AircraftSimulatorComponent extends JComponent
         }
         ocean.transform(transformationMatrix);
         gravity.transform(transformationMatrix);
-        aircraft.transform(transformationMatrix);
+        ((Jet)aircraft).rotate(transformationMatrix);
         ((Jet)aircraft).transformMissiles(transformationMatrix, true, true);
         velocity.transform(transformationMatrix);
         altitudeReference1.transform(transformationMatrix);

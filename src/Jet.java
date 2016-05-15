@@ -91,11 +91,11 @@ public class Jet extends Shape
             ex.printStackTrace();
         }
 
-        transform(new double[] {Math.cos(Math.PI), Math.sin(Math.PI), 0, 0,
+        rotate(new double[] {Math.cos(Math.PI), Math.sin(Math.PI), 0, 0,
                 -Math.sin(Math.PI), Math.cos(Math.PI), 0, 0, 
                 0, 0,                    1, 0,        
                 0, 0,                    0, 1});
-        transform(new double[] {Math.cos(Math.PI * 0.5), 0, -Math.sin(Math.PI * 0.5), 0,
+        rotate(new double[] {Math.cos(Math.PI * 0.5), 0, -Math.sin(Math.PI * 0.5), 0,
                 0, 1,                    0, 0,
                 Math.sin(Math.PI * 0.5), 0, Math.cos(Math.PI * 0.5), 0, 
                 0, 0,                    0, 2});
@@ -164,6 +164,19 @@ public class Jet extends Shape
     }
 
     public void transform(double[] transformationMatrix) {
+        for(Point p : points) {
+            p.transform(transformationMatrix);
+        }
+
+        double newX = x * transformationMatrix[0] + y * transformationMatrix[1] + z * transformationMatrix[2] + transformationMatrix[3];
+        double newY = x * transformationMatrix[4] + y * transformationMatrix[5] + z * transformationMatrix[6] + transformationMatrix[7];
+        double newZ = x * transformationMatrix[8] + y * transformationMatrix[9] + z * transformationMatrix[10] + transformationMatrix[11];
+        x = newX;
+        y = newY;
+        z = newZ;
+    }
+    
+    public void rotate(double[] transformationMatrix) {
         for(Point p : points) {
             p.transform(transformationMatrix);
         }
