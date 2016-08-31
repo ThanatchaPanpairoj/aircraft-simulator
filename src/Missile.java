@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.awt.Graphics2D;
+import java.awt.Color;
 
 /**
  * Write a description of class Missile here.
@@ -34,9 +35,11 @@ public class Missile
                     0, 1, 0, 0.01 * thrust.getY(),
                     0, 0, 1, 0.01 * thrust.getZ(),
                     0, 0, 0, 1});
-	if (points.get(0).getZ() > 0)
-		g2.drawRect(points.get(0).get2Dx() - 35, points.get(0).get2Dy() - 35, 70, 70);
-        for(Point p : points) {
+	if (points.get(0).getZ() > 0) {
+	    g2.setColor(Color.RED);
+	    g2.drawRect(points.get(0).get2Dx() - 35, points.get(0).get2Dy() - 35, 70, 70);
+        }
+	for(Point p : points) {
             p.transform(new double[] {1, 0, 0, thrust.getX() - velocity.getX(),
                     0, 1, 0, thrust.getY() - velocity.getY(),
                     0, 0, 1, thrust.getZ() - velocity.getZ(),
