@@ -55,7 +55,7 @@ public class Jet extends Shape
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))),
                                 points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2)))),
                                 points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3))))));
-                    } else if(space5 == -1)
+                    } else if(space5 == -1) {
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
                                 points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
                                 points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))))));
@@ -65,7 +65,7 @@ public class Jet extends Shape
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))),
                                 points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3)))),
                                 points.get(Integer.parseInt(line.substring(space4 + 1, line.indexOf('/', space4))))));
-                    else if(space8 == -1) {
+                    } else if(space8 == -1) {
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
                                 points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
                                 points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))))));
@@ -84,7 +84,7 @@ public class Jet extends Shape
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))),
                                 points.get(Integer.parseInt(line.substring(space6 + 1, line.indexOf('/', space6)))),
                                 points.get(Integer.parseInt(line.substring(space7 + 1, line.indexOf('/', space7))))));
-                    } else if(space9 == -1)
+                    } else if(space9 == -1) {
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
                                 points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
                                 points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))))));
@@ -106,6 +106,7 @@ public class Jet extends Shape
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
                                 points.get(Integer.parseInt(line.substring(space7 + 1, line.indexOf('/', space7)))),
                                 points.get(Integer.parseInt(line.substring(space8 + 1, line.indexOf('/', space8))))));
+                    }
                 }
             }
             faces.remove(0);
