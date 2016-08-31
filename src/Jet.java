@@ -51,6 +51,8 @@ public class Jet extends Shape
                     else if(space4 == -1) {
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
                                 points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
+                                points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))))));
+                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))),
                                 points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2)))),
                                 points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3))))));
                     } else if(space5 == -1)
