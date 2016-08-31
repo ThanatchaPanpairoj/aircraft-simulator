@@ -79,7 +79,7 @@ public class AircraftSimulatorComponent extends JComponent
 
         super.paintComponent(g);
 
-        canvas = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g2 = (Graphics2D)g;
         g2.translate(halfW, halfH);

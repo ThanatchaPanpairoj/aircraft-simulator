@@ -51,7 +51,7 @@ public class Face {
             cbx = (p3.get2Dx() - p2.get2Dx());
             acx = (p1.get2Dx() - p3.get2Dx());
 
-            color = ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
+            color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
 
             drawTriangle(canvas, p1, p2, p3);
             distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
@@ -89,9 +89,13 @@ public class Face {
         
         for (int pX = minX; pX < maxX; pX+=1) {
             for (int pY = minY; pY < maxY; pY+=1) {
-                if (pixelContained(pX, pY, pa, pb, pc)) {
-                    canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
-                }
+		try {
+                    if (pixelContained(pX, pY, pa, pb, pc)) {
+                        canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
+                    }
+		} catch (Exception e) {
+		    System.out.println(-WIDTH + "<" + pX + "<" + WIDTH + ", " + -HEIGHT + "<" + pY + "<" + HEIGHT);
+		}
             }
         }
     }
