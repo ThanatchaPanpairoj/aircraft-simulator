@@ -13,7 +13,7 @@ import java.awt.Toolkit;
  * @version (a version number or a date)
  */
 public class Face {
-    private int distance, bay, cby, acy, bax, cbx, acx;
+    private int distance, color, bay, cby, acy, bax, cbx, acx;
     private boolean orange;
     private double lightingScaleConstant, lightingScale;
     private Point p1, p2, p3, p4, p5, p6, p7, p8, p9, normal;
@@ -51,6 +51,8 @@ public class Face {
             cbx = (p3.get2Dx() - p2.get2Dx());
             acx = (p1.get2Dx() - p3.get2Dx());
 
+            color = ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
+
             drawTriangle(canvas, p1, p2, p3);
             distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
                 + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2) 
@@ -78,25 +80,17 @@ public class Face {
     }
 
     public void drawTriangle(BufferedImage canvas, Point pa, Point pb, Point pc) {
-        int maxX = (int)(Math.max(Math.max(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()) + 1);
-        int minX = (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()));
-        int maxY = (int)(Math.max(Math.max(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()) + 1);
-        int minY = (int)(Math.min(Math.min(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()));
+        int maxX = (int)(Math.min(WIDTH - 1, (int)(Math.max(Math.max(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
+        int minX = (int)(Math.max(-WIDTH + 1, (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
+        int maxY = (int)(Math.min(HEIGHT - 1, (int)(Math.max(Math.max(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
+        int minY = (int)(Math.max(-HEIGHT + 1, (int)(Math.min(Math.min(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
        
         //Color RGB = (new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
-        int R = (134 + (int)(101 * lightingScale));
-        int G = (135 + (int)(100 * lightingScale));
-        int B = (145 + (int)(90 * lightingScale));
-        int color = (R << 16) | (G << 8) | B;
         
-        for (int pX = minX; pX <= maxX; pX+=1) {
-            for (int pY = minY; pY <= maxY; pY+=1) {
+        for (int pX = minX; pX < maxX; pX+=1) {
+            for (int pY = minY; pY < maxY; pY+=1) {
                 if (pixelContained(pX, pY, pa, pb, pc)) {
-                    try {
-                        canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
-                    } catch (Exception ayylmao) {
-                        System.out.println(R + " " + G + " " + B);
-                    }
+                    canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
                 }
             }
         }
