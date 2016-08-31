@@ -9,7 +9,7 @@ import java.awt.Color;
  * @version (a version number or a date)
  */
 public class Face {
-    private int distance;
+    private int distance, bay, cby, acy, bax, cbx, acx;
     private boolean orange;
     private double lightingScaleConstant, lightingScale;
     private Point p1, p2, p3, p4, p5, p6, p7, p8, p9, normal;
@@ -38,6 +38,13 @@ public class Face {
             g2.setColor(new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
             // g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx()}, 
                     // new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy()}, 3));
+            bay = (p2.get2Dy() - p1.get2Dy());
+            cby = (p3.get2Dy() - p2.get2Dy());
+            acy = (p1.get2Dy() - p3.get2Dy());
+            bax = (p2.get2Dx() - p1.get2Dx());
+            cbx = (p3.get2Dx() - p2.get2Dx());
+            acx = (p1.get2Dx() - p3.get2Dx());
+
             drawTriangle(g2, p1, p2, p3);
             distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
                 + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2) 
@@ -69,6 +76,8 @@ public class Face {
         int minX = (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()));
         int maxY = (int)(Math.max(Math.max(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()) + 1);
         int minY = (int)(Math.min(Math.min(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()));
+        
+        
         for (int pX = minX; pX <= maxX; pX+=1) {
             for (int pY = minY; pY <= maxY; pY+=1) {
                 if (pixelContained(pX, pY, pa, pb, pc)) {
@@ -79,9 +88,9 @@ public class Face {
     }
 
     public boolean pixelContained(double pX, double pY, Point pa, Point pb, Point pc) {
-        double edge1 = (pX - pa.get2Dx()) * (pb.get2Dy() - pa.get2Dy()) - (pY - pa.get2Dy()) * (pb.get2Dx() - pa.get2Dx());
-        double edge2 = (pX - pb.get2Dx()) * (pc.get2Dy() - pb.get2Dy()) - (pY - pb.get2Dy()) * (pc.get2Dx() - pb.get2Dx());
-        double edge3 = (pX - pc.get2Dx()) * (pa.get2Dy() - pc.get2Dy()) - (pY - pc.get2Dy()) * (pa.get2Dx() - pc.get2Dx());
+        double edge1 = (pX - pa.get2Dx()) * bay - (pY - pa.get2Dy()) * bax;
+        double edge2 = (pX - pb.get2Dx()) * cby - (pY - pb.get2Dy()) * cbx;
+        double edge3 = (pX - pc.get2Dx()) * acy - (pY - pc.get2Dy()) * acx;
         return (edge1 >= 0 && edge2 >= 0 && edge3 >= 0);
     }
 
