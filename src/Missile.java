@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.awt.Graphics2D;
 import java.awt.Color;
 
+import java.awt.image.BufferedImage;
+
 /**
  * Write a description of class Missile here.
  * 
@@ -29,16 +31,16 @@ public class Missile
         velocity = new Point(jetX, jetY, jetZ);
     }
 
-    public void fly(Graphics2D g2) {
+    public void fly(BufferedImage canvas) {
         if(Math.sqrt(Math.pow(thrust.getX(), 2) + Math.pow(thrust.getZ(), 2) + Math.pow(thrust.getZ(), 2)) < 150)
             thrust.transform(new double[] {1, 0, 0, 0.01 * thrust.getX(),
                     0, 1, 0, 0.01 * thrust.getY(),
                     0, 0, 1, 0.01 * thrust.getZ(),
                     0, 0, 0, 1});
-	if (points.get(0).getZ() > 0) {
-	    g2.setColor(Color.RED);
-	    g2.drawRect(points.get(0).get2Dx() - 35, points.get(0).get2Dy() - 35, 70, 70);
-        }
+	//if (points.get(0).getZ() > 0) {
+	    //g2.setColor(Color.RED);
+	    //g2.drawRect(points.get(0).get2Dx() - 35, points.get(0).get2Dy() - 35, 70, 70);
+        //}
 	for(Point p : points) {
             p.transform(new double[] {1, 0, 0, thrust.getX() - velocity.getX(),
                     0, 1, 0, thrust.getY() - velocity.getY(),

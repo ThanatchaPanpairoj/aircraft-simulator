@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
+import java.awt.image.BufferedImage;
+
 /**
  * Basic GUI component GUITemplateComponent
  * 
@@ -27,6 +29,8 @@ public class AircraftSimulatorComponent extends JComponent
     private Shape aircraft;
     private ArrayList<Line> grid;
     private ArrayList<Shape> shapes;
+    
+    private BufferedImage canvas;
 
     public AircraftSimulatorComponent(int width, int height) {
         this.width = width;
@@ -38,6 +42,7 @@ public class AircraftSimulatorComponent extends JComponent
         this.intro = 200;
         this.speed = 0;
         this.crash = false;
+
 
         gravity = new Point(0, -0.3266667, 0);
         thrust = new Point(0, 0, -0.5);
@@ -71,6 +76,11 @@ public class AircraftSimulatorComponent extends JComponent
     }
 
     public void paintComponent(Graphics g) {
+
+        super.paintComponent(g);
+
+        canvas = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+
         Graphics2D g2 = (Graphics2D)g;
         g2.translate(halfW, halfH);
 
@@ -87,7 +97,7 @@ public class AircraftSimulatorComponent extends JComponent
                 0, 0, 1, 7.5 + thrust.getZ() * 0.2 + intro * 0.1, 
                 0, 0, 0,     1}, true, false);
 
-        ocean.draw(g2);
+        ocean.draw(canvas);
 
         g2.setColor(LIGHT_BLUE);
         for(Line l : grid) {
@@ -118,8 +128,10 @@ public class AircraftSimulatorComponent extends JComponent
 
         shapes.sort(new DistanceComparator());
         for(Shape s : shapes) {
-            s.draw(g2);
+            s.draw(canvas);
         }
+
+        g.drawImage(canvas, (int)(-width*0.5), (int)(-height*0.5), this);
 
         translateAll(new double[] {1, 0, 0,     0, 
                 0, 1, 0,     -1, 

@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.io.*;
 
+import java.awt.image.BufferedImage;
+
 /**
  * Write a description of class Shape here.
  * 
@@ -154,8 +156,8 @@ public class Jet extends Shape
         }
     }
 
-    public void draw(Graphics2D g2) {
-        boolean draw = false;
+    public void draw(BufferedImage canvas) {
+        boolean draw = true;
         for(Point p : points) {
             if(p.getZ() > 0) {
                 draw = true;
@@ -166,17 +168,17 @@ public class Jet extends Shape
         if(draw) {   
             faces.sort(new FaceDistanceComparator());
             for(Face t : faces) {
-                t.draw(g2);
+                t.draw(canvas);
             }
 
             if(missile1.getFired()) {
-                missile1.fly(g2);
+                missile1.fly(canvas);
                 if(missile2.getFired()) {
-                    missile2.fly(g2);
+                    missile2.fly(canvas);
                     if(missile3.getFired()) {
-                        missile3.fly(g2);
+                        missile3.fly(canvas);
                         if(missile4.getFired()) {
-                            missile4.fly(g2);
+                            missile4.fly(canvas);
                         }
                     }
                 }

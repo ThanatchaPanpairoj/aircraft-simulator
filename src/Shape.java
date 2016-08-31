@@ -1,6 +1,8 @@
 import java.awt.Graphics2D;
 import java.awt.Color;
 
+import java.awt.image.BufferedImage;
+
 /**
  * Abstract class Shape - write a description of the class here
  * 
@@ -9,7 +11,7 @@ import java.awt.Color;
  */
 public abstract class Shape
 {
-    public abstract void draw(Graphics2D g2); 
+    public abstract void draw(BufferedImage canvas); 
 
     public abstract void transform(double[] transformationMatrix);
 

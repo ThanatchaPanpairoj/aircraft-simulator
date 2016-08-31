@@ -2,6 +2,8 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.Color;
 
+import java.awt.image.BufferedImage;
+
 /**
  * Write a description of class Face here.
  * 
@@ -29,7 +31,8 @@ public class Ocean extends Shape
         this.l4 = new Line(p4, p1);
     }
 
-    public void draw(Graphics2D g2) {
+    public void draw(BufferedImage canvas) {
+/*
         g2.setColor(COLOR);
 //         System.out.println(l1.getPointOne().getZ()
 //         + " " + l1.getPointTwo().getZ()
@@ -61,6 +64,7 @@ public class Ocean extends Shape
         l2.draw(g2);
         l3.draw(g2);
         l4.draw(g2);
+*/
     }
 
     public void transform(double[] transformationMatrix) {
