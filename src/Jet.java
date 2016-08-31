@@ -143,13 +143,13 @@ public class Jet extends Shape
             }
 
             if(missile1.getFired()) {
-                missile1.fly();
+                missile1.fly(g2);
                 if(missile2.getFired()) {
-                    missile2.fly();
+                    missile2.fly(g2);
                     if(missile3.getFired()) {
-                        missile3.fly();
+                        missile3.fly(g2);
                         if(missile4.getFired()) {
-                            missile4.fly();
+                            missile4.fly(g2);
                         }
                     }
                 }
