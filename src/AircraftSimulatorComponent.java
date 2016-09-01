@@ -131,7 +131,7 @@ public class AircraftSimulatorComponent extends JComponent
             s.draw(canvas);
         }
 
-        g.drawImage(canvas, (int)(-width*0.5), (int)(-height*0.5), this);
+        g.drawImage(canvas, -halfW, -halfH, this);
 
         translateAll(new double[] {1, 0, 0,     0, 
                 0, 1, 0,     -1, 

@@ -67,15 +67,19 @@ public class Face {
         for (int pX = minX; pX < maxX; pX+=1) {
 	    int xaxbay = (pX - pa.get2Dx()) * bay;
 	    int xbxcby = (pX - pb.get2Dx()) * cby;
-	    int xcxacy = (pX - pc.get2Dx()) * acy; 
-            for (int pY = minY; pY < maxY; pY+=1) {
-		try {
+	    int xcxacy = (pX - pc.get2Dx()) * acy;
+	    boolean drawn = false; 
+            for (int pY = maxY; pY > minY; pY-=1) {
+	//	try {
                     if (pixelContained(bax, cbx, acx, xaxbay, xbxcby, xcxacy, pY, pa, pb, pc)) {
-                        canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
-                    }
-		} catch (Exception e) {
-		    System.out.println(-WIDTH + "<" + pX + "<" + WIDTH + ", " + -HEIGHT + "<" + pY + "<" + HEIGHT);
-		}
+                        drawn = true;
+			canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
+                    } else if (drawn) {
+			break;
+		    }
+	//	} catch (Exception e) {
+	//	    System.out.println(-WIDTH + "<" + pX + "<" + WIDTH + ", " + -HEIGHT + "<" + pY + "<" + HEIGHT);
+	//	}
             }
         }
     }
