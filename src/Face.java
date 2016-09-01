@@ -13,10 +13,9 @@ import java.awt.Toolkit;
  * @version (a version number or a date)
  */
 public class Face {
-    private int distance, color, bay, cby, acy, bax, cbx, acx;
-    private boolean orange;
+    private int distance;
     private double lightingScaleConstant, lightingScale;
-    private Point p1, p2, p3, p4, p5, p6, p7, p8, p9, normal;
+    private Point p1, p2, p3, normal;
     private static final Color EXHUAST_COLOR = new Color(255, 230, 180), MISSILE_BACK_COLOR = new Color(194, 195, 195);;
 
     private static final int WIDTH = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.5);
@@ -35,48 +34,19 @@ public class Face {
         double b1 = p3.getX() - p2.getX();
         double b2 = p3.getY() - p2.getY();
         double b3 = p3.getZ() - p2.getZ();
-        normal = new Point(a2*b3-a3*b2,a3*b1-a1*b3,a1*b2-a2*b1);
+        normal = new Point(a2 * b3 - a3 * b2, a3 * b1 - a1 * b3, a1 * b2 - a2 * b1);
         lightingScaleConstant = 0.7 / (0.3266667 * Math.sqrt(Math.pow(normal.getX(), 2) + Math.pow(normal.getY(), 2) + Math.pow(normal.getZ(), 2))); 
     }
 
 
     public void draw(BufferedImage canvas) {
         if((p2.getX() * normal.getX() + p2.getY() * (normal.getY()) + p2.getZ() * (normal.getZ())) < 0) {
-            // g2.fillPolygon(new Polygon(new int[] {p1.get2Dx(), p2.get2Dx(), p3.get2Dx()}, 
-                    // new int[] {p1.get2Dy(), p2.get2Dy(), p3.get2Dy()}, 3));
-            bay = (p2.get2Dy() - p1.get2Dy());
-            cby = (p3.get2Dy() - p2.get2Dy());
-            acy = (p1.get2Dy() - p3.get2Dy());
-            bax = (p2.get2Dx() - p1.get2Dx());
-            cbx = (p3.get2Dx() - p2.get2Dx());
-            acx = (p1.get2Dx() - p3.get2Dx());
-
-            color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
-
             drawTriangle(canvas, p1, p2, p3);
+
             distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
                 + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2) 
                 + Math.pow((p1.getZ() + p2.getZ() + p3.getZ()) * 0.33, 2));
         }
-        //else {
-            //g2.setColor(Color.RED);
-            //g2.drawLine(p2.get2Dx(), p2.get2Dy(), p2.get2Dx() + normal.get2Dx(), p2.get2Dy() + normal.get2Dy());
-            //                 g2.drawLine(p1.get2Dx(), p1.get2Dy(), p2.get2Dx(), p2.get2Dy());
-            //                 g2.drawLine(p2.get2Dx(), p2.get2Dy(), p3.get2Dx(), p3.get2Dy());
-            //                 g2.drawLine(p3.get2Dx(), p3.get2Dy(), p1.get2Dx(), p1.get2Dy());
-        //}
-    }
-
-    public void setOrange(boolean orange) {
-        this.orange = orange;
-    }
-
-    public void transform(double[] transformationMatrix) {
-        normal.transform(transformationMatrix);
-    }
-
-    public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
-        lightingScale = Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4);
     }
 
     public void drawTriangle(BufferedImage canvas, Point pa, Point pb, Point pc) {
@@ -84,13 +54,23 @@ public class Face {
         int minX = (int)(Math.max(-WIDTH + 1, (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
         int maxY = (int)(Math.min(HEIGHT - 1, (int)(Math.max(Math.max(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
         int minY = (int)(Math.max(-HEIGHT + 1, (int)(Math.min(Math.min(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
-       
+        int bay = (p2.get2Dy() - p1.get2Dy());
+        int cby = (p3.get2Dy() - p2.get2Dy());
+        int acy = (p1.get2Dy() - p3.get2Dy());
+        int bax = (p2.get2Dx() - p1.get2Dx());
+        int cbx = (p3.get2Dx() - p2.get2Dx());
+        int acx = (p1.get2Dx() - p3.get2Dx());
+        int color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
+     
         //Color RGB = (new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
         
         for (int pX = minX; pX < maxX; pX+=1) {
+	    int xaxbay = (pX - pa.get2Dx()) * bay;
+	    int xbxcby = (pX - pb.get2Dx()) * cby;
+	    int xcxacy = (pX - pc.get2Dx()) * acy; 
             for (int pY = minY; pY < maxY; pY+=1) {
 		try {
-                    if (pixelContained(pX, pY, pa, pb, pc)) {
+                    if (pixelContained(bax, cbx, acx, xaxbay, xbxcby, xcxacy, pY, pa, pb, pc)) {
                         canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
                     }
 		} catch (Exception e) {
@@ -100,11 +80,19 @@ public class Face {
         }
     }
 
-    public boolean pixelContained(double pX, double pY, Point pa, Point pb, Point pc) {
-        double edge1 = (pX - pa.get2Dx()) * bay - (pY - pa.get2Dy()) * bax;
-        double edge2 = (pX - pb.get2Dx()) * cby - (pY - pb.get2Dy()) * cbx;
-        double edge3 = (pX - pc.get2Dx()) * acy - (pY - pc.get2Dy()) * acx;
+    public boolean pixelContained(int bax, int cbx, int acx, int xaxbay, int xbxcby, int xcxacy, int pY, Point pa, Point pb, Point pc) {
+        int edge1 = xaxbay - (pY - pa.get2Dy()) * bax;
+        int edge2 = xbxcby - (pY - pb.get2Dy()) * cbx;
+        int edge3 = xcxacy - (pY - pc.get2Dy()) * acx;
         return (edge1 >= 0 && edge2 >= 0 && edge3 >= 0);
+    }
+
+    public void transform(double[] transformationMatrix) {
+        normal.transform(transformationMatrix);
+    }
+
+    public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
+        lightingScale = Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4);
     }
 
     public int getDistance() {

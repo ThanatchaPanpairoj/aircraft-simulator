@@ -130,9 +130,9 @@ public class Jet extends Shape
                 0, 1,                    0, 0,
                 Math.sin(Math.PI * 0.5), 0, Math.cos(Math.PI * 0.5), 0, 
                 0, 0,                    0, 2});
-        for(int i = 1007; i < 1095; i++) {
-            faces.get(i).setOrange(true);
-        }
+        //for(int i = 1007; i < 1095; i++) {
+        //    faces.get(i).setOrange(true);
+        //}
 
         missile1 = new Missile();
         for(int i = 979; i < 1027; i++) {
