@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  */
 public abstract class Shape
 {
-    public abstract void draw(BufferedImage canvas); 
+    public abstract void draw(int[] pixels); 
 
     public abstract void transform(double[] transformationMatrix);
 

@@ -31,7 +31,7 @@ public class Missile
         velocity = new Point(jetX, jetY, jetZ);
     }
 
-    public void fly(BufferedImage canvas) {
+    public void fly(int[] pixels) {
         if(Math.sqrt(Math.pow(thrust.getX(), 2) + Math.pow(thrust.getZ(), 2) + Math.pow(thrust.getZ(), 2)) < 150)
             thrust.transform(new double[] {1, 0, 0, 0.01 * thrust.getX(),
                     0, 1, 0, 0.01 * thrust.getY(),

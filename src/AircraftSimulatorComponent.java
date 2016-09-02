@@ -10,6 +10,8 @@ import javax.swing.JComponent;
 
 import java.awt.image.BufferedImage;
 
+import java.awt.image.DataBufferInt;
+
 /**
  * Basic GUI component GUITemplateComponent
  * 
@@ -81,6 +83,8 @@ public class AircraftSimulatorComponent extends JComponent
 
         canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
+        int[] pixels = ((DataBufferInt)canvas.getRaster().getDataBuffer()).getData();
+
         Graphics2D g2 = (Graphics2D)g;
         g2.translate(halfW, halfH);
 
@@ -97,7 +101,7 @@ public class AircraftSimulatorComponent extends JComponent
                 0, 0, 1, 7.5 + thrust.getZ() * 0.2 + intro * 0.1, 
                 0, 0, 0,     1}, true, false);
 
-        ocean.draw(canvas);
+        ocean.draw(pixels);
 
         g2.setColor(LIGHT_BLUE);
         for(Line l : grid) {
@@ -128,7 +132,7 @@ public class AircraftSimulatorComponent extends JComponent
 
         shapes.sort(new DistanceComparator());
         for(Shape s : shapes) {
-            s.draw(canvas);
+            s.draw(pixels);
         }
 
         g.drawImage(canvas, -halfW, -halfH, this);

@@ -31,7 +31,7 @@ public class Ocean extends Shape
         this.l4 = new Line(p4, p1);
     }
 
-    public void draw(BufferedImage canvas) {
+    public void draw(int[] pixels) {
 /*
         g2.setColor(COLOR);
 //         System.out.println(l1.getPointOne().getZ()

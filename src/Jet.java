@@ -156,7 +156,7 @@ public class Jet extends Shape
         }
     }
 
-    public void draw(BufferedImage canvas) {
+    public void draw(int[] pixels) {
         boolean draw = true;
         for(Point p : points) {
             if(p.getZ() > 0) {
@@ -168,17 +168,17 @@ public class Jet extends Shape
         if(draw) {   
             faces.sort(new FaceDistanceComparator());
             for(Face t : faces) {
-                t.draw(canvas);
+                t.draw(pixels);
             }
 
             if(missile1.getFired()) {
-                missile1.fly(canvas);
+                missile1.fly(pixels);
                 if(missile2.getFired()) {
-                    missile2.fly(canvas);
+                    missile2.fly(pixels);
                     if(missile3.getFired()) {
-                        missile3.fly(canvas);
+                        missile3.fly(pixels);
                         if(missile4.getFired()) {
-                            missile4.fly(canvas);
+                            missile4.fly(pixels);
                         }
                     }
                 }

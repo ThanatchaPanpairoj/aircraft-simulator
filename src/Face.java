@@ -39,9 +39,9 @@ public class Face {
     }
 
 
-    public void draw(BufferedImage canvas) {
+    public void draw(int[] pixels) {
         if((p2.getX() * normal.getX() + p2.getY() * (normal.getY()) + p2.getZ() * (normal.getZ())) < 0) {
-            drawTriangle(canvas, p1, p2, p3);
+            drawTriangle(pixels, p1, p2, p3);
 
             distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
                 + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2) 
@@ -49,7 +49,7 @@ public class Face {
         }
     }
 
-    public void drawTriangle(BufferedImage canvas, Point pa, Point pb, Point pc) {
+    public void drawTriangle(int[] pixels, Point pa, Point pb, Point pc) {
         int maxX = (int)(Math.min(WIDTH - 1, (int)(Math.max(Math.max(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
         int minX = (int)(Math.max(-WIDTH + 1, (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
         int maxY = (int)(Math.min(HEIGHT - 1, (int)(Math.max(Math.max(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
@@ -73,7 +73,8 @@ public class Face {
 	//	try {
                     if (pixelContained(bax, cbx, acx, xaxbay, xbxcby, xcxacy, pY, pa, pb, pc)) {
                         drawn = true;
-			canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
+			//canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
+            pixels[2 * WIDTH * (pY+HEIGHT) + (pX+WIDTH)] = color;
                     } else if (drawn) {
 			break;
 		    }
