@@ -5,12 +5,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.BasicStroke;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JComponent;
 
 import java.awt.image.BufferedImage;
 
 import java.awt.image.DataBufferInt;
+
 
 /**
  * Basic GUI component GUITemplateComponent
@@ -56,6 +58,8 @@ public class AircraftSimulatorComponent extends JComponent
         shapes = new ArrayList<Shape>();
         shapes.add(aircraft = new Jet(0, 0, 0));
 
+        canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
         grid = new ArrayList<Line>();
         for(int w = -100000; w <= 100000; w += 800) {
             grid.add(new Line(new Point(w, 10000, -100000, 1), new Point(w, 10000, 100000, 1)));
@@ -81,9 +85,8 @@ public class AircraftSimulatorComponent extends JComponent
 
         super.paintComponent(g);
 
-        canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
         int[] pixels = ((DataBufferInt)canvas.getRaster().getDataBuffer()).getData();
+        Arrays.fill(pixels, (new Color(0, 0, 0, 0)).getRGB());
 
         Graphics2D g2 = (Graphics2D)g;
         g2.translate(halfW, halfH);
