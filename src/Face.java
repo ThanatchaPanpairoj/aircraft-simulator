@@ -86,10 +86,9 @@ public class Face {
     }
 
     public boolean pixelContained(int bax, int cbx, int acx, int xaxbay, int xbxcby, int xcxacy, int pY, Point pa, Point pb, Point pc) {
-        int edge1 = xaxbay - (pY - pa.get2Dy()) * bax;
-        int edge2 = xbxcby - (pY - pb.get2Dy()) * cbx;
-        int edge3 = xcxacy - (pY - pc.get2Dy()) * acx;
-        return (edge1 >= 0 && edge2 >= 0 && edge3 >= 0);
+        return (xaxbay - (pY - pa.get2Dy()) * bax >= 0
+		&& xbxcby - (pY - pb.get2Dy()) * cbx >= 0 
+		&& xcxacy - (pY - pc.get2Dy()) * acx  >= 0);
     }
 
     public void transform(double[] transformationMatrix) {
