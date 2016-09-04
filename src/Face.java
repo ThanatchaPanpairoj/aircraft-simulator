@@ -50,10 +50,10 @@ public class Face {
     }
 
     public void drawTriangle(int[] pixels, Point pa, Point pb, Point pc) {
-        int maxX = (int)(Math.min(WIDTH - 1, (int)(Math.max(Math.max(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
-        int minX = (int)(Math.max(-WIDTH + 1, (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
-        int maxY = (int)(Math.min(HEIGHT - 1, (int)(Math.max(Math.max(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
-        int minY = (int)(Math.max(-HEIGHT + 1, (int)(Math.min(Math.min(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
+        int maxX = (int)(Math.min(WIDTH, (int)(Math.max(Math.max(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
+        int minX = (int)(Math.max(-WIDTH, (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
+        int maxY = (int)(Math.min(HEIGHT, (int)(Math.max(Math.max(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
+        int minY = (int)(Math.max(-HEIGHT, (int)(Math.min(Math.min(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
         int bay = (p2.get2Dy() - p1.get2Dy());
         int cby = (p3.get2Dy() - p2.get2Dy());
         int acy = (p1.get2Dy() - p3.get2Dy());
@@ -70,17 +70,17 @@ public class Face {
 	    int xcxacy = (pX - pc.get2Dx()) * acy;
 	    boolean drawn = false; 
             for (int pY = maxY; pY > minY; pY-=1) {
-	//	try {
+		try {
                     if (pixelContained(bax, cbx, acx, xaxbay, xbxcby, xcxacy, pY, pa, pb, pc)) {
                         drawn = true;
 			//canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
-            pixels[2 * WIDTH * (pY+HEIGHT) + (pX+WIDTH)] = color;
+        	        pixels[2 * WIDTH * (pY+HEIGHT) + (pX+WIDTH)] = color;
                     } else if (drawn) {
 			break;
 		    }
-	//	} catch (Exception e) {
+		} catch (Exception e) {
 	//	    System.out.println(-WIDTH + "<" + pX + "<" + WIDTH + ", " + -HEIGHT + "<" + pY + "<" + HEIGHT);
-	//	}
+		}
             }
         }
     }
