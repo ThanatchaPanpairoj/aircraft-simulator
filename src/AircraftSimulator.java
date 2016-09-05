@@ -269,6 +269,7 @@ public class AircraftSimulator extends JFrame
         class SliderListener implements ChangeListener {
             public void stateChanged(ChangeEvent e) {
                 comp.updateThrust(((JSlider)e.getSource()).getValue());
+		comp.requestFocus();
             }
         }
 
