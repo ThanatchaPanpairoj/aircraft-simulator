@@ -89,7 +89,6 @@ public class AircraftSimulator extends JFrame
 
         class TimeListener implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                comp.requestFocus();
                 mouseX = MouseInfo.getPointerInfo().getLocation().getX() - getLocation().getX() - 3;
                 mouseY = MouseInfo.getPointerInfo().getLocation().getY() - getLocation().getY() - 25;
 
@@ -294,6 +293,8 @@ public class AircraftSimulator extends JFrame
         //frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         this.setVisible(true);
 
-        setResizable(false);
+        this.setResizable(false);
+	comp.requestFocus();
+
     }
 }
