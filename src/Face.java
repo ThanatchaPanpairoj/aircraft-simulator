@@ -66,12 +66,19 @@ public class Face {
 
 	// Color
         int color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
-     
+    
+	// Interpolation Precalculations	
+	double area = (pc.get2Dx() - pa.get2Dx()) * (pb.get2Dy() - pa.get2Dy()) 
+		- (pc.get2Dy() - pa.get2Dy()) * (pb.get2Dx() - pa.get2Dx());
+	double invZ1 = 1 / (area * pa.getZ());
+	double invZ2 = 1 / (area * pb.getZ());
+	double invZ3 = 1 / (area * pc.getZ());
+ 
         // Column Precalculations
 	double xaxbay = (minX - pa.get2Dx()) * bay;
 	double xbxcby = (minX - pb.get2Dx()) * cby;
 	double xcxacy = (minX - pc.get2Dx()) * acy;
-
+	
 	for (int pX = minX; pX <= maxX; pX+=1, xaxbay += bay, xbxcby += cby, xcxacy += acy) {
 	    boolean drawn = false;
 
@@ -86,7 +93,10 @@ public class Face {
 		    if ((edge1 = edgeFunction(xaxbay, yaybax)) >= 0 
 			&& (edge2 = edgeFunction(xbxcby, ybycbx)) >= 0
 			&& (edge3 = edgeFunction(xcxacy, ycyacx)) >= 0) {
-        	        pixels[2 * WIDTH * (pY+HEIGHT) + (pX+WIDTH)] = color;
+        	        
+			double z = (1 / (edge1 * invZ1 + edge2 * invZ2 + edge3 * invZ3)); 
+			//System.out.println(pa.getZ() + ", " + pb.getZ() + ", " + pc.getZ() + " : " + z);
+			pixels[2 * WIDTH * (pY+HEIGHT) + (pX+WIDTH)] = color;
                         drawn = true;
                     } else if (drawn) {
 			break;
