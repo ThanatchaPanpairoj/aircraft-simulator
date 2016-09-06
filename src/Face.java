@@ -57,32 +57,32 @@ public class Face {
         int minY = (int)(Math.max(-HEIGHT, (int)(Math.min(Math.min(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
 	
 	// Delta Precalculations
-        int bay = (p2.get2Dy() - p1.get2Dy());
-        int cby = (p3.get2Dy() - p2.get2Dy());
-        int acy = (p1.get2Dy() - p3.get2Dy());
-        int bax = (p2.get2Dx() - p1.get2Dx());
-        int cbx = (p3.get2Dx() - p2.get2Dx());
-        int acx = (p1.get2Dx() - p3.get2Dx());
+        double bay = (p2.get2Dy() - p1.get2Dy());
+        double cby = (p3.get2Dy() - p2.get2Dy());
+        double acy = (p1.get2Dy() - p3.get2Dy());
+        double bax = (p2.get2Dx() - p1.get2Dx());
+        double cbx = (p3.get2Dx() - p2.get2Dx());
+        double acx = (p1.get2Dx() - p3.get2Dx());
 
 	// Color
         int color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
      
         // Column Precalculations
-	int xaxbay = (minX - pa.get2Dx()) * bay;
-	int xbxcby = (minX - pb.get2Dx()) * cby;
-	int xcxacy = (minX - pc.get2Dx()) * acy;
+	double xaxbay = (minX - pa.get2Dx()) * bay;
+	double xbxcby = (minX - pb.get2Dx()) * cby;
+	double xcxacy = (minX - pc.get2Dx()) * acy;
 
-        for (int pX = minX; pX < maxX; pX+=1, xaxbay += bay, xbxcby += cby, xcxacy += acy) {
+	for (int pX = minX; pX <= maxX; pX+=1, xaxbay += bay, xbxcby += cby, xcxacy += acy) {
 	    boolean drawn = false;
 
 	    // Row Precalculations
-	    int yaybax = (maxY - pa.get2Dy()) * bax;
-	    int ybycbx = (maxY - pb.get2Dy()) * cbx;
-	    int ycyacx = (maxY - pc.get2Dy()) * acx;
+	    double yaybax = (maxY - pa.get2Dy()) * bax;
+	    double ybycbx = (maxY - pb.get2Dy()) * cbx;
+	    double ycyacx = (maxY - pc.get2Dy()) * acx;
 
-            for (int pY = maxY; pY > minY; pY-=1, yaybax -= bax, ybycbx -= cbx, ycyacx -= acx) {
+            for (int pY = maxY; pY >= minY; pY-=1, yaybax -= bax, ybycbx -= cbx, ycyacx -= acx) {
 		try {
-		    int edge1, edge2, edge3;
+		    double edge1, edge2, edge3;
 		    if ((edge1 = edgeFunction(xaxbay, yaybax)) >= 0 
 			&& (edge2 = edgeFunction(xbxcby, ybycbx)) >= 0
 			&& (edge3 = edgeFunction(xcxacy, ycyacx)) >= 0) {
@@ -98,7 +98,7 @@ public class Face {
         }
     }
 
-    public int edgeFunction(int xpxppy, int ypyppx) {
+    public double edgeFunction(double xpxppy, double ypyppx) {
 	return xpxppy - ypyppx;
     }
 

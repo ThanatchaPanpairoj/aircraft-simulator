@@ -40,12 +40,12 @@ public class Point
         twoDY = (depthScale * y);
     }
 
-    public int get2Dx() {
-        return (int)twoDX;
+    public double get2Dx() {
+        return twoDX;
     }
 
-    public int get2Dy() {
-        return (int)twoDY;
+    public double get2Dy() {
+        return twoDY;
     }
 
     public double getX() {
