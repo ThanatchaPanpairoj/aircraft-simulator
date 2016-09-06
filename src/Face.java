@@ -71,7 +71,10 @@ public class Face {
 	    boolean drawn = false; 
             for (int pY = maxY; pY > minY; pY-=1) {
 		try {
-                    if (pixelContained(bax, cbx, acx, xaxbay, xbxcby, xcxacy, pY, pa, pb, pc)) {
+		    int edge1, edge2, edge3;
+		    if ((edge1 = edgeFunction(xaxbay, pY, pa, bax)) >= 0 
+			&& (edge2 = edgeFunction(xbxcby, pY, pb, cbx)) >= 0
+			&& (edge3 = edgeFunction(xcxacy, pY, pc, acx)) >= 0) {
                         drawn = true;
 			//canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
         	        pixels[2 * WIDTH * (pY+HEIGHT) + (pX+WIDTH)] = color;
@@ -85,10 +88,8 @@ public class Face {
         }
     }
 
-    public boolean pixelContained(int bax, int cbx, int acx, int xaxbay, int xbxcby, int xcxacy, int pY, Point pa, Point pb, Point pc) {
-        return (xaxbay - (pY - pa.get2Dy()) * bax >= 0
-		&& xbxcby - (pY - pb.get2Dy()) * cbx >= 0 
-		&& xcxacy - (pY - pc.get2Dy()) * acx  >= 0);
+    public int edgeFunction(int xpxppy, int pY, Point pp, int ppx) {
+	return (xpxppy - (pY - pp.get2Dy()) * ppx);
     }
 
     public void transform(double[] transformationMatrix) {
