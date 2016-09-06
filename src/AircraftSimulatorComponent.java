@@ -87,6 +87,8 @@ public class AircraftSimulatorComponent extends JComponent
 
         int[] pixels = ((DataBufferInt)canvas.getRaster().getDataBuffer()).getData();
         Arrays.fill(pixels, (new Color(0, 0, 0, 0)).getRGB());
+	int[] zBuffer = new int[pixels.length];
+	Arrays.fill(zBuffer, 100000);	
 
         Graphics2D g2 = (Graphics2D)g;
         g2.translate(halfW, halfH);
@@ -104,7 +106,7 @@ public class AircraftSimulatorComponent extends JComponent
                 0, 0, 1, 7.5 + thrust.getZ() * 0.2 + intro * 0.1, 
                 0, 0, 0,     1}, true, false);
 
-        ocean.draw(pixels);
+        ocean.draw(pixels, zBuffer);
 
         g2.setColor(LIGHT_BLUE);
         for(Line l : grid) {
@@ -135,7 +137,7 @@ public class AircraftSimulatorComponent extends JComponent
 
         shapes.sort(new DistanceComparator());
         for(Shape s : shapes) {
-            s.draw(pixels);
+            s.draw(pixels, zBuffer);
         }
 
         g.drawImage(canvas, -halfW, -halfH, this);

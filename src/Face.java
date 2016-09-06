@@ -41,9 +41,9 @@ public class Face {
     }
 
 
-    public void draw(int[] pixels) {
+    public void draw(int[] pixels, int[] zBuffer) {
         if((p2.getX() * normal.getX() + p2.getY() * (normal.getY()) + p2.getZ() * (normal.getZ())) < 0) {
-            drawTriangle(pixels, p1, p2, p3);
+            drawTriangle(pixels, zBuffer, p1, p2, p3);
 
             distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
                 + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2) 
@@ -51,7 +51,7 @@ public class Face {
         }
     }
 
-    public void drawTriangle(int[] pixels, Point pa, Point pb, Point pc) {
+    public void drawTriangle(int[] pixels, int[] zBuffer, Point pa, Point pb, Point pc) {
 	// Bounding box
         int maxX = (int)(Math.min(hWIDTH, (int)(Math.max(Math.max(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
         int minX = (int)(Math.max(-hWIDTH, (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
@@ -95,10 +95,13 @@ public class Face {
 		    if ((edge1 = invArea * edgeFunction(xaxbay, yaybax)) >= 0 
 			&& (edge2 = invArea * edgeFunction(xbxcby, ybycbx)) >= 0
 			&& (edge3 = invArea * edgeFunction(xcxacy, ycyacx)) >= 0) {
-        	        
+       			int index = WIDTH * (pY+hHEIGHT) + (pX+hWIDTH); 	        
 			double z = (1 / (edge1 * invZ1 + edge2 * invZ2 + edge3 * invZ3)); 
 			//System.out.println(pa.getZ() + ", " + pb.getZ() + ", " + pc.getZ() + " : " + z);
-			pixels[WIDTH * (pY+hHEIGHT) + (pX+hWIDTH)] = color;
+			if (true || zBuffer[index] > z) {
+			    pixels[index] = color;
+			    zBuffer[index] = (int)(z + 0.5);
+			}
                         drawn = true;
                     } else if (drawn) {
 			break;

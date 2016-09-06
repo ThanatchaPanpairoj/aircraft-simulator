@@ -156,7 +156,7 @@ public class Jet extends Shape
         }
     }
 
-    public void draw(int[] pixels) {
+    public void draw(int[] pixels, int[] zBuffer) {
         boolean draw = true;
         for(Point p : points) {
             if(p.getZ() > 0) {
@@ -168,7 +168,7 @@ public class Jet extends Shape
         if(draw) {   
             faces.sort(new FaceDistanceComparator());
             for(Face t : faces) {
-                t.draw(pixels);
+                t.draw(pixels, zBuffer);
             }
 
             if(missile1.getFired()) {
