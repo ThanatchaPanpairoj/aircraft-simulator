@@ -18,8 +18,10 @@ public class Face {
     private Point p1, p2, p3, normal;
     private static final Color EXHUAST_COLOR = new Color(255, 230, 180), MISSILE_BACK_COLOR = new Color(194, 195, 195);;
 
-    private static final int WIDTH = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.5);
-    private static final int HEIGHT = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.5);
+    private static final int WIDTH = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
+    private static final int hWIDTH = WIDTH / 2;
+    private static final int HEIGHT = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+    private static final int hHEIGHT = HEIGHT / 2;
 
     public Face(Point p1, Point p2, Point p3) {
         this.p1 = p1;
@@ -51,10 +53,10 @@ public class Face {
 
     public void drawTriangle(int[] pixels, Point pa, Point pb, Point pc) {
 	// Bounding box
-        int maxX = (int)(Math.min(WIDTH, (int)(Math.max(Math.max(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
-        int minX = (int)(Math.max(-WIDTH, (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
-        int maxY = (int)(Math.min(HEIGHT, (int)(Math.max(Math.max(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
-        int minY = (int)(Math.max(-HEIGHT, (int)(Math.min(Math.min(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
+        int maxX = (int)(Math.min(hWIDTH, (int)(Math.max(Math.max(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
+        int minX = (int)(Math.max(-hWIDTH, (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
+        int maxY = (int)(Math.min(hHEIGHT, (int)(Math.max(Math.max(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
+        int minY = (int)(Math.max(-hHEIGHT, (int)(Math.min(Math.min(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
 	
 	// Delta Precalculations
         double bay = (p2.get2Dy() - p1.get2Dy());
@@ -96,7 +98,7 @@ public class Face {
         	        
 			double z = (1 / (edge1 * invZ1 + edge2 * invZ2 + edge3 * invZ3)); 
 			//System.out.println(pa.getZ() + ", " + pb.getZ() + ", " + pc.getZ() + " : " + z);
-			pixels[2 * WIDTH * (pY+HEIGHT) + (pX+WIDTH)] = color;
+			pixels[WIDTH * (pY+hHEIGHT) + (pX+hWIDTH)] = color;
                         drawn = true;
                     } else if (drawn) {
 			break;
