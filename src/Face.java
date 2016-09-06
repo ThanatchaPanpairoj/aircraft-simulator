@@ -50,31 +50,42 @@ public class Face {
     }
 
     public void drawTriangle(int[] pixels, Point pa, Point pb, Point pc) {
+	// Bounding box
         int maxX = (int)(Math.min(WIDTH, (int)(Math.max(Math.max(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
         int minX = (int)(Math.max(-WIDTH, (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
         int maxY = (int)(Math.min(HEIGHT, (int)(Math.max(Math.max(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
         int minY = (int)(Math.max(-HEIGHT, (int)(Math.min(Math.min(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
+	
+	// Precalculations
         int bay = (p2.get2Dy() - p1.get2Dy());
         int cby = (p3.get2Dy() - p2.get2Dy());
         int acy = (p1.get2Dy() - p3.get2Dy());
         int bax = (p2.get2Dx() - p1.get2Dx());
         int cbx = (p3.get2Dx() - p2.get2Dx());
         int acx = (p1.get2Dx() - p3.get2Dx());
+
+	// Color
         int color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
      
-        //Color RGB = (new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
-       	int xaxbay = (minX - pa.get2Dx()) * bay;
+        // For each column
+	int xaxbay = (minX - pa.get2Dx()) * bay;
 	int xbxcby = (minX - pb.get2Dx()) * cby;
 	int xcxacy = (minX - pc.get2Dx()) * acy;
 
         for (int pX = minX; pX < maxX; pX+=1, xaxbay += bay, xbxcby += cby, xcxacy += acy) {
-	    boolean drawn = false; 
-            for (int pY = maxY; pY > minY; pY-=1) {
+	    boolean drawn = false;
+
+	    // For each row
+	    int yaybax = (maxY - pa.get2Dy()) * bax;
+	    int ybycbx = (maxY - pb.get2Dy()) * cbx;
+	    int ycyacx = (maxY - pc.get2Dy()) * acx;
+
+            for (int pY = maxY; pY > minY; pY-=1, yaybax -= bax, ybycbx -= cbx, ycyacx -= acx) {
 		try {
 		    int edge1, edge2, edge3;
-		    if ((edge1 = edgeFunction(xaxbay, pY, pa, bax)) >= 0 
-			&& (edge2 = edgeFunction(xbxcby, pY, pb, cbx)) >= 0
-			&& (edge3 = edgeFunction(xcxacy, pY, pc, acx)) >= 0) {
+		    if ((edge1 = edgeFunction(xaxbay, yaybax)) >= 0 
+			&& (edge2 = edgeFunction(xbxcby, ybycbx)) >= 0
+			&& (edge3 = edgeFunction(xcxacy, ycyacx)) >= 0) {
                         drawn = true;
 			//canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
 			//System.out.println(edge1 + ", " + edge2 + ", " + edge3);
@@ -89,8 +100,8 @@ public class Face {
         }
     }
 
-    public int edgeFunction(int xpxppy, int pY, Point pp, int ppx) {
-	return (xpxppy - (pY - pp.get2Dy()) * ppx);
+    public int edgeFunction(int xpxppy, int ypyppx) {
+	return xpxppy - ypyppx;
     }
 
     public void transform(double[] transformationMatrix) {
