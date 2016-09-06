@@ -62,22 +62,22 @@ public class AircraftSimulatorComponent extends JComponent
 
         grid = new ArrayList<Line>();
         for(int w = -100000; w <= 100000; w += 800) {
-            grid.add(new Line(new Point(w, 10000, -100000, 1), new Point(w, 10000, 100000, 1)));
-            grid.add(new Line(new Point(-100000, 10000, w, 1), new Point(100000, 10000, w, 1)));
+            grid.add(new Line(new Point(w, 10000, -100000), new Point(w, 10000, 100000)));
+            grid.add(new Line(new Point(-100000, 10000, w), new Point(100000, 10000, w)));
 
             if(w >= 0) {
-                grid.add(new Line(new Point(-100000, -90000 + w, -100000, 1), new Point(100000, -90000 + w, -100000, 1)));
-                grid.add(new Line(new Point(-100000, -90000 + w, 100000, 1), new Point(100000, -90000 + w, 100000, 1)));
-                grid.add(new Line(new Point(-100000, -90000 + w, -100000, 1), new Point(-100000, -90000 + w, 100000, 1)));
-                grid.add(new Line(new Point(100000, -90000 + w, -100000, 1), new Point(100000, -90000 + w, 100000, 1)));
+                grid.add(new Line(new Point(-100000, -90000 + w, -100000), new Point(100000, -90000 + w, -100000)));
+                grid.add(new Line(new Point(-100000, -90000 + w, 100000), new Point(100000, -90000 + w, 100000)));
+                grid.add(new Line(new Point(-100000, -90000 + w, -100000), new Point(-100000, -90000 + w, 100000)));
+                grid.add(new Line(new Point(100000, -90000 + w, -100000), new Point(100000, -90000 + w, 100000)));
             }
-            grid.add(new Line(new Point(w, 10000, -100000, 1), new Point(w, -90000, -100000, 1)));
-            grid.add(new Line(new Point(w, 10000, 100000, 1), new Point(w, -90000, 100000, 1)));
-            grid.add(new Line(new Point(-100000, 10000, w, 1), new Point(-100000, -90000, w, 1)));
-            grid.add(new Line(new Point(100000, 10000, w, 1), new Point(100000, -90000, w, 1)));
+            grid.add(new Line(new Point(w, 10000, -100000), new Point(w, -90000, -100000)));
+            grid.add(new Line(new Point(w, 10000, 100000), new Point(w, -90000, 100000)));
+            grid.add(new Line(new Point(-100000, 10000, w), new Point(-100000, -90000, w)));
+            grid.add(new Line(new Point(100000, 10000, w), new Point(100000, -90000, w)));
 
-            grid.add(new Line(new Point(w, -90000, -100000, 1), new Point(w, -90000, 100000, 1)));
-            grid.add(new Line(new Point(-100000, -90000, w, 1), new Point(100000, -90000, w, 1)));
+            grid.add(new Line(new Point(w, -90000, -100000), new Point(w, -90000, 100000)));
+            grid.add(new Line(new Point(-100000, -90000, w), new Point(100000, -90000, w)));
         }
     }
 

@@ -15,15 +15,14 @@ import java.awt.Toolkit;
 public class Face {
     private int distance;
     private double lightingScaleConstant, lightingScale;
-    private Point p1, p2, p3, normal;
-    private static final Color EXHUAST_COLOR = new Color(255, 230, 180), MISSILE_BACK_COLOR = new Color(194, 195, 195);;
-
+    private Vertex p1, p2, p3;
+    private Point normal;
     private static final int WIDTH = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
     private static final int hWIDTH = WIDTH / 2;
     private static final int HEIGHT = (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
     private static final int hHEIGHT = HEIGHT / 2;
 
-    public Face(Point p1, Point p2, Point p3) {
+    public Face(Vertex p1, Vertex p2, Vertex p3) {
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
@@ -37,6 +36,9 @@ public class Face {
         double b2 = p3.getY() - p2.getY();
         double b3 = p3.getZ() - p2.getZ();
         normal = new Point(a2 * b3 - a3 * b2, a3 * b1 - a1 * b3, a1 * b2 - a2 * b1);
+	p1.addNormal(normal);
+	p2.addNormal(normal);
+	p3.addNormal(normal);
         lightingScaleConstant = 0.7 / (0.3266667 * Math.sqrt(Math.pow(normal.getX(), 2) + Math.pow(normal.getY(), 2) + Math.pow(normal.getZ(), 2))); 
     }
 
@@ -51,7 +53,7 @@ public class Face {
         }
     }
 
-    public void drawTriangle(int[] pixels, int[] zBuffer, Point pa, Point pb, Point pc) {
+    public void drawTriangle(int[] pixels, int[] zBuffer, Vertex pa, Vertex pb, Vertex pc) {
 	// Bounding box
         int maxX = (int)(Math.min(hWIDTH, (int)(Math.max(Math.max(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
         int minX = (int)(Math.max(-hWIDTH, (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));

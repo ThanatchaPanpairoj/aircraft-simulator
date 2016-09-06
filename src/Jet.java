@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  */
 public class Jet extends Shape
 {
-    private ArrayList<Point> points;
+    private ArrayList<Vertex> points;
     private ArrayList<Face> faces;
     private Missile missile1, missile2, missile3, missile4;
     private double x, y, z;
@@ -24,9 +24,9 @@ public class Jet extends Shape
         this.y = y;
         this.z = z;
         this.decomposing = 2;
-        this.points = new ArrayList<Point>();
+        this.points = new ArrayList<Vertex>();
         this.faces = new ArrayList<Face>();
-        points.add(new Point(x, y, z, 1));
+        points.add(new Vertex(x, y, z));
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("aircraft data/f16.obj")));
             String line = null;
@@ -35,7 +35,7 @@ public class Jet extends Shape
                 if(type.equals("v ")) {
                     int space1 = line.indexOf(' ', 3);
                     int space2 = line.indexOf(' ', space1 + 1);
-                    points.add(new Point(Double.parseDouble(line.substring(2, space1)), Double.parseDouble(line.substring(space1 + 1, space2)), Double.parseDouble(line.substring(space2 + 1))));
+                    points.add(new Vertex(Double.parseDouble(line.substring(2, space1)), Double.parseDouble(line.substring(space1 + 1, space2)), Double.parseDouble(line.substring(space2 + 1))));
                 } else if(type.equals("f ")) {
                     int space1 = line.indexOf(' ', 3);
                     int space2 = line.indexOf(' ', space1 + 1);
@@ -158,7 +158,7 @@ public class Jet extends Shape
 
     public void draw(int[] pixels, int[] zBuffer) {
         boolean draw = true;
-        for(Point p : points) {
+        for(Vertex p : points) {
             if(p.getZ() > 0) {
                 draw = true;
                 break;
@@ -195,7 +195,7 @@ public class Jet extends Shape
     }
 
     public void transform(double[] transformationMatrix) {
-        for(Point p : points) {
+        for(Vertex p : points) {
             p.transform(transformationMatrix);
         }
 
@@ -208,7 +208,7 @@ public class Jet extends Shape
     }
     
     public void rotate(double[] transformationMatrix) {
-        for(Point p : points) {
+        for(Vertex p : points) {
             p.transform(transformationMatrix);
         }
 
@@ -255,7 +255,7 @@ public class Jet extends Shape
 
     public void decompose() {
         if(decomposing-- > 0)
-            for(Point p : points)
+            for(Vertex p : points)
                 p.transform(new double[] {1, 0, 0,      2 * Math.random() - 1, 
                         0, 1, 0,      2 * Math.random() - 1, 
                         0, 0, 1,      2 * Math.random() - 1, 

@@ -14,15 +14,15 @@ public class Missile
 {
     private boolean fired;
     private Point thrust, velocity;
-    private ArrayList<Point> points;
+    private ArrayList<Vertex> points;
 
     public Missile() {
         fired = false;
         thrust = new Point(0, 0, 1);
-        points = new ArrayList<Point>();
+        points = new ArrayList<Vertex>();
     }
 
-    public void add(Point p) {
+    public void add(Vertex p) {
         points.add(p);
     }
 
@@ -41,7 +41,7 @@ public class Missile
 	    //g2.setColor(Color.RED);
 	    //g2.drawRect(points.get(0).get2Dx() - 35, points.get(0).get2Dy() - 35, 70, 70);
         //}
-	for(Point p : points) {
+	for(Vertex p : points) {
             p.transform(new double[] {1, 0, 0, thrust.getX() - velocity.getX(),
                     0, 1, 0, thrust.getY() - velocity.getY(),
                     0, 0, 1, thrust.getZ() - velocity.getZ(),
@@ -51,7 +51,7 @@ public class Missile
     }
 
     public void transform(double[] transformationMatrix, boolean transformThrust) {
-        for(Point p : points) {
+        for(Vertex p : points) {
             p.transform(transformationMatrix);
         }
         if(transformThrust) {
