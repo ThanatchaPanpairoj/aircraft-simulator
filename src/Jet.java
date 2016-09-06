@@ -227,12 +227,12 @@ public class Jet extends Shape
     public void transformMissiles(double[] transformationMatrix, boolean zoom, boolean transformVelocity) {
         if(zoom || missile1.getFired())
             missile1.transform(transformationMatrix, transformVelocity);
-        if(zoom || missile2.getFired())
-            missile2.transform(transformationMatrix, transformVelocity);
-        if(zoom || missile3.getFired())
-            missile3.transform(transformationMatrix, transformVelocity);
-        if(zoom || missile4.getFired())
-            missile4.transform(transformationMatrix, transformVelocity);
+            if(zoom || missile2.getFired())
+                missile2.transform(transformationMatrix, transformVelocity);
+        	if(zoom || missile3.getFired())
+            	    missile3.transform(transformationMatrix, transformVelocity);
+        		if(zoom || missile4.getFired())
+            		    missile4.transform(transformationMatrix, transformVelocity);
     }
 
     public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {

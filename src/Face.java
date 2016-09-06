@@ -77,6 +77,7 @@ public class Face {
 			&& (edge3 = edgeFunction(xcxacy, pY, pc, acx)) >= 0) {
                         drawn = true;
 			//canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
+			//System.out.println(edge1 + ", " + edge2 + ", " + edge3);
         	        pixels[2 * WIDTH * (pY+HEIGHT) + (pX+WIDTH)] = color;
                     } else if (drawn) {
 			break;
