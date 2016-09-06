@@ -63,11 +63,11 @@ public class Face {
         int color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
      
         //Color RGB = (new Color(134 + (int)(101 * lightingScale), 135 + (int)(100 * lightingScale), 145 + (int)(90 * lightingScale)));
-        
-        for (int pX = minX; pX < maxX; pX+=1) {
-	    int xaxbay = (pX - pa.get2Dx()) * bay;
-	    int xbxcby = (pX - pb.get2Dx()) * cby;
-	    int xcxacy = (pX - pc.get2Dx()) * acy;
+       	int xaxbay = (minX - pa.get2Dx()) * bay;
+	int xbxcby = (minX - pb.get2Dx()) * cby;
+	int xcxacy = (minX - pc.get2Dx()) * acy;
+
+        for (int pX = minX; pX < maxX; pX+=1, xaxbay += bay, xbxcby += cby, xcxacy += acy) {
 	    boolean drawn = false; 
             for (int pY = maxY; pY > minY; pY-=1) {
 		try {
