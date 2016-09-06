@@ -56,7 +56,7 @@ public class Face {
         int maxY = (int)(Math.min(HEIGHT, (int)(Math.max(Math.max(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
         int minY = (int)(Math.max(-HEIGHT, (int)(Math.min(Math.min(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
 	
-	// Precalculations
+	// Delta Precalculations
         int bay = (p2.get2Dy() - p1.get2Dy());
         int cby = (p3.get2Dy() - p2.get2Dy());
         int acy = (p1.get2Dy() - p3.get2Dy());
@@ -67,7 +67,7 @@ public class Face {
 	// Color
         int color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
      
-        // For each column
+        // Column Precalculations
 	int xaxbay = (minX - pa.get2Dx()) * bay;
 	int xbxcby = (minX - pb.get2Dx()) * cby;
 	int xcxacy = (minX - pc.get2Dx()) * acy;
@@ -75,7 +75,7 @@ public class Face {
         for (int pX = minX; pX < maxX; pX+=1, xaxbay += bay, xbxcby += cby, xcxacy += acy) {
 	    boolean drawn = false;
 
-	    // For each row
+	    // Row Precalculations
 	    int yaybax = (maxY - pa.get2Dy()) * bax;
 	    int ybycbx = (maxY - pb.get2Dy()) * cbx;
 	    int ycyacx = (maxY - pc.get2Dy()) * acx;
@@ -86,10 +86,8 @@ public class Face {
 		    if ((edge1 = edgeFunction(xaxbay, yaybax)) >= 0 
 			&& (edge2 = edgeFunction(xbxcby, ybycbx)) >= 0
 			&& (edge3 = edgeFunction(xcxacy, ycyacx)) >= 0) {
-                        drawn = true;
-			//canvas.setRGB(pX+WIDTH, pY+HEIGHT, color);
-			//System.out.println(edge1 + ", " + edge2 + ", " + edge3);
         	        pixels[2 * WIDTH * (pY+HEIGHT) + (pX+WIDTH)] = color;
+                        drawn = true;
                     } else if (drawn) {
 			break;
 		    }
