@@ -59,9 +59,9 @@ public class Vertex
 
     public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
         lightingScale = Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4);
-	r = 134 + (int)(101 * lightingScale);
-	g = 135 + (int)(100 * lightingScale);
-	b = 145 + (int)(90 * lightingScale);
+	r = 124 + (int)(131 * lightingScale);
+	g = 125 + (int)(130 * lightingScale);
+	b = 135 + (int)(120 * lightingScale);
     }
 
     public void setRGB(int r, int g, int b) {
