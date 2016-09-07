@@ -120,7 +120,7 @@ public class Jet extends Shape
         catch(IOException ex) {
             System.out.println("Error reading file 'f16.obj'");                  
             ex.printStackTrace();
-        }
+        } 
 
         rotate(new double[] {Math.cos(Math.PI), Math.sin(Math.PI), 0, 0,
                 -Math.sin(Math.PI), Math.cos(Math.PI), 0, 0, 
@@ -130,11 +130,8 @@ public class Jet extends Shape
                 0, 1,                    0, 0,
                 Math.sin(Math.PI * 0.5), 0, Math.cos(Math.PI * 0.5), 0, 
                 0, 0,                    0, 2});
-        //for(int i = 1007; i < 1095; i++) {
-        //    faces.get(i).setOrange(true);
-        //}
 
-        missile1 = new Missile();
+	missile1 = new Missile();
         for(int i = 979; i < 1027; i++) {
             missile1.add(points.get(i));
         }
@@ -151,9 +148,12 @@ public class Jet extends Shape
             missile4.add(points.get(i));
         }
 
-        for(int i = 0; i < 272; i++) {
+	for(int i = 0; i < 272; i++) {
             points.remove(points.get(755));
         }
+        //for(int i = 1007; i < 1095; i++) {
+        //    faces.get(i).setOrange(true);
+        //} 
     }
 
     public void draw(int[] pixels, int[] zBuffer, Graphics2D g2) {
@@ -241,7 +241,11 @@ public class Jet extends Shape
 //        }
 	for (Vertex v : points) {
 	    v.calculateNewlightingScale(gravityX, gravityY, gravityZ);
-	}
+}
+	missile1.calculateNewlightingScale(gravityX, gravityY, gravityZ);
+	missile2.calculateNewlightingScale(gravityX, gravityY, gravityZ);
+	missile3.calculateNewlightingScale(gravityX, gravityY, gravityZ);
+	missile4.calculateNewlightingScale(gravityX, gravityY, gravityZ);
     }
 
     public void fire(double jetX, double jetY, double jetZ) {
