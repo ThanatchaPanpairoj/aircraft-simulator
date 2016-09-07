@@ -18,7 +18,6 @@ public class Jet extends Shape
     private Missile missile1, missile2, missile3, missile4;
     private double x, y, z;
     private int decomposing;
-    //private Vertex t1, t2, t3;
     public Jet(double x, double y, double z) {
         this.x = x;
         this.y = y;
@@ -236,9 +235,6 @@ public class Jet extends Shape
     }
 
     public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
-//        for(Face f : faces) {
-//            f.calculateNewlightingScale(gravityX, gravityY, gravityZ);
-//        }
 	for (Vertex v : points) {
 	    v.calculateNewlightingScale(gravityX, gravityY, gravityZ);
 }

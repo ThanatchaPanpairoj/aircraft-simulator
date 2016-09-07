@@ -8,13 +8,12 @@ import java.awt.Toolkit;
 
 /**
  * Write a description of class Face here.
- * 
- * @author (your name) 
+ *
+ * @author (your name)
  * @version (a version number or a date)
  */
 public class Face {
     private int distance;
-    private double lightingScaleConstant, lightingScale;
     private Vertex p1, p2, p3;
     private Point normal;
     private static final int WIDTH = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
@@ -27,7 +26,7 @@ public class Face {
         this.p2 = p2;
         this.p3 = p3;
         distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
-            + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2) 
+            + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2)
             + Math.pow((p1.getZ() + p2.getZ() + p3.getZ()) * 0.33, 2));
         double a1 = p2.getX() - p1.getX();
         double a2 = p2.getY() - p1.getY();
@@ -39,13 +38,12 @@ public class Face {
 	p1.addNormal(normal);
 	p2.addNormal(normal);
 	p3.addNormal(normal);
-        lightingScaleConstant = 0.7 / (0.3266667 * Math.sqrt(Math.pow(normal.getX(), 2) + Math.pow(normal.getY(), 2) + Math.pow(normal.getZ(), 2))); 
     }
 
 
     public void draw(int[] pixels, int[] zBuffer, Graphics2D g2) {
         if((p2.getX() * normal.getX() + p2.getY() * (normal.getY()) + p2.getZ() * (normal.getZ())) < 0) {
-            drawTriangle(g2, pixels, zBuffer, p1, p2, p3);
+            drawTriangle(g2, pixels, zBuffer);
 //	    g2.setColor(Color.RED);
 //	    g2.drawLine((int)p1.get2Dx(), (int)p1.get2Dy(), (int)p2.get2Dx(), (int)p2.get2Dy());
 //	    g2.drawLine((int)p2.get2Dx(), (int)p2.get2Dy(), (int)p3.get2Dx(), (int)p3.get2Dy());
@@ -56,18 +54,18 @@ public class Face {
 //	    g2.drawLine((int)p3.get2Dx(), (int)p3.get2Dy(), (int)(p3.getNormal().get2Dx() + 1 * p3.get2Dx()), (int)(p3.getNormal().get2Dy() + 1 * p3.get2Dy()));
 
            distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
-                + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2) 
+                + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2)
                 + Math.pow((p1.getZ() + p2.getZ() + p3.getZ()) * 0.33, 2));
         }
     }
 
-    public void drawTriangle(Graphics2D g2, int[] pixels, int[] zBuffer, Vertex pa, Vertex pb, Vertex pc) {
+    public void drawTriangle(Graphics2D g2, int[] pixels, int[] zBuffer) {
 	// Bounding box
-        int maxX = (int)(Math.min(hWIDTH, (int)(Math.max(Math.max(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
-        int minX = (int)(Math.max(-hWIDTH, (int)(Math.min(Math.min(pa.get2Dx(), pb.get2Dx()), pc.get2Dx()))));
-        int maxY = (int)(Math.min(hHEIGHT, (int)(Math.max(Math.max(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
-        int minY = (int)(Math.max(-hHEIGHT, (int)(Math.min(Math.min(pa.get2Dy(), pb.get2Dy()), pc.get2Dy()))));
-	
+        int maxX = (int)(Math.min(hWIDTH, (int)(Math.max(Math.max(p1.get2Dx(), p2.get2Dx()), p3.get2Dx()))));
+        int minX = (int)(Math.max(-hWIDTH, (int)(Math.min(Math.min(p1.get2Dx(), p2.get2Dx()), p3.get2Dx()))));
+        int maxY = (int)(Math.min(hHEIGHT, (int)(Math.max(Math.max(p1.get2Dy(), p2.get2Dy()), p3.get2Dy()))));
+        int minY = (int)(Math.max(-hHEIGHT, (int)(Math.min(Math.min(p1.get2Dy(), p2.get2Dy()), p3.get2Dy()))));
+
 	// Delta Precalculations
         double bay = (p2.get2Dy() - p1.get2Dy());
         double cby = (p3.get2Dy() - p2.get2Dy());
@@ -78,62 +76,59 @@ public class Face {
 
 	// Color
         //int color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
-    
-	// Interpolation Precalculations	
-	double invArea = 1 / ((pc.get2Dx() - pa.get2Dx()) * (pb.get2Dy() - pa.get2Dy()) 
-		- (pc.get2Dy() - pa.get2Dy()) * (pb.get2Dx() - pa.get2Dx()));
+
+	// Interpolation Precalculations
+	double invArea = 1 / ((p3.get2Dx() - p1.get2Dx()) * (p2.get2Dy() - p1.get2Dy())
+		- (p3.get2Dy() - p1.get2Dy()) * (p2.get2Dx() - p1.get2Dx()));
 //	System.out.println(1 / invArea);
-	double invZ1 = 1 / pa.getZ();
-	double invZ2 = 1 / pb.getZ();
-	double invZ3 = 1 / pc.getZ();
- 
+	double invZ1 = 1 / p1.getZ();
+	double invZ2 = 1 / p2.getZ();
+	double invZ3 = 1 / p3.getZ();
+
         // Column Precalculations
-	double xaxbay = (minX - pa.get2Dx()) * bay;
-	double xbxcby = (minX - pb.get2Dx()) * cby;
-	double xcxacy = (minX - pc.get2Dx()) * acy;
-	
+	double xaxbay = (minX - p1.get2Dx()) * bay;
+	double xbxcby = (minX - p2.get2Dx()) * cby;
+	double xcxacy = (minX - p3.get2Dx()) * acy;
+
 	for (int pX = minX; pX <= maxX; pX+=1, xaxbay += bay, xbxcby += cby, xcxacy += acy) {
 	    boolean drawn = false;
 
 	    // Row Precalculations
-	    double yaybax = (maxY - pa.get2Dy()) * bax;
-	    double ybycbx = (maxY - pb.get2Dy()) * cbx;
-	    double ycyacx = (maxY - pc.get2Dy()) * acx;
+	    double yaybax = (maxY - p1.get2Dy()) * bax;
+	    double ybycbx = (maxY - p2.get2Dy()) * cbx;
+	    double ycyacx = (maxY - p3.get2Dy()) * acx;
 
             for (int pY = maxY; pY >= minY; pY-=1, yaybax -= bax, ybycbx -= cbx, ycyacx -= acx) {
 		try {
 		    double edge1, edge2, edge3;
-		    if ((edge3 = invArea * edgeFunction(xaxbay, yaybax)) >= 0 
-			&& (edge1 = invArea * edgeFunction(xbxcby, ybycbx)) >= 0
-			&& (edge2 = invArea * edgeFunction(xcxacy, ycyacx)) >= 0) {
-       			int index = WIDTH * (pY+hHEIGHT) + (pX+hWIDTH); 	        
-			double z = (1 / (edge1 * invZ1 + edge2 * invZ2 + edge3 * invZ3)); 
-			//System.out.println(pa.getZ() + ", " + pb.getZ() + ", " + pc.getZ() + " : " + z);
+		    if ((edge3 = edgeFunction(xaxbay, yaybax)) >= 0
+			&& (edge1 = edgeFunction(xbxcby, ybycbx)) >= 0
+			&& (edge2 = edgeFunction(xcxacy, ycyacx)) >= 0) {
+       			int index = WIDTH * (pY+hHEIGHT) + (pX+hWIDTH);
+			edge1 = edge1 * invArea * invZ1;
+			edge2 = edge2 * invArea * invZ2;
+			edge3 = edge3 * invArea * invZ3;
+			double z = (1 / (edge1 + edge2 + edge3));
+			//System.out.println(p1.getZ() + ", " + p2.getZ() + ", " + p3.getZ() + " : " + z);
 			if (true || zBuffer[index] > z) {
-			    int r = (int) (z * (edge1 * pa.getR() * invZ1 + 
-						edge2 * pb.getR() * invZ2 +
-						edge3 * pc.getR() * invZ3));
-			    int g = (int) (z * (edge1 * pa.getG() * invZ1 + 
-						edge2 * pb.getG() * invZ2 +
-						edge3 * pc.getG() * invZ3));
-		            int b = (int) (z * (edge1 * pa.getB() * invZ1 + 
-						edge2 * pb.getB() * invZ2 +
-						edge3 * pc.getB() * invZ3));
-			//int r = (int) (1 / (edge1 / pa.getR() + edge2 / pb.getR() + edge3 / pc.getR()));
-			//int g = (int) (1 / (edge1 / pa.getG() + edge2 / pb.getG() + edge3 / pc.getG()));
-			//int b = (int) (1 / (edge1 / pa.getB() + edge2 / pb.getB() + edge3 / pc.getB()));
-			//    r = (int)((pa.getR() + pb.getR() + pc.getR()) / 3);
-			//    g = (int)((pa.getG() + pb.getG() + pc.getG()) / 3);
-			//    b = (int)((pa.getB() + pb.getB() + pc.getB()) / 3);
-			//    g = (int)pa.getG();
-			//    b = (int)pa.getB();
-			//    System.out.println(pa.getR() + ", " + pb.getR() + ", " + pc.getR() + ": " + r);
+			    int r = (int) (z * (edge1 * p1.getR() + edge2 * p2.getR() + edge3 * p3.getR()));
+			    int g = (int) (z * (edge1 * p1.getG() + edge2 * p2.getG() + edge3 * p3.getG()));
+		            int b = (int) (z * (edge1 * p1.getB() + edge2 * p2.getB() + edge3 * p3.getB()));
+			//int r = (int) (1 / (edge1 / p1.getR() + edge2 / p2.getR() + edge3 / p3.getR()));
+			//int g = (int) (1 / (edge1 / p1.getG() + edge2 / p2.getG() + edge3 / p3.getG()));
+			//int b = (int) (1 / (edge1 / p1.getB() + edge2 / p2.getB() + edge3 / p3.getB()));
+			//    r = (int)((p1.getR() + p2.getR() + p3.getR()) / 3);
+			//    g = (int)((p1.getG() + p2.getG() + p3.getG()) / 3);
+			//    b = (int)((p1.getB() + p2.getB() + p3.getB()) / 3);
+			//    g = (int)p1.getG();
+			//    b = (int)p1.getB();
+			//    System.out.println(p1.getR() + ", " + p2.getR() + ", " + p3.getR() + ": " + r);
 			    int color = (255 << 24) | (r << 16) | (g << 8) | b;
 			    //if (r > 255 || g > 255 || b > 255)
 			    //System.out.println(r + ", " + g + ", " + b);
-			//    if (!(pa.getZ() > z || pb.getZ() >z || pc.getZ() > z) ||
-			//	!(pa.getZ() < z || pb.getZ() < z || pc.getZ() < z))
-			//	System.out.println(pa.getZ() + " " + pb.getZ() + " " + pb.getZ() + " " + z);
+			//    if (!(p1.getZ() > z || p2.getZ() >z || p3.getZ() > z) ||
+			//	!(p1.getZ() < z || p2.getZ() < z || p3.getZ() < z))
+			//	System.out.println(p1.getZ() + " " + p2.getZ() + " " + p2.getZ() + " " + z);
 			    pixels[index] = color;
  		    	    zBuffer[index] = (int) (z);
 			}
@@ -154,10 +149,6 @@ public class Face {
 
     public void transform(double[] transformationMatrix) {
         normal.transform(transformationMatrix);
-    }
-
-    public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
-        lightingScale = Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4);
     }
 
     public int getDistance() {
