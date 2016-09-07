@@ -77,7 +77,7 @@ public class Face {
         double acx = (p1.get2Dx() - p3.get2Dx());
 
 	// Color
-        int color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
+        //int color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
     
 	// Interpolation Precalculations	
 	double invArea = 1 / ((pc.get2Dx() - pa.get2Dx()) * (pb.get2Dy() - pa.get2Dy()) 
@@ -128,7 +128,7 @@ public class Face {
 			//    g = (int)pa.getG();
 			//    b = (int)pa.getB();
 			//    System.out.println(pa.getR() + ", " + pb.getR() + ", " + pc.getR() + ": " + r);
-			    color = (255 << 24) | (r << 16) | (g << 8) | b;
+			    int color = (255 << 24) | (r << 16) | (g << 8) | b;
 			    //if (r > 255 || g > 255 || b > 255)
 			    //System.out.println(r + ", " + g + ", " + b);
 			//    if (!(pa.getZ() > z || pb.getZ() >z || pc.getZ() > z) ||
