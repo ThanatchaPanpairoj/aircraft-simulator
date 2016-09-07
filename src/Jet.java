@@ -18,7 +18,7 @@ public class Jet extends Shape
     private Missile missile1, missile2, missile3, missile4;
     private double x, y, z;
     private int decomposing;
-
+    private Vertex t1, t2, t3;
     public Jet(double x, double y, double z) {
         this.x = x;
         this.y = y;
@@ -121,6 +121,9 @@ public class Jet extends Shape
             System.out.println("Error reading file 'f16.obj'");                  
             ex.printStackTrace();
         }
+t1 = new Vertex(-1, 0, 10);
+	t2 = new Vertex(-1, 0, 10);
+	t3 = new Vertex(0, 0, 10);
 
         rotate(new double[] {Math.cos(Math.PI), Math.sin(Math.PI), 0, 0,
                 -Math.sin(Math.PI), Math.cos(Math.PI), 0, 0, 
@@ -156,7 +159,7 @@ public class Jet extends Shape
         }
     }
 
-    public void draw(int[] pixels, int[] zBuffer) {
+    public void draw(int[] pixels, int[] zBuffer, Graphics2D g2) {
         boolean draw = true;
         for(Vertex p : points) {
             if(p.getZ() > 0) {
@@ -164,11 +167,20 @@ public class Jet extends Shape
                 break;
             }
         }
+		t1 = new Vertex(-5, 5, 20);
+	t2 = new Vertex(-5, -5, 20);
+	t3 = new Vertex(5, -5, 20);
+Face te = new Face(t1, t2, t3);
 
+	t1.setRGB(255, 0, 0);
+	t2.setRGB(0, 255, 0);
+	t3.setRGB(0, 0, 255);
+	te.draw(pixels, zBuffer, g2);
+//	System.out.println(t1.get2Dx() + " " + t1.get2Dy() + " " + t2.get2Dx() + " " + t2.get2Dy() + " " +t3.get2Dx() + " " + t3.get2Dy());	
         if(draw) {   
             faces.sort(new FaceDistanceComparator());
             for(Face t : faces) {
-                t.draw(pixels, zBuffer);
+                t.draw(pixels, zBuffer, g2);
             }
 
             if(missile1.getFired()) {
@@ -210,8 +222,11 @@ public class Jet extends Shape
     public void rotate(double[] transformationMatrix) {
         for(Vertex p : points) {
             p.transform(transformationMatrix);
+	    p.transformNormal(transformationMatrix);
         }
-
+	t1.transform(transformationMatrix);
+	t2.transform(transformationMatrix);
+	t3.transform(transformationMatrix);
         for(Face f : faces) {
             f.transform(transformationMatrix);
         }
@@ -239,6 +254,9 @@ public class Jet extends Shape
         for(Face f : faces) {
             f.calculateNewlightingScale(gravityX, gravityY, gravityZ);
         }
+	for (Vertex v : points) {
+	    v.calculateNewlightingScale(gravityX, gravityY, gravityZ);
+	}
     }
 
     public void fire(double jetX, double jetY, double jetZ) {

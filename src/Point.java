@@ -8,7 +8,7 @@ import java.awt.Toolkit;
  */
 public class Point
 {
-    private double x, y, z, depthScale;
+    private double x, y, z, s, depthScale;
     private double twoDX, twoDY;
     private static final double WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.5;
 
@@ -16,7 +16,8 @@ public class Point
         this.x = x;
         this.y = y;
         this.z = z;
-        depthScale = WIDTH / (1 + z);
+        this.s = s;
+        depthScale = s * WIDTH / (1 + z);
         twoDX = (depthScale * x);
         twoDY = (depthScale * y);
     }
@@ -26,13 +27,15 @@ public class Point
     }
 
     public void transform(double[] transformationMatrix) {
-        double newX = x * transformationMatrix[0] + y * transformationMatrix[1] + z * transformationMatrix[2] + transformationMatrix[3];
-        double newY = x * transformationMatrix[4] + y * transformationMatrix[5] + z * transformationMatrix[6] + transformationMatrix[7];
-        double newZ = x * transformationMatrix[8] + y * transformationMatrix[9] + z * transformationMatrix[10] + transformationMatrix[11];
+        double newX = x * transformationMatrix[0] + y * transformationMatrix[1] + z * transformationMatrix[2] + s * transformationMatrix[3];
+        double newY = x * transformationMatrix[4] + y * transformationMatrix[5] + z * transformationMatrix[6] + s * transformationMatrix[7];
+        double newZ = x * transformationMatrix[8] + y * transformationMatrix[9] + z * transformationMatrix[10] + s * transformationMatrix[11];
+        double newS = x * transformationMatrix[12] + y * transformationMatrix[13] + z * transformationMatrix[14] + s * transformationMatrix[15];
         x = newX;
         y = newY;
         z = newZ;
-        depthScale = WIDTH / (1 + z);
+        s = newS;
+        depthScale = s * WIDTH / (1 + z);
         twoDX = (depthScale * x);
         twoDY = (depthScale * y);
     }

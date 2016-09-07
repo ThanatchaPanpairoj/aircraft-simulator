@@ -83,7 +83,7 @@ public class AircraftSimulatorComponent extends JComponent
 
     public void paintComponent(Graphics g) {
 
-        super.paintComponent(g);
+        //super.paintComponent(g);
 
         int[] pixels = ((DataBufferInt)canvas.getRaster().getDataBuffer()).getData();
         Arrays.fill(pixels, (new Color(0, 0, 0, 0)).getRGB());
@@ -106,7 +106,7 @@ public class AircraftSimulatorComponent extends JComponent
                 0, 0, 1, 7.5 + thrust.getZ() * 0.2 + intro * 0.1, 
                 0, 0, 0,     1}, true, false);
 
-        ocean.draw(pixels, zBuffer);
+        ocean.draw(pixels, zBuffer, g2);
 
         g2.setColor(LIGHT_BLUE);
         for(Line l : grid) {
@@ -137,7 +137,7 @@ public class AircraftSimulatorComponent extends JComponent
 
         shapes.sort(new DistanceComparator());
         for(Shape s : shapes) {
-            s.draw(pixels, zBuffer);
+            s.draw(pixels, zBuffer, g2);
         }
 
         g.drawImage(canvas, -halfW, -halfH, this);
@@ -152,7 +152,8 @@ public class AircraftSimulatorComponent extends JComponent
                     0, 1,                    0, 0,
                     Math.sin(-intro * oneEightithPI), 0, Math.cos(-intro * oneEightithPI), 0, 
                     0, 0,                    0, 1}, true, true);
-            intro--;
+//            if (intro > 60 && Math.random() < .3)
+	    intro--;
         }
 
         if(!crash) {

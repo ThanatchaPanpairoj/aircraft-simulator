@@ -255,7 +255,9 @@ public class AircraftSimulator extends JFrame
 
             public void mouseClicked(MouseEvent event) {}
 
-            public void mouseEntered(MouseEvent event) {}
+            public void mouseEntered(MouseEvent event) {
+		comp.requestFocus();
+	    }
 
             public void mouseExited(MouseEvent event) {}
         }
