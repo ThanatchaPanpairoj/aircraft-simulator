@@ -61,15 +61,15 @@ public class Missile
         }
     }
     public void transformNormal(double[] transformationMatrix) {
-	for (Vertex v : points) {
-	    v.transformNormal(transformationMatrix);
-	}
+	    for (Vertex v : points) {
+	        v.transformNormal(transformationMatrix);
+	    }
     }
 
     public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
         for (Vertex v : points) {
-	    v.calculateNewlightingScale(gravityX, gravityY, gravityZ);
-	} 
+	        v.calculateNewlightingScale(gravityX, gravityY, gravityZ);
+	    } 
     }
     public boolean getFired() {
         return fired;

@@ -1,21 +1,22 @@
 import java.lang.Double;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.BasicStroke;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JComponent;
 
-import java.awt.image.BufferedImage;
-
-import java.awt.image.DataBufferInt;
 
 
 /**
- * Basic GUI component GUITemplateComponent
+ * Class representation of the GUI component of the simulator.
  * 
  * @author Thanatcha Panpairoj
  * @version (a version number or a date)
@@ -36,6 +37,13 @@ public class AircraftSimulatorComponent extends JComponent
     
     private BufferedImage canvas;
 
+    /**
+    * Initializes the simulator component with initial shapes,
+    * vectors, and precomputed values.
+    *
+    * @param width  the width of the screen to be painted
+    * @param height the height of the screen to be painted
+    */
     public AircraftSimulatorComponent(int width, int height) {
         this.width = width;
         this.height = height;
@@ -81,14 +89,20 @@ public class AircraftSimulatorComponent extends JComponent
         }
     }
 
+    /**
+    * Draws the BufferedImage canvas on the screen along with
+    * informational text.
+    *
+    * @param g  the graphics object to paint on
+    */
     public void paintComponent(Graphics g) {
 
         //super.paintComponent(g);
 
         int[] pixels = ((DataBufferInt)canvas.getRaster().getDataBuffer()).getData();
         Arrays.fill(pixels, (new Color(0, 0, 0, 0)).getRGB());
-	int[] zBuffer = new int[pixels.length];
-	Arrays.fill(zBuffer, 100000);	
+	    int[] zBuffer = new int[pixels.length];
+	    Arrays.fill(zBuffer, 100000);	
 
         Graphics2D g2 = (Graphics2D)g;
         g2.translate(halfW, halfH);
@@ -166,28 +180,51 @@ public class AircraftSimulatorComponent extends JComponent
                     0, 0, 1,      velocity.getZ(), 
                     0, 0, 0,      1});
                     //System.out.println(velocity.getY());
-        } else {
-            velocity.transform(new double[] {0, 0, 0, 0, 
-                    0, 0, 0, 0, 
-                    0, 0, 0, 0, 
-                    0, 0, 0, 0});
-            aircraft.decompose();
         }
     }
 
+    /**
+    * Calculates the altitude of the plane by using two precalculated
+    * reference points. 
+    * Crashes the plane if altitude is too high or too low and resets
+    * the velocity and thrust to stop movement.
+    *               plane
+    *              / / |
+    *             / /  |alti
+    *            / /   |tude
+    *        ref1-/----+
+    *          | /     |
+    *        ref2------+ocean
+    */
     public double getAltitude() {
-        double altitude = 0.25 + Math.pow(altitudeReference2.getX(), 2) + Math.pow(altitudeReference2.getY(), 2) + Math.pow(altitudeReference2.getZ(), 2) - Math.pow(altitudeReference1.getX(), 2) - Math.pow(altitudeReference1.getY(), 2) - Math.pow(altitudeReference1.getZ(), 2);
+        double altitude = 0.25 + Math.pow(altitudeReference2.getX(), 2) 
+            + Math.pow(altitudeReference2.getY(), 2) 
+            + Math.pow(altitudeReference2.getZ(), 2) 
+            - Math.pow(altitudeReference1.getX(), 2) 
+            - Math.pow(altitudeReference1.getY(), 2) 
+            - Math.pow(altitudeReference1.getZ(), 2);
         if(altitude < 20 || altitude > 100000) {
             thrust = new Point(0, 0, 0);
+            velocity = new Point(0, 0, 0);
+            aircraft.decompose();
             crash = true;
         }
         return altitude;
     }
 
+    /**
+    * Returns the rotation scale used by AircraftSimulator to 
+    * determine the rotation speed which is based on the velocity.
+    */
     public double getRotationScale() {
         return velocity.getZ() * -0.02;
     }
 
+    /**
+    * Shifts everything but the aircraft to create movement.
+    * 
+    * @param transformationMatrix   the transformation to be applied
+    */
     public void translate(double[] transformationMatrix) {
         for(Line l : grid) {
             l.transform(transformationMatrix);
@@ -198,6 +235,11 @@ public class AircraftSimulatorComponent extends JComponent
         altitudeReference2.transform(transformationMatrix);
     }
 
+    /**
+    * Rotates everything but the airfcraft to create rotation. 
+    * 
+    * @param transformationMatrix   the transformation to be applied
+    */
     public void rotate(double[] transformationMatrix) {
         for(Line l : grid) {
             l.transform(transformationMatrix);
@@ -211,6 +253,11 @@ public class AircraftSimulatorComponent extends JComponent
         altitudeReference2.transform(transformationMatrix);
     }
 
+    /**
+    * Shifts the camera by shifting everything else, including the aircraft.
+    * 
+    * @param transformationMatrix   the transformation to be applied
+    */
     public void translateAll(double[] transformationMatrix, boolean transformMissileIfNotFired, boolean transformVelocity) {
         for(Line l : grid) {
             l.transform(transformationMatrix);
@@ -224,6 +271,11 @@ public class AircraftSimulatorComponent extends JComponent
         altitudeReference2.transform(transformationMatrix);
     }
     
+    /**
+    * Rotate the camera by rotating everything else, including the aircraft.
+    * 
+    * @param transformationMatrix   the transformation to be applied
+    */
     public void rotateAll(double[] transformationMatrix, boolean transformMissileIfNotFired, boolean transformVelocity) {
         for(Line l : grid) {
             l.transform(transformationMatrix);
@@ -237,19 +289,37 @@ public class AircraftSimulatorComponent extends JComponent
         altitudeReference2.transform(transformationMatrix);
     }
 
+    /**
+    * Takes in input from the slider in AircraftSimulator
+    * and updates the thrust based on the acceleration value.
+    * 
+    * @param newT   the new thrust value
+    */
     public void updateThrust(int newT) {
         thrust = new Point(0, 0, -newT * 0.1);
     }
 
+    /**
+    * Fires missiles when spacebar input is received from AircraftSimulator.
+    */
     public void fire() {
         //((Jet)aircraft).fire(0, 0, 0);
         ((Jet)aircraft).fire(velocity.getX(), velocity.getY(), velocity.getZ());
     }
 
+    /**
+    * Executes when the user clicks on the screen.
+    */
     public void click() {
         //
     }
 
+    /**
+    * Updates the FPS to be displayed based on calculations from
+    * timer in AircraftSimulator.
+    *
+    * @param fps    the updated frame rate
+    */
     public void updateFPS(int fps) {
         this.fps = fps;
     }
