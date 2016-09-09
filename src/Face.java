@@ -35,38 +35,38 @@ public class Face {
         double b2 = p3.getY() - p2.getY();
         double b3 = p3.getZ() - p2.getZ();
         normal = new Point(a2 * b3 - a3 * b2, a3 * b1 - a1 * b3, a1 * b2 - a2 * b1);
-	p1.addNormal(normal);
-	p2.addNormal(normal);
-	p3.addNormal(normal);
+        p1.addNormal(normal);
+        p2.addNormal(normal);
+        p3.addNormal(normal);
     }
 
 
     public void draw(int[] pixels, int[] zBuffer, Graphics2D g2) {
         if((p2.getX() * normal.getX() + p2.getY() * (normal.getY()) + p2.getZ() * (normal.getZ())) < 0) {
             drawTriangle(g2, pixels, zBuffer);
-//	    g2.setColor(Color.RED);
-//	    g2.drawLine((int)p1.get2Dx(), (int)p1.get2Dy(), (int)p2.get2Dx(), (int)p2.get2Dy());
-//	    g2.drawLine((int)p2.get2Dx(), (int)p2.get2Dy(), (int)p3.get2Dx(), (int)p3.get2Dy());
-//	    g2.drawLine((int)p3.get2Dx(), (int)p3.get2Dy(), (int)p1.get2Dx(), (int)p1.get2Dy());
-//	    g2.setColor(Color.BLACK);
-//	    g2.drawLine((int)p1.get2Dx(), (int)p1.get2Dy(), (int)(p1.getNormal().get2Dx() + 1 * p1.get2Dx()), (int)(p1.getNormal().get2Dy() + 1 * p1.get2Dy()));
-//	    g2.drawLine((int)p2.get2Dx(), (int)p2.get2Dy(), (int)(p2.getNormal().get2Dx() + 1 * p2.get2Dx()), (int)(p2.getNormal().get2Dy() + 1 * p2.get2Dy()));
-//	    g2.drawLine((int)p3.get2Dx(), (int)p3.get2Dy(), (int)(p3.getNormal().get2Dx() + 1 * p3.get2Dx()), (int)(p3.getNormal().get2Dy() + 1 * p3.get2Dy()));
+        //      g2.setColor(Color.RED);
+        //      g2.drawLine((int)p1.get2Dx(), (int)p1.get2Dy(), (int)p2.get2Dx(), (int)p2.get2Dy());
+        //      g2.drawLine((int)p2.get2Dx(), (int)p2.get2Dy(), (int)p3.get2Dx(), (int)p3.get2Dy());
+        //      g2.drawLine((int)p3.get2Dx(), (int)p3.get2Dy(), (int)p1.get2Dx(), (int)p1.get2Dy());
+        //      g2.setColor(Color.BLACK);
+        //      g2.drawLine((int)p1.get2Dx(), (int)p1.get2Dy(), (int)(p1.getNormal().get2Dx() + 1 * p1.get2Dx()), (int)(p1.getNormal().get2Dy() + 1 * p1.get2Dy()));
+        //      g2.drawLine((int)p2.get2Dx(), (int)p2.get2Dy(), (int)(p2.getNormal().get2Dx() + 1 * p2.get2Dx()), (int)(p2.getNormal().get2Dy() + 1 * p2.get2Dy()));
+        //      g2.drawLine((int)p3.get2Dx(), (int)p3.get2Dy(), (int)(p3.getNormal().get2Dx() + 1 * p3.get2Dx()), (int)(p3.getNormal().get2Dy() + 1 * p3.get2Dy()));
 
-           distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
+            distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
                 + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2)
                 + Math.pow((p1.getZ() + p2.getZ() + p3.getZ()) * 0.33, 2));
         }
     }
 
     public void drawTriangle(Graphics2D g2, int[] pixels, int[] zBuffer) {
-	    // Bounding box
+        // Bounding box
         int maxX = (int)(Math.min(hWIDTH, (int)(Math.max(Math.max(p1.get2Dx(), p2.get2Dx()), p3.get2Dx()))));
         int minX = (int)(Math.max(-hWIDTH, (int)(Math.min(Math.min(p1.get2Dx(), p2.get2Dx()), p3.get2Dx()))));
         int maxY = (int)(Math.min(hHEIGHT, (int)(Math.max(Math.max(p1.get2Dy(), p2.get2Dy()), p3.get2Dy()))));
         int minY = (int)(Math.max(-hHEIGHT, (int)(Math.min(Math.min(p1.get2Dy(), p2.get2Dy()), p3.get2Dy()))));
 
-	    // Delta Precalculations
+        // Delta Precalculations
         //double bay = (p2.get2Dy() - p1.get2Dy());
         double cby = (p3.get2Dy() - p2.get2Dy());
         double acy = (p1.get2Dy() - p3.get2Dy());
@@ -89,6 +89,9 @@ public class Face {
         double xbxcby = (minX - p2.get2Dx()) * cby;
         double xcxacy = (minX - p3.get2Dx()) * acy;
 
+        // Edge function values
+        double edge1, edge2, edge3;
+
         for (int pX = minX; pX <= maxX; pX+=1,/* xaxbay += bay,*/ xbxcby += cby, xcxacy += acy) {
             boolean drawn = false;
 
@@ -98,10 +101,9 @@ public class Face {
             double ycyacx = (maxY - p3.get2Dy()) * acx;
 
             for (int pY = maxY; pY >= minY; pY-=1, /*yaybax -= bax,*/ ybycbx -= cbx, ycyacx -= acx) {
-        		try {
-		            double edge1, edge2, edge3;
-		            if ((edge1 = invArea * edgeFunction(xbxcby, ybycbx)) >= 0
-			        && (edge2 = invArea * edgeFunction(xcxacy, ycyacx)) >= 0
+                try {
+                    if ((edge1 = invArea * edgeFunction(xbxcby, ybycbx)) >= 0
+                    && (edge2 = invArea * edgeFunction(xcxacy, ycyacx)) >= 0
                     //&& (edge3 = edgeFunction(xaxbay, yaybax)) >= 0
                     && (edge3 = 1 - edge1 - edge2) >= 0) {
                         int index = WIDTH * (pY+hHEIGHT) + (pX+hWIDTH);
@@ -127,8 +129,8 @@ public class Face {
                             //if (r > 255 || g > 255 || b > 255)
                             //System.out.println(r + ", " + g + ", " + b);
                             //    if (!(p1.getZ() > z || p2.getZ() >z || p3.getZ() > z) ||
-                            //	!(p1.getZ() < z || p2.getZ() < z || p3.getZ() < z))
-                            //	System.out.println(p1.getZ() + " " + p2.getZ() + " " + p2.getZ() + " " + z);
+                            //  !(p1.getZ() < z || p2.getZ() < z || p3.getZ() < z))
+                            //  System.out.println(p1.getZ() + " " + p2.getZ() + " " + p2.getZ() + " " + z);
                             pixels[index] = color;
                             zBuffer[index] = (int) (z);
                         }
@@ -137,14 +139,14 @@ public class Face {
                         break;
                     }
                 } catch (Exception e) {
-	        //	    System.out.println(-WIDTH + "<" + pX + "<" + WIDTH + ", " + -HEIGHT + "<" + pY + "<" + HEIGHT);
-		        }
+            //      System.out.println(-WIDTH + "<" + pX + "<" + WIDTH + ", " + -HEIGHT + "<" + pY + "<" + HEIGHT);
+                }
             }
         }
     }
 
     public double edgeFunction(double xpxppy, double ypyppx) {
-	return xpxppy - ypyppx;
+        return xpxppy - ypyppx;
     }
 
     public void transform(double[] transformationMatrix) {
