@@ -3,4 +3,4 @@ fun
 <br>
 <br>
 <br>
-![alt text](http://imgur.com/a/tSgak.png)
+![alt tag](http://imgur.com/a/tSgak.png)
