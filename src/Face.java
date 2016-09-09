@@ -107,9 +107,6 @@ public class Face {
                     && (edge3 = edgeFunction(xaxbay, yaybax)) >= 0) {
                     //&& (edge3 = 1 - edge1 - edge2) >= 0) {
                         int index = WIDTH * (pY+hHEIGHT) + (pX+hWIDTH);
-                        edge1 = edge1 * invZ1;
-                        edge2 = edge2 * invZ2;
-                        edge3 = edge3 * invZ3;
                         double z = (1 / (edge1 + edge2 + edge3));
                         //System.out.println(p1.getZ() + ", " + p2.getZ() + ", " + p3.getZ() + " : " + z);
                         if (true || zBuffer[index] > z) {
