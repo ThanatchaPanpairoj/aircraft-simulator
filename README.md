@@ -1,5 +1,5 @@
 # aircraft-simulator
-fun
+3D aircraft simulator
 <br>
 <br>
 <br>
