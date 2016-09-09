@@ -66,24 +66,24 @@ public class Face {
         int maxY = (int)(Math.min(hHEIGHT, (int)(Math.max(Math.max(p1.get2Dy(), p2.get2Dy()), p3.get2Dy()))));
         int minY = (int)(Math.max(-hHEIGHT, (int)(Math.min(Math.min(p1.get2Dy(), p2.get2Dy()), p3.get2Dy()))));
 
-        // Delta Precalculations
-        //double bay = (p2.get2Dy() - p1.get2Dy());
-        double cby = (p3.get2Dy() - p2.get2Dy());
-        double acy = (p1.get2Dy() - p3.get2Dy());
-        //double bax = (p2.get2Dx() - p1.get2Dx());
-        double cbx = (p3.get2Dx() - p2.get2Dx());
-        double acx = (p1.get2Dx() - p3.get2Dx());
-
-        // Color
-        //int color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
-
         // Interpolation Precalculations
-            double invArea = 1 / ((p3.get2Dx() - p1.get2Dx()) * (p2.get2Dy() - p1.get2Dy())
+        double invArea = 1 / ((p3.get2Dx() - p1.get2Dx()) * (p2.get2Dy() - p1.get2Dy())
                 - (p3.get2Dy() - p1.get2Dy()) * (p2.get2Dx() - p1.get2Dx()));
         double invZ1 = 1 / p1.getZ();
         double invZ2 = 1 / p2.getZ();
         double invZ3 = 1 / p3.getZ();
 
+        // Delta Precalculations
+        //double bay = (p2.get2Dy() - p1.get2Dy());
+        double cby = (p3.get2Dy() - p2.get2Dy()) * invArea;
+        double acy = (p1.get2Dy() - p3.get2Dy()) * invArea;
+        //double bax = (p2.get2Dx() - p1.get2Dx());
+        double cbx = (p3.get2Dx() - p2.get2Dx()) * invArea;
+        double acx = (p1.get2Dx() - p3.get2Dx()) * invArea;
+
+        // Color
+        //int color = (255 << 24) | ((134 + (int)(101 * lightingScale)) << 16) | ((135 + (int)(100 * lightingScale)) << 8) | (145 + (int)(90 * lightingScale));
+        
         // Column Precalculations
         //double xaxbay = (minX - p1.get2Dx()) * bay;
         double xbxcby = (minX - p2.get2Dx()) * cby;
@@ -102,8 +102,8 @@ public class Face {
 
             for (int pY = maxY; pY >= minY; pY-=1, /*yaybax -= bax,*/ ybycbx -= cbx, ycyacx -= acx) {
                 try {
-                    if ((edge1 = invArea * edgeFunction(xbxcby, ybycbx)) >= 0
-                    && (edge2 = invArea * edgeFunction(xcxacy, ycyacx)) >= 0
+                    if ((edge1 = edgeFunction(xbxcby, ybycbx)) >= 0
+                    && (edge2 = edgeFunction(xcxacy, ycyacx)) >= 0
                     //&& (edge3 = edgeFunction(xaxbay, yaybax)) >= 0
                     && (edge3 = 1 - edge1 - edge2) >= 0) {
                         int index = WIDTH * (pY+hHEIGHT) + (pX+hWIDTH);
