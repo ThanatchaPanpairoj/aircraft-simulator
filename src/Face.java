@@ -38,7 +38,7 @@ public class Face {
 
 
     public void draw(int[] pixels, double[] zBuffer, Graphics2D g2) {
-        if(true || (p2.getX() * normal.getX() + p2.getY() * (normal.getY()) + p2.getZ() * (normal.getZ())) < 0) {
+        if((p2.getX() * normal.getX() + p2.getY() * (normal.getY()) + p2.getZ() * (normal.getZ())) < 0) {
             drawTriangle(g2, pixels, zBuffer);
         //      g2.setColor(Color.RED);
         //      g2.drawLine((int)p1.get2Dx(), (int)p1.get2Dy(), (int)p2.get2Dx(), (int)p2.get2Dy());
