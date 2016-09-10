@@ -112,6 +112,10 @@ public class Jet extends Shape
             }
             faces.remove(0);
             faces.remove(0);
+            points.remove(0);
+            points.remove(0);
+            points.remove(0);
+            points.remove(0);
             bufferedReader.close();         
         }
         catch(FileNotFoundException ex) {
@@ -132,24 +136,24 @@ public class Jet extends Shape
                 0, 0,                    0, 2});
 
 	missile1 = new Missile();
-        for(int i = 979; i < 1027; i++) {
+        for(int i = 975; i < 1023; i++) {
             missile1.add(points.get(i));
         }
         missile3 = new Missile();
-        for(int i = 891; i < 979; i++) {
+        for(int i = 887; i < 975; i++) {
             missile3.add(points.get(i));
         }
         missile2 = new Missile();
-        for(int i = 843; i < 891; i++) {
+        for(int i = 839; i < 887; i++) {
             missile2.add(points.get(i));
         }
         missile4 = new Missile();
-        for(int i = 755; i < 843; i++) {
+        for(int i = 751; i < 839; i++) {
             missile4.add(points.get(i));
         }
 
 	for(int i = 0; i < 272; i++) {
-            points.remove(points.get(755));
+            points.remove(points.get(751));
         }
         //for(int i = 1007; i < 1095; i++) {
         //    faces.get(i).setOrange(true);
