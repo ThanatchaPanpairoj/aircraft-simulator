@@ -111,6 +111,7 @@ public class Jet extends Shape
                 }
             }
             faces.remove(0);
+            faces.remove(0);
             bufferedReader.close();         
         }
         catch(FileNotFoundException ex) {
@@ -155,7 +156,7 @@ public class Jet extends Shape
         //} 
     }
 
-    public void draw(int[] pixels, int[] zBuffer, Graphics2D g2) {
+    public void draw(int[] pixels, double[] zBuffer, Graphics2D g2) {
         boolean draw = true;
         for(Vertex p : points) {
             if(p.getZ() > 0) {

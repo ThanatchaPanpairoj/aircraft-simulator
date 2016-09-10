@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  */
 public abstract class Shape
 {
-    public abstract void draw(int[] pixels, int[] zBuffer, Graphics2D g2); 
+    public abstract void draw(int[] pixels, double[] zBuffer, Graphics2D g2); 
 
     public abstract void transform(double[] transformationMatrix);
 

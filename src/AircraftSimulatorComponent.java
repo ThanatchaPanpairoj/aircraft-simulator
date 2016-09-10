@@ -101,7 +101,7 @@ public class AircraftSimulatorComponent extends JComponent
 
         int[] pixels = ((DataBufferInt)canvas.getRaster().getDataBuffer()).getData();
         Arrays.fill(pixels, (new Color(0, 0, 0, 0)).getRGB());
-	    int[] zBuffer = new int[pixels.length];
+	    double[] zBuffer = new double[pixels.length];
 	    Arrays.fill(zBuffer, 100000);	
 
         Graphics2D g2 = (Graphics2D)g;
@@ -166,7 +166,7 @@ public class AircraftSimulatorComponent extends JComponent
                     0, 1,                    0, 0,
                     Math.sin(-intro * oneEightithPI), 0, Math.cos(-intro * oneEightithPI), 0, 
                     0, 0,                    0, 1}, true, true);
-//            if (intro > 60 && Math.random() < .3)
+//            if (intro > 15 && Math.random() < .15)
 	    intro--;
         }
 

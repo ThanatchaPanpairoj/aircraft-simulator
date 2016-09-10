@@ -41,8 +41,8 @@ public class Face {
     }
 
 
-    public void draw(int[] pixels, int[] zBuffer, Graphics2D g2) {
-        if((p2.getX() * normal.getX() + p2.getY() * (normal.getY()) + p2.getZ() * (normal.getZ())) < 0) {
+    public void draw(int[] pixels, double[] zBuffer, Graphics2D g2) {
+        if(true || (p2.getX() * normal.getX() + p2.getY() * (normal.getY()) + p2.getZ() * (normal.getZ())) < 0) {
             drawTriangle(g2, pixels, zBuffer);
         //      g2.setColor(Color.RED);
         //      g2.drawLine((int)p1.get2Dx(), (int)p1.get2Dy(), (int)p2.get2Dx(), (int)p2.get2Dy());
@@ -59,7 +59,7 @@ public class Face {
         }
     }
 
-    public void drawTriangle(Graphics2D g2, int[] pixels, int[] zBuffer) {
+    public void drawTriangle(Graphics2D g2, int[] pixels, double[] zBuffer) {
         // Bounding box
         int maxX = (int)(Math.min(hWIDTH, (int)(Math.max(Math.max(p1.get2Dx(), p2.get2Dx()), p3.get2Dx()))));
         int minX = (int)(Math.max(-hWIDTH, (int)(Math.min(Math.min(p1.get2Dx(), p2.get2Dx()), p3.get2Dx()))));
@@ -109,7 +109,7 @@ public class Face {
                         int index = WIDTH * (pY+hHEIGHT) + (pX+hWIDTH);
                         double z = (1 / (edge1 + edge2 + edge3));
                         //System.out.println(p1.getZ() + ", " + p2.getZ() + ", " + p3.getZ() + " : " + z);
-                        if (true || zBuffer[index] > z) {
+                        if (zBuffer[index] > z) {
                             int r = (int) (z * (edge1 * p1.getR() + edge2 * p2.getR() + edge3 * p3.getR()));
                             int g = (int) (z * (edge1 * p1.getG() + edge2 * p2.getG() + edge3 * p3.getG()));
                             int b = (int) (z * (edge1 * p1.getB() + edge2 * p2.getB() + edge3 * p3.getB()));
@@ -129,7 +129,7 @@ public class Face {
                             //  !(p1.getZ() < z || p2.getZ() < z || p3.getZ() < z))
                             //  System.out.println(p1.getZ() + " " + p2.getZ() + " " + p2.getZ() + " " + z);
                             pixels[index] = color;
-                            zBuffer[index] = (int) (z);
+                            zBuffer[index] = z;
                         }
                         drawn = true;
                     } else if (drawn) {
