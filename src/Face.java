@@ -13,7 +13,6 @@ import java.awt.Toolkit;
  * @version (a version number or a date)
  */
 public class Face {
-    private int distance;
     private Vertex p1, p2, p3;
     private Point normal;
     private static final int WIDTH = (int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
@@ -25,9 +24,6 @@ public class Face {
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
-        distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
-            + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2)
-            + Math.pow((p1.getZ() + p2.getZ() + p3.getZ()) * 0.33, 2));
         double a1 = p2.getX() - p1.getX();
         double a2 = p2.getY() - p1.getY();
         double a3 = p2.getZ() - p1.getZ();
@@ -52,10 +48,6 @@ public class Face {
         //      g2.drawLine((int)p1.get2Dx(), (int)p1.get2Dy(), (int)(p1.getNormal().get2Dx() + 1 * p1.get2Dx()), (int)(p1.getNormal().get2Dy() + 1 * p1.get2Dy()));
         //      g2.drawLine((int)p2.get2Dx(), (int)p2.get2Dy(), (int)(p2.getNormal().get2Dx() + 1 * p2.get2Dx()), (int)(p2.getNormal().get2Dy() + 1 * p2.get2Dy()));
         //      g2.drawLine((int)p3.get2Dx(), (int)p3.get2Dy(), (int)(p3.getNormal().get2Dx() + 1 * p3.get2Dx()), (int)(p3.getNormal().get2Dy() + 1 * p3.get2Dy()));
-
-            distance = (int)Math.sqrt(Math.pow((p1.getX() + p2.getX() + p3.getX()) * 0.33, 2)
-                + Math.pow((p1.getY() + p2.getY() + p3.getY()) * 0.33, 2)
-                + Math.pow((p1.getZ() + p2.getZ() + p3.getZ()) * 0.33, 2));
         }
     }
 
@@ -148,9 +140,5 @@ public class Face {
 
     public void transform(double[] transformationMatrix) {
         normal.transform(transformationMatrix);
-    }
-
-    public int getDistance() {
-        return distance;
     }
 }

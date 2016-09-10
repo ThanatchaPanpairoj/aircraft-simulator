@@ -166,7 +166,6 @@ public class Jet extends Shape
         }
 
        if(draw) {   
-            faces.sort(new FaceDistanceComparator());
             for(Face t : faces) {
                 t.draw(pixels, zBuffer, g2);
             }
