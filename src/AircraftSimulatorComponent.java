@@ -36,7 +36,8 @@ public class AircraftSimulatorComponent extends JComponent
     private ArrayList<Shape> shapes;
     
     private BufferedImage canvas;
-
+    private int[] pixels;
+    private double[] zBuffer;
     /**
     * Initializes the simulator component with initial shapes,
     * vectors, and precomputed values.
@@ -67,6 +68,8 @@ public class AircraftSimulatorComponent extends JComponent
         shapes.add(aircraft = new Jet(0, 0, 0));
 
         canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        pixels = ((DataBufferInt)canvas.getRaster().getDataBuffer()).getData();
+        zBuffer = new double[pixels.length];
 
         grid = new ArrayList<Line>();
         for(int w = -100000; w <= 100000; w += 800) {
@@ -96,12 +99,7 @@ public class AircraftSimulatorComponent extends JComponent
     * @param g  the graphics object to paint on
     */
     public void paintComponent(Graphics g) {
-
-        //super.paintComponent(g);
-
-        int[] pixels = ((DataBufferInt)canvas.getRaster().getDataBuffer()).getData();
         Arrays.fill(pixels, (new Color(0, 0, 0, 0)).getRGB());
-	    double[] zBuffer = new double[pixels.length];
 	    Arrays.fill(zBuffer, 100000);	
 
         Graphics2D g2 = (Graphics2D)g;
