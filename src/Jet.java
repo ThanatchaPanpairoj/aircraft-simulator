@@ -25,6 +25,8 @@ public class Jet extends Shape
         this.decomposing = 2;
         this.points = new ArrayList<Vertex>();
         this.faces = new ArrayList<Face>();
+        ArrayList<Double> st1 = new ArrayList<Double>();// might switch to multiplied int later
+        ArrayList<Double> st2 = new ArrayList<Double>();
         points.add(new Vertex(x, y, z));
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("aircraft data/f16.obj")));
@@ -35,6 +37,10 @@ public class Jet extends Shape
                     int space1 = line.indexOf(' ', 3);
                     int space2 = line.indexOf(' ', space1 + 1);
                     points.add(new Vertex(Double.parseDouble(line.substring(2, space1)), Double.parseDouble(line.substring(space1 + 1, space2)), Double.parseDouble(line.substring(space2 + 1))));
+                } else if (type.equals("vt")) {
+                    int space1 = line.indexOf(' ', 3);
+                    st1.add(Double.parseDouble(line.substring(3, space1)));
+                    st2.add(Double.parseDouble(line.substring(space1 + 1)));
                 } else if(type.equals("f ")) {
                     int space1 = line.indexOf(' ', 3);
                     int space2 = line.indexOf(' ', space1 + 1);
@@ -45,11 +51,11 @@ public class Jet extends Shape
                     int space7 = line.indexOf(' ', space6 + 1);
                     int space8 = line.indexOf(' ', space7 + 1);
                     int space9 = line.indexOf(' ', space8 + 1);
-                    if(space3 == -1)
+                    if(space3 == -1) {
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
                                 points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
                                 points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))))));
-                    else if(space4 == -1) {
+                    } else if(space4 == -1) {
                         faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
                                 points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
                                 points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))))));
