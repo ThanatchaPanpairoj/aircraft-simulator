@@ -1,14 +1,15 @@
 import java.awt.Graphics2D;
 import java.awt.Color;
+import java.awt.image.DataBufferByte;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.io.*;
 
-import java.awt.image.BufferedImage;
-
 /**
- * Write a description of class Shape here.
+ * Object representation of the plane with attributes
+ * read from the aircraft data file.
  * 
- * @author (your name) 
+ * @author Thanatcha Panpairoj
  * @version (a version number or a date)
  */
 public class Jet extends Shape
@@ -18,6 +19,8 @@ public class Jet extends Shape
     private Missile missile1, missile2, missile3, missile4;
     private double x, y, z;
     private int decomposing;
+    private byte[] textureMap;
+    
     public Jet(double x, double y, double z) {
         this.x = x;
         this.y = y;
@@ -25,9 +28,22 @@ public class Jet extends Shape
         this.decomposing = 2;
         this.points = new ArrayList<Vertex>();
         this.faces = new ArrayList<Face>();
+
+        try {
+            File texFile = new File("aircraft data/texvectorphoto.png");
+            BufferedImage texMap = javax.imageio.ImageIO.read(texFile);
+            this.textureMap = ((DataBufferByte) texMap.getRaster().getDataBuffer()).getData();
+        } catch(FileNotFoundException ex) {
+            System.out.println("Unable to open file 'texveotorphoto.png'");                
+        } catch(IOException ex) {
+            System.out.println("Error reading file 'texvectorphoto.png'");                  
+            ex.printStackTrace();
+        }
+
         ArrayList<Double> st1 = new ArrayList<Double>();// might switch to multiplied int later
         ArrayList<Double> st2 = new ArrayList<Double>();
         points.add(new Vertex(x, y, z));
+
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("aircraft data/f16.obj")));
             String line = null;
@@ -130,7 +146,7 @@ public class Jet extends Shape
         catch(IOException ex) {
             System.out.println("Error reading file 'f16.obj'");                  
             ex.printStackTrace();
-        } 
+        }
 
         rotate(new double[] {Math.cos(Math.PI), Math.sin(Math.PI), 0, 0,
                 -Math.sin(Math.PI), Math.cos(Math.PI), 0, 0, 
