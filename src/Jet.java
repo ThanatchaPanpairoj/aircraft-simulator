@@ -19,7 +19,7 @@ public class Jet extends Shape
     private Missile missile1, missile2, missile3, missile4;
     private double x, y, z;
     private int decomposing;
-    private byte[] textureMap;
+    private int[] textureMap;
     
     public Jet(double x, double y, double z) {
         this.x = x;
@@ -31,8 +31,18 @@ public class Jet extends Shape
 
         try {
             File texFile = new File("aircraft data/texvectorphoto.png");
-            BufferedImage texMap = javax.imageio.ImageIO.read(texFile);
-            this.textureMap = ((DataBufferByte) texMap.getRaster().getDataBuffer()).getData();
+            BufferedImage texMapImg = javax.imageio.ImageIO.read(texFile);
+            byte[] byteMap = ((DataBufferByte) texMapImg.getRaster().getDataBuffer()).getData();
+            this.textureMap = new int[texMapImg.getWidth() *  texMapImg.getHeight()];
+            int pixLen = texMapImg.getAlphaRaster() == null ? 3 : 4;
+            int len = textureMap.length;
+            for (int bytePix = 0, intPix = 0; bytePix < len; intPix++) {
+                int argb = pixLen == 3 ? -16777216 : ((int) byteMap[bytePix++] & 0xff) << 24;
+                argb += ((int) byteMap[bytePix++] & 0xff) << 16;
+                argb += ((int) byteMap[bytePix++] & 0xff) << 8;
+                argb += (int) byteMap[bytePix++] & 0xff;
+               this.textureMap[intPix] = argb;
+            }
         } catch(FileNotFoundException ex) {
             System.out.println("Unable to open file 'texveotorphoto.png'");                
         } catch(IOException ex) {
@@ -147,7 +157,7 @@ public class Jet extends Shape
             System.out.println("Error reading file 'f16.obj'");                  
             ex.printStackTrace();
         }
-
+        //System.out.println(java.util.Arrays.toString(textureMap));
         rotate(new double[] {Math.cos(Math.PI), Math.sin(Math.PI), 0, 0,
                 -Math.sin(Math.PI), Math.cos(Math.PI), 0, 0, 
                 0, 0,                    1, 0,        
@@ -157,7 +167,7 @@ public class Jet extends Shape
                 Math.sin(Math.PI * 0.5), 0, Math.cos(Math.PI * 0.5), 0, 
                 0, 0,                    0, 2});
 
-	missile1 = new Missile();
+    	missile1 = new Missile();
         for(int i = 975; i < 1023; i++) {
             missile1.add(points.get(i));
         }

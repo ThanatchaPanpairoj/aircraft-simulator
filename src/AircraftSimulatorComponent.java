@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -66,7 +65,6 @@ public class AircraftSimulatorComponent extends JComponent
         ocean = new Ocean();
         shapes = new ArrayList<Shape>();
         shapes.add(aircraft = new Jet(0, 0, 0));
-
         canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         pixels = ((DataBufferInt)canvas.getRaster().getDataBuffer()).getData();
         zBuffer = new double[pixels.length];
@@ -104,7 +102,6 @@ public class AircraftSimulatorComponent extends JComponent
 
         Graphics2D g2 = (Graphics2D)g;
         g2.translate(halfW, halfH);
-
         aircraft.calculateNewlightingScale(gravity.getX(), gravity.getY(), gravity.getZ());
 
         if(intro > 0)
@@ -178,6 +175,8 @@ public class AircraftSimulatorComponent extends JComponent
                     0, 0, 1,      velocity.getZ(), 
                     0, 0, 0,      1});
                     //System.out.println(velocity.getY());
+        //System.out.println(java.util.Arrays.toString(pixels));
+
         }
     }
 
