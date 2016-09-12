@@ -57,88 +57,52 @@ public class Jet extends Shape
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("aircraft data/f16.obj")));
             String line = null;
+            int space1, space2, space3, space4, space5, space6, space7, space8, space9;
+            Vertex v0, v1, v2, v3, v4, v5, v6, v7, v8;
             for(int i = 0; (line = bufferedReader.readLine()) != null; i++) {
+                //System.out.println(line);
                 String type = line.substring(0, 2);
                 if(type.equals("v ")) {
-                    int space1 = line.indexOf(' ', 3);
-                    int space2 = line.indexOf(' ', space1 + 1);
+                    space1 = line.indexOf(' ', 3);
+                    space2 = line.indexOf(' ', space1 + 1);
                     points.add(new Vertex(Double.parseDouble(line.substring(2, space1)), Double.parseDouble(line.substring(space1 + 1, space2)), Double.parseDouble(line.substring(space2 + 1))));
                 } else if (type.equals("vt")) {
-                    int space1 = line.indexOf(' ', 3);
+                    space1 = line.indexOf(' ', 3);
                     st1.add(Double.parseDouble(line.substring(3, space1)));
                     st2.add(Double.parseDouble(line.substring(space1 + 1)));
                 } else if(type.equals("f ")) {
-                    int space1 = line.indexOf(' ', 3);
-                    int space2 = line.indexOf(' ', space1 + 1);
-                    int space3 = line.indexOf(' ', space2 + 1);
-                    int space4 = line.indexOf(' ', space3 + 1);
-                    int space5 = line.indexOf(' ', space4 + 1);
-                    int space6 = line.indexOf(' ', space5 + 1);
-                    int space7 = line.indexOf(' ', space6 + 1);
-                    int space8 = line.indexOf(' ', space7 + 1);
-                    int space9 = line.indexOf(' ', space8 + 1);
-                    if(space3 == -1) {
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
-                                points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
-                                points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))))));
-                    } else if(space4 == -1) {
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
-                                points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
-                                points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))),
-                                points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2)))),
-                                points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3))))));
-                    } else if(space5 == -1) {
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
-                                points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
-                                points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))),
-                                points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2)))),
-                                points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))),
-                                points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3)))),
-                                points.get(Integer.parseInt(line.substring(space4 + 1, line.indexOf('/', space4))))));
-                    } else if(space8 == -1) {
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
-                                points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
-                                points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))),
-                                points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2)))),
-                                points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))),
-                                points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3)))),
-                                points.get(Integer.parseInt(line.substring(space4 + 1, line.indexOf('/', space4))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))),
-                                points.get(Integer.parseInt(line.substring(space4 + 1, line.indexOf('/', space4)))),
-                                points.get(Integer.parseInt(line.substring(space5 + 1, line.indexOf('/', space5))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))),
-                                points.get(Integer.parseInt(line.substring(space5 + 1, line.indexOf('/', space5)))),
-                                points.get(Integer.parseInt(line.substring(space6 + 1, line.indexOf('/', space6))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))),
-                                points.get(Integer.parseInt(line.substring(space6 + 1, line.indexOf('/', space6)))),
-                                points.get(Integer.parseInt(line.substring(space7 + 1, line.indexOf('/', space7))))));
-                    } else if(space9 == -1) {
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
-                                points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1)))),
-                                points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
-                                points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2)))),
-                                points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
-                                points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3)))),
-                                points.get(Integer.parseInt(line.substring(space4 + 1, line.indexOf('/', space4))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
-                                points.get(Integer.parseInt(line.substring(space4 + 1, line.indexOf('/', space4)))),
-                                points.get(Integer.parseInt(line.substring(space5 + 1, line.indexOf('/', space5))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
-                                points.get(Integer.parseInt(line.substring(space5 + 1, line.indexOf('/', space5)))),
-                                points.get(Integer.parseInt(line.substring(space6 + 1, line.indexOf('/', space6))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
-                                points.get(Integer.parseInt(line.substring(space6 + 1, line.indexOf('/', space6)))),
-                                points.get(Integer.parseInt(line.substring(space7 + 1, line.indexOf('/', space7))))));
-                        faces.add(new Face(points.get((Integer.parseInt(line.substring(2, line.indexOf('/'))))), 
-                                points.get(Integer.parseInt(line.substring(space7 + 1, line.indexOf('/', space7)))),
-                                points.get(Integer.parseInt(line.substring(space8 + 1, line.indexOf('/', space8))))));
+                    space1 = line.indexOf(' ', 3);
+                    space2 = line.indexOf(' ', space1 + 1);
+                    space3 = line.indexOf(' ', space2 + 1);
+                    space4 = space3 == -1 ? -1 : line.indexOf(' ', space3 + 1);
+                    space5 = space4 == -1 ? -1 : line.indexOf(' ', space4 + 1);
+                    space6 = space5 == -1 ? -1 : line.indexOf(' ', space5 + 1);
+                    space7 = space6 == -1 ? -1 : line.indexOf(' ', space6 + 1);
+                    space8 = space7 == -1 ? -1 : line.indexOf(' ', space7 + 1);
+                    space9 = space8 == -1 ? -1 : line.indexOf(' ', space8 + 1);
+                    v0 = points.get(Integer.parseInt(line.substring(2, line.indexOf('/'))));
+                    v1 = points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1))));
+                    v2 = points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))));
+                    faces.add(new Face(v0, v1, v2));
+                    if(space3 != -1) {
+                        v3 = points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3))));
+                        faces.add(new Face(v0, v2, v3));
+                        if(space4 != -1) {
+                            v4 = points.get(Integer.parseInt(line.substring(space4 + 1, line.indexOf('/', space4))));
+                            faces.add(new Face(v0, v3, v4));
+                            if(space7 != -1) {
+                                v5 = points.get(Integer.parseInt(line.substring(space5 + 1, line.indexOf('/', space5))));
+                                v6 = points.get(Integer.parseInt(line.substring(space6 + 1, line.indexOf('/', space6))));
+                                v7 = points.get(Integer.parseInt(line.substring(space7 + 1, line.indexOf('/', space7))));
+                                faces.add(new Face(v0, v4, v5));
+                                faces.add(new Face(v0, v5, v6));
+                                faces.add(new Face(v0, v6, v7));
+                                if(space8 != -1) {
+                                    v8 = points.get(Integer.parseInt(line.substring(space8 + 1, line.indexOf('/', space8))));
+                                    faces.add(new Face(v0, v7, v8));
+                                }
+                            }
+                        }
                     }
                 }
             }
