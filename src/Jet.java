@@ -68,7 +68,7 @@ public class Jet extends Shape
                 if(type.equals("v ")) {
                     space1 = line.indexOf(' ', 3);
                     space2 = line.indexOf(' ', space1 + 1);
-                    points.add(new Vertex(Double.parseDouble(line.substring(2, space1)), Double.parseDouble(line.substring(space1 + 1, space2)), Double.parseDouble(line.substring(space2 + 1)), 80, 80, 85));
+                    points.add(new Vertex(Double.parseDouble(line.substring(2, space1)), Double.parseDouble(line.substring(space1 + 1, space2)), Double.parseDouble(line.substring(space2 + 1)), 60, 63, 70));
                 } else if (type.equals("vt")) {
                     space1 = line.indexOf(' ', 3);
                     st1.add(Double.parseDouble(line.substring(3, space1)));
