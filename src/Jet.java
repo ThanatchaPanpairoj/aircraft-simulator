@@ -34,15 +34,18 @@ public class Jet extends Shape
             BufferedImage texMapImg = javax.imageio.ImageIO.read(texFile);
             byte[] byteMap = ((DataBufferByte) texMapImg.getRaster().getDataBuffer()).getData();
             this.textureMap = new int[texMapImg.getWidth() *  texMapImg.getHeight()];
-            int pixLen = texMapImg.getAlphaRaster() == null ? 3 : 4;
-            int len = textureMap.length;
-            for (int bytePix = 0, intPix = 0; bytePix < len; intPix++) {
-                int argb = pixLen == 3 ? -16777216 : ((int) byteMap[bytePix++] & 0xff) << 24;
-                argb += ((int) byteMap[bytePix++] & 0xff) << 16;
-                argb += ((int) byteMap[bytePix++] & 0xff) << 8;
-                argb += (int) byteMap[bytePix++] & 0xff;
-               this.textureMap[intPix] = argb;
-            }
+            //int pixLen = texMapImg.getAlphaRaster() == null ? 3 : 4;
+            //int len = textureMap.length;
+            //for (int bytePix = 0, intPix = 0; bytePix < len; intPix++) {
+            //    int argb = pixLen == 3 ? -16777216 : ((int) byteMap[bytePix++] & 0xff) << 24;
+            //    argb += ((int) byteMap[bytePix++] & 0xff) << 16;
+            //    argb += ((int) byteMap[bytePix++] & 0xff) << 8;
+            //    argb += (int) byteMap[bytePix++] & 0xff;
+            //   this.textureMap[intPix] = argb;
+            //}
+            for (int row = 0; row < 1500; row++)
+                for (int col = 0; col < 1500; col++)
+                    this.textureMap[col * 1500 + row] = texMapImg.getRGB(col, row);
         } catch(FileNotFoundException ex) {
             System.out.println("Unable to open file 'texveotorphoto.png'");                
         } catch(IOException ex) {
@@ -83,22 +86,58 @@ public class Jet extends Shape
                     v0 = points.get(Integer.parseInt(line.substring(2, line.indexOf('/'))));
                     v1 = points.get(Integer.parseInt(line.substring(space1 + 1, line.indexOf('/', space1))));
                     v2 = points.get(Integer.parseInt(line.substring(space2 + 1, line.indexOf('/', space2))));
+                    String v0st = line.substring(line.indexOf('/') + 1, line.lastIndexOf('/', space1));
+                    String v1st = line.substring(line.indexOf('/', space1) + 1, line.lastIndexOf('/', space2));
+                    String v2st = line.substring(line.indexOf('/', space2) + 1, space3 == -1 ? line.lastIndexOf('/') : line.lastIndexOf('/', space3));
+                   if (!v0st.equals("")) {
+                        int v0sti = Integer.parseInt(v0st) - 1;
+                        int v1sti = Integer.parseInt(v1st) - 1;
+                        int v2sti = Integer.parseInt(v2st) - 1;
+                        //System.out.println(v0sti + " " + v1sti + " " + v2sti);
+                        v0.setST(st1.get(v0sti), st2.get(v0sti));
+                        v1.setST(st1.get(v1sti), st2.get(v1sti));
+                        v2.setST(st1.get(v2sti), st2.get(v2sti));
+                    }
                     faces.add(new Face(v0, v1, v2));
                     if(space3 != -1) {
                         v3 = points.get(Integer.parseInt(line.substring(space3 + 1, line.indexOf('/', space3))));
+                        String v3st = line.substring(line.indexOf('/', space3) + 1, space4 == -1 ? line.lastIndexOf('/') : line.lastIndexOf('/', space4));
+                        if (!v3st.equals("")) {
+                            int v3sti = Integer.parseInt(v3st) - 1;
+                            v3.setST(st1.get(v3sti), st2.get(v3sti));  
+                        } 
                         faces.add(new Face(v0, v2, v3));
                         if(space4 != -1) {
                             v4 = points.get(Integer.parseInt(line.substring(space4 + 1, line.indexOf('/', space4))));
+                            String v4st = line.substring(line.indexOf('/', space4) + 1, space5 == -1 ? line.lastIndexOf('/') : line.lastIndexOf('/', space5));
+                            if (!v4st.equals("")) {
+                                int v4sti = Integer.parseInt(v4st) - 1;
+                                v4.setST(st1.get(v4sti), st2.get(v4sti));
+                            } 
                             faces.add(new Face(v0, v3, v4));
                             if(space7 != -1) {
                                 v5 = points.get(Integer.parseInt(line.substring(space5 + 1, line.indexOf('/', space5))));
                                 v6 = points.get(Integer.parseInt(line.substring(space6 + 1, line.indexOf('/', space6))));
                                 v7 = points.get(Integer.parseInt(line.substring(space7 + 1, line.indexOf('/', space7))));
+                                String v5st = line.substring(line.indexOf('/', space5) + 1, space6 == -1 ? line.lastIndexOf('/') : line.lastIndexOf('/', space6)); 
+                                String v6st = line.substring(line.indexOf('/', space6) + 1, space7 == -1 ? line.lastIndexOf('/') : line.lastIndexOf('/', space7)); 
+                                String v7st = line.substring(line.indexOf('/', space7) + 1, space8 == -1 ? line.lastIndexOf('/') : line.lastIndexOf('/', space8));
+                                if (!v5st.equals("")) {
+                                    int v5sti = Integer.parseInt(v5st) - 1;
+                                    int v6sti = Integer.parseInt(v6st) - 1;
+                                    int v7sti = Integer.parseInt(v7st) - 1;
+                                    v5.setST(st1.get(v5sti), st2.get(v5sti));  
+                                    v6.setST(st1.get(v6sti), st2.get(v6sti));  
+                                    v7.setST(st1.get(v7sti), st2.get(v7sti));
+                                }
                                 faces.add(new Face(v0, v4, v5));
                                 faces.add(new Face(v0, v5, v6));
                                 faces.add(new Face(v0, v6, v7));
                                 if(space8 != -1) {
                                     v8 = points.get(Integer.parseInt(line.substring(space8 + 1, line.indexOf('/', space8))));
+                                    String v8st = line.substring(line.indexOf('/', space8) + 1, line.lastIndexOf('/'));
+                                    int v8sti = Integer.parseInt(v8st) - 1;
+                                    v8.setST(st1.get(v8sti), st2.get(v8sti));
                                     faces.add(new Face(v0, v7, v8));
                                 }
                             }
@@ -167,7 +206,7 @@ public class Jet extends Shape
 
        if(draw) {   
             for(Face t : faces) {
-                t.draw(pixels, zBuffer, g2);
+                t.draw(pixels, zBuffer, g2, textureMap);
             }
 
             if(missile1.getFired()) {

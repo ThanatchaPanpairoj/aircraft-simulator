@@ -12,8 +12,6 @@ import java.util.Arrays;
 
 import javax.swing.JComponent;
 
-
-
 /**
  * Class representation of the GUI component of the simulator.
  * 
@@ -87,7 +85,7 @@ public class AircraftSimulatorComponent extends JComponent
 
             grid.add(new Line(new Point(w, -90000, -100000), new Point(w, -90000, 100000)));
             grid.add(new Line(new Point(-100000, -90000, w), new Point(100000, -90000, w)));
-        }
+        } 
     }
 
     /**
@@ -150,7 +148,6 @@ public class AircraftSimulatorComponent extends JComponent
         }
 
         g.drawImage(canvas, -halfW, -halfH, this);
-
         translateAll(new double[] {1, 0, 0,     0, 
                 0, 1, 0,     -1, 
                 0, 0, 1, -7.5 - thrust.getZ() * 0.2 - intro * 0.1, 
@@ -161,7 +158,7 @@ public class AircraftSimulatorComponent extends JComponent
                     0, 1,                    0, 0,
                     Math.sin(-intro * oneEightithPI), 0, Math.cos(-intro * oneEightithPI), 0, 
                     0, 0,                    0, 1}, true, true);
-//            if (intro > 15 && Math.random() < .15)
+            //if (intro > 55 && Math.random() < .15)
 	    intro--;
         }
 

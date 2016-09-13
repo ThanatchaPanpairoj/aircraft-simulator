@@ -37,9 +37,9 @@ public class Face {
     }
 
 
-    public void draw(int[] pixels, double[] zBuffer, Graphics2D g2) {
+    public void draw(int[] pixels, double[] zBuffer, Graphics2D g2, int[] textureMap) {
         if((p2.getX() * normal.getX() + p2.getY() * (normal.getY()) + p2.getZ() * (normal.getZ())) < 0) {
-            drawTriangle(g2, pixels, zBuffer);
+            drawTriangle(pixels, zBuffer, g2, textureMap);
         //      g2.setColor(Color.RED);
         //      g2.drawLine((int)p1.get2Dx(), (int)p1.get2Dy(), (int)p2.get2Dx(), (int)p2.get2Dy());
         //      g2.drawLine((int)p2.get2Dx(), (int)p2.get2Dy(), (int)p3.get2Dx(), (int)p3.get2Dy());
@@ -51,7 +51,7 @@ public class Face {
         }
     }
 
-    public void drawTriangle(Graphics2D g2, int[] pixels, double[] zBuffer) {
+    public void drawTriangle(int[] pixels, double[] zBuffer, Graphics2D g2, int[] textureMap) {
         // Bounding box
         int maxX = (int)(Math.min(hWIDTH, (int)(Math.max(Math.max(p1.get2Dx(), p2.get2Dx()), p3.get2Dx()))));
         int minX = (int)(Math.max(-hWIDTH, (int)(Math.min(Math.min(p1.get2Dx(), p2.get2Dx()), p3.get2Dx()))));
@@ -102,9 +102,8 @@ public class Face {
                         double z = (1 / (edge1 + edge2 + edge3));
                         //System.out.println(p1.getZ() + ", " + p2.getZ() + ", " + p3.getZ() + " : " + z);
                         if (zBuffer[index] > z) {
-                            int r = (int) (z * (edge1 * p1.getR() + edge2 * p2.getR() + edge3 * p3.getR()));
-                            int g = (int) (z * (edge1 * p1.getG() + edge2 * p2.getG() + edge3 * p3.getG()));
-                            int b = (int) (z * (edge1 * p1.getB() + edge2 * p2.getB() + edge3 * p3.getB()));
+                            int st1 = (int) (1500 * z * (edge1 * p1.getST1() + edge2 * p2.getST1() + edge3 * p3.getST1()));
+                            int st2 = (int) (1500 * z * (edge1 * p1.getST2() + edge2 * p2.getST2() + edge3 * p3.getST2()));                            
                             //int r = (int) (1 / (edge1 / p1.getR() + edge2 / p2.getR() + edge3 / p3.getR()));
                             //int g = (int) (1 / (edge1 / p1.getG() + edge2 / p2.getG() + edge3 / p3.getG()));
                             //int b = (int) (1 / (edge1 / p1.getB() + edge2 / p2.getB() + edge3 / p3.getB()));
@@ -113,13 +112,37 @@ public class Face {
                             //    b = (int)((p1.getB() + p2.getB() + p3.getB()) / 3);
                             //    g = (int)p1.getG();
                             //    b = (int)p1.getB();
-                            //    System.out.println(p1.getR() + ", " + p2.getR() + ", " + p3.getR() + ": " + r);
+                            //    System.out.println(p1.getR() + ", " + p2.getR() + ", " + p3.getR() + ": " + r); 
+                            int rgb = textureMap[1500 * (st1) + (1500 - st2)];
+                            int r = (rgb >> 16) & 0xFF;
+                            int g = (rgb >> 8) & 0xFF;
+                            int b = rgb & 0xFF;
+                            if (r > 200 && g > 200 && b > 200) {
+                                //r = (int) (z * (edge1 * p1.getR() + edge2 * p2.getR() + edge3 * p3.getR()));
+                                //g = (int) (z * (edge1 * p1.getG() + edge2 * p2.getG() + edge3 * p3.getG()));
+                                //b = (int) (z * (edge1 * p1.getB() + edge2 * p2.getB() + edge3 * p3.getB()));
+                                r = 80;
+                                g = 80;
+                                b = 85;
+                            }
+                            int lightingScale = 50 + (int) (z * (edge1 * p1.getLightingScale()
+                                                            + edge2 * p2.getLightingScale()
+                                                            + edge3 * p3.getLightingScale()));
+                            r += lightingScale;
+                            g += lightingScale;
+                            b += lightingScale;
+                            r = Math.min(255, Math.max(0, r));
+                            g = Math.min(255, Math.max(0, g));
+                            b = Math.min(255, Math.max(0, b));
                             int color = (255 << 24) | (r << 16) | (g << 8) | b;
+                            if (r < 0 || r > 255)
+                                System.out.println("error");
                             //if (r > 255 || g > 255 || b > 255)
                             //System.out.println(r + ", " + g + ", " + b);
                             //    if (!(p1.getZ() > z || p2.getZ() >z || p3.getZ() > z) ||
                             //  !(p1.getZ() < z || p2.getZ() < z || p3.getZ() < z))
                             //  System.out.println(p1.getZ() + " " + p2.getZ() + " " + p2.getZ() + " " + z);
+
                             pixels[index] = color;
                             zBuffer[index] = z;
                         }
