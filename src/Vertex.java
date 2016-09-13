@@ -13,19 +13,22 @@ public class Vertex
     private Point normal;
     private static final double WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.5;
 
-    public Vertex(double x, double y, double z, double s) {
+    public Vertex(double x, double y, double z, double s, int r, int g, int b) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.s = s;
+        this.r = r;
+        this.g = g;
+        this.b = b;
         this.depthScale = s * WIDTH / (10 + z);
         this.twoDX = (this.depthScale * x);
         this.twoDY = (this.depthScale * y);
 	    this.normal = new Point(0, 0, 0);
     }
 
-    public Vertex(double x, double y, double z) {
-        this(x, y, z, 1);
+    public Vertex(double x, double y, double z, int r, int g, int b) {
+        this(x, y, z, 1.0, r, g, b);
     }
 
     public void addNormal(Point normal) {
@@ -58,7 +61,7 @@ public class Vertex
     }
 
     public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
-        lightingScale = (int) (100 * Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4));
+        lightingScale = (int) (120 * Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4));
     }
 
     public void setST(double st1, double st2) {

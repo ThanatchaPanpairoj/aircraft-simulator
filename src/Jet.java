@@ -55,7 +55,7 @@ public class Jet extends Shape
 
         ArrayList<Double> st1 = new ArrayList<Double>();// might switch to multiplied int later
         ArrayList<Double> st2 = new ArrayList<Double>();
-        points.add(new Vertex(x, y, z));
+        points.add(new Vertex(x, y, z, 0, 0, 0));
 
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("aircraft data/f16.obj")));
@@ -68,7 +68,7 @@ public class Jet extends Shape
                 if(type.equals("v ")) {
                     space1 = line.indexOf(' ', 3);
                     space2 = line.indexOf(' ', space1 + 1);
-                    points.add(new Vertex(Double.parseDouble(line.substring(2, space1)), Double.parseDouble(line.substring(space1 + 1, space2)), Double.parseDouble(line.substring(space2 + 1))));
+                    points.add(new Vertex(Double.parseDouble(line.substring(2, space1)), Double.parseDouble(line.substring(space1 + 1, space2)), Double.parseDouble(line.substring(space2 + 1)), 80, 80, 85));
                 } else if (type.equals("vt")) {
                     space1 = line.indexOf(' ', 3);
                     st1.add(Double.parseDouble(line.substring(3, space1)));
@@ -172,27 +172,31 @@ public class Jet extends Shape
 
     	missile1 = new Missile();
         for(int i = 975; i < 1023; i++) {
+            points.get(i).setRGB(100, 100, 110);
             missile1.add(points.get(i));
         }
         missile3 = new Missile();
         for(int i = 887; i < 975; i++) {
+            points.get(i).setRGB(100, 100, 110);
             missile3.add(points.get(i));
         }
         missile2 = new Missile();
         for(int i = 839; i < 887; i++) {
+            points.get(i).setRGB(100, 100, 110);
             missile2.add(points.get(i));
         }
         missile4 = new Missile();
         for(int i = 751; i < 839; i++) {
+            points.get(i).setRGB(100, 100, 110);
             missile4.add(points.get(i));
         }
 
-	for(int i = 0; i < 272; i++) {
+	    for(int i = 0; i < 272; i++) {
             points.remove(points.get(751));
         }
-        //for(int i = 1007; i < 1095; i++) {
-        //    faces.get(i).setOrange(true);
-        //} 
+        for(int i = 2053; i < 2226; i++) {
+            faces.get(i).setRGB(30, 30, 30);
+        }
     }
 
     public void draw(int[] pixels, double[] zBuffer, Graphics2D g2) {

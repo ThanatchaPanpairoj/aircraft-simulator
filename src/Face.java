@@ -113,12 +113,12 @@ public class Face {
                             int g = (rgb >> 8) & 0xFF;
                             int b = rgb & 0xFF;
                             if (r > 200 && g > 200 && b > 200) {
-                                //r = (int) (z * (edge1 * p1.getR() + edge2 * p2.getR() + edge3 * p3.getR()));
-                                //g = (int) (z * (edge1 * p1.getG() + edge2 * p2.getG() + edge3 * p3.getG()));
-                                //b = (int) (z * (edge1 * p1.getB() + edge2 * p2.getB() + edge3 * p3.getB()));
-                                r = 80;
-                                g = 80;
-                                b = 85;
+                                r = (int) (z * (edge1 * p1.getR() + edge2 * p2.getR() + edge3 * p3.getR()));
+                                g = (int) (z * (edge1 * p1.getG() + edge2 * p2.getG() + edge3 * p3.getG()));
+                                b = (int) (z * (edge1 * p1.getB() + edge2 * p2.getB() + edge3 * p3.getB()));
+                                //r = 80;
+                                //g = 80;
+                                //b = 85;
                             }
                             int lightingScale = 50 + (int) (z * (edge1 * p1.getLightingScale()
                                                             + edge2 * p2.getLightingScale()
@@ -152,6 +152,12 @@ public class Face {
 
     public double edgeFunction(double xpxppy, double ypyppx) {
         return xpxppy - ypyppx;
+    }
+
+    public void setRGB(int r, int g, int b) {
+        p1.setRGB(r, g, b);
+        p2.setRGB(r, g, b);
+        p3.setRGB(r, g, b);
     }
 
     public void transform(double[] transformationMatrix) {
