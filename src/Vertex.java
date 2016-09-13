@@ -8,8 +8,8 @@ import java.awt.Toolkit;
  */
 public class Vertex
 {
-    private int r, g, b, normalsAdded;
-    private double x, y, z, s, depthScale, twoDX, twoDY, lightingScale, lightingScaleConstant, st1, st2;
+    private int r, g, b, normalsAdded, lightingScale;
+    private double x, y, z, s, depthScale, twoDX, twoDY, lightingScaleConstant, st1, st2;
     private Point normal;
     private static final double WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.5;
 
@@ -58,15 +58,12 @@ public class Vertex
     }
 
     public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
-        lightingScale = Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4);
-	    r = 64 + (int)(100 * lightingScale);
-	    g = 75 + (int)(100 * lightingScale);
-	    b = 90 + (int)(100 * lightingScale);
+        lightingScale = (int) (100 * Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4));
     }
 
     public void setST(double st1, double st2) {
-        this.st1 = st1;
-        this.st2 = st2;
+        this.st1 = st1 * 1500;
+        this.st2 = st2 * 1500;
         //System.out.println(st1 + " " + st2);
     }
 
@@ -77,7 +74,7 @@ public class Vertex
     }
     
     public int getLightingScale() {
-        return (int) (90 * this.lightingScale);
+        return this.lightingScale;
     }
 
     public Point getNormal() {
