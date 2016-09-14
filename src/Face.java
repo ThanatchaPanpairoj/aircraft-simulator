@@ -120,7 +120,7 @@ public class Face {
                                 //g = 80;
                                 //b = 85;
                             }
-                            int lightingScale = 50 + (int) (z * (edge1 * p1.getLightingScale()
+                            int lightingScale = 30 + (int) (z * (edge1 * p1.getLightingScale()
                                                             + edge2 * p2.getLightingScale()
                                                             + edge3 * p3.getLightingScale()));
                             r += lightingScale;

@@ -61,7 +61,7 @@ public class Vertex
     }
 
     public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
-        lightingScale = (int) (120 * Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4));
+        lightingScale = (int) (140 * Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4));
     }
 
     public void setST(double st1, double st2) {
