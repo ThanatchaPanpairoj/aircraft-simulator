@@ -99,7 +99,7 @@ public class Face {
                     && (edge3 = edgeFunction(xaxbay, yaybax)) >= 0) {
                     //&& (edge3 = 1 - edge1 - edge2) >= 0) {
                         int index = WIDTH * (pY+hHEIGHT) + (pX+hWIDTH);
-                        double z = (1 / (edge1 + edge2 + edge3));
+                        double z = 1 / (edge1 + edge2 + edge3);
                         //System.out.println(p1.getZ() + ", " + p2.getZ() + ", " + p3.getZ() + " : " + z);
                         if (zBuffer[index] > z) {
                             int st1 = (int) (z * (edge1 * p1.getST1() + edge2 * p2.getST1() + edge3 * p3.getST1()));
@@ -108,11 +108,12 @@ public class Face {
                             //    g = (int)((p1.getG() + p2.getG() + p3.getG()) / 3);
                             //    b = (int)((p1.getB() + p2.getB() + p3.getB()) / 3);
                             //    System.out.println(p1.getR() + ", " + p2.getR() + ", " + p3.getR() + ": " + r); 
-                            int rgb = textureMap[1500 * (st1) + (1500 - st2)];
+                            int rgb = textureMap[1500 * st1 + st2];
                             int r = (rgb >> 16) & 0xFF;
                             int g = (rgb >> 8) & 0xFF;
                             int b = rgb & 0xFF;
-                            if (r > 200 && g > 200 && b > 200) {
+                            //if (rgb == -1315861) {
+                            if (r > 230 && g > 230 && b > 230) {
                                 r = (int) (z * (edge1 * p1.getR() + edge2 * p2.getR() + edge3 * p3.getR()));
                                 g = (int) (z * (edge1 * p1.getG() + edge2 * p2.getG() + edge3 * p3.getG()));
                                 b = (int) (z * (edge1 * p1.getB() + edge2 * p2.getB() + edge3 * p3.getB()));
@@ -120,7 +121,7 @@ public class Face {
                                 //g = 80;
                                 //b = 85;
                             }
-                            int lightingScale = 30 + (int) (z * (edge1 * p1.getLightingScale()
+                            int lightingScale = (int) (z * (edge1 * p1.getLightingScale()
                                                             + edge2 * p2.getLightingScale()
                                                             + edge3 * p3.getLightingScale()));
                             r += lightingScale;

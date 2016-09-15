@@ -61,12 +61,12 @@ public class Vertex
     }
 
     public void calculateNewlightingScale(double gravityX, double gravityY, double gravityZ) {
-        lightingScale = (int) (140 * Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4));
+        lightingScale = 30 + (int) (140 * Math.max((gravityX * normal.getX() + gravityY * normal.getY() + gravityZ * normal.getZ()) * lightingScaleConstant, -0.4));
     }
 
     public void setST(double st1, double st2) {
         this.st1 = st1 * 1500;
-        this.st2 = st2 * 1500;
+        this.st2 = -st2 * 1500;
         //System.out.println(st1 + " " + st2);
     }
 

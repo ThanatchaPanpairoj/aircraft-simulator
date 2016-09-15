@@ -96,7 +96,7 @@ public class AircraftSimulatorComponent extends JComponent
     */
     public void paintComponent(Graphics g) {
         Arrays.fill(pixels, (new Color(0, 0, 0, 0)).getRGB());
-	    Arrays.fill(zBuffer, 100000);	
+	    Arrays.fill(zBuffer, 100000000);	
 
         Graphics2D g2 = (Graphics2D)g;
         g2.translate(halfW, halfH);
