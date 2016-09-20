@@ -20,9 +20,9 @@ import javax.swing.JComponent;
  */
 public class AircraftSimulatorComponent extends JComponent
 {
-    private int width, height, fps, intro;
+    private int width, height, intro;
     private static int halfW, halfH, sixthW, fourthH; 
-    private double speed;
+    private double speed, fps;
     private boolean crash;
     private static final double oneEightithPI = Math.PI * 0.005555555;
     private Color LIGHT_BLUE = new Color(153, 204, 255), LIGHT_GREEN = new Color(0, 225, 0);
@@ -126,7 +126,7 @@ public class AircraftSimulatorComponent extends JComponent
         g2.drawString("WASD to turn", -halfW + 5, - halfH + 17);
         g2.drawString("QE to spin", -halfW + 5, - halfH + 34);
         g2.drawString("ESC to exit", -halfW + 5, - halfH + 51);
-        g2.drawString("FPS: " + fps, halfW - 65, - halfH + 17);
+        g2.drawString("FPS: " + fps, halfW - 85, - halfH + 17);
 
         if(intro == 0) {
             g2.setFont (new Font (Font.SANS_SERIF, Font.BOLD, 20));
@@ -314,7 +314,7 @@ public class AircraftSimulatorComponent extends JComponent
     *
     * @param fps    the updated frame rate
     */
-    public void updateFPS(int fps) {
+    public void updateFPS(double fps) {
         this.fps = fps;
     }
 }

@@ -151,12 +151,11 @@ public class AircraftSimulator extends JFrame
                             0, 0,                    0, 1});
                     yRotation += angle;
                 }
-
+ 
                 comp.repaint();
                 frame++;
-                if(System.currentTimeMillis() - startTime >= 1000) {
-                    startTime += 1000;
-                    comp.updateFPS(frame);
+                if (System.currentTimeMillis() - startTime > 300) {
+                    comp.updateFPS(frame * 1000.0 / (-startTime + (startTime = System.currentTimeMillis())));
                     frame = 0;
                 }
             }
