@@ -113,7 +113,7 @@ public class Face {
                             int g = (rgb >> 8) & 0xFF;
                             int b = rgb & 0xFF;
                             //if (rgb == -1315861) {
-                            if (r > 230 && g > 230 && b > 230) {
+                            if (r > 200 && g > 200 && b > 200) {
                                 r = (int) (z * (edge1 * p1.getR() + edge2 * p2.getR() + edge3 * p3.getR()));
                                 g = (int) (z * (edge1 * p1.getG() + edge2 * p2.getG() + edge3 * p3.getG()));
                                 b = (int) (z * (edge1 * p1.getB() + edge2 * p2.getB() + edge3 * p3.getB()));
