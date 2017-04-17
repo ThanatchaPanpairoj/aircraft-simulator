@@ -81,16 +81,22 @@ public class Face {
         double xbxcby = (minX - p2.get2Dx()) * cby;
         double xcxacy = (minX - p3.get2Dx()) * acy;
 
-        // Edge function values
-        double edge1, edge2, edge3;
+        // Row Precalculations
+        double yaybax0 = (maxY - p1.get2Dy()) * bax;
+        double ybycbx0 = (maxY - p2.get2Dy()) * cbx;
+        double ycyacx0 = (maxY - p3.get2Dy()) * acx;
+
+        // Edge function values, row precalculations, drawing completion
+        double edge1, edge2, edge3, yaybax, ybycbx, ycyacx;
+        boolean drawn;
 
         for (int pX = minX; pX <= maxX; pX+=1, xaxbay += bay, xbxcby += cby, xcxacy += acy) {
-            boolean drawn = false;
+            drawn = false;
 
             // Row Precalculations
-            double yaybax = (maxY - p1.get2Dy()) * bax;
-            double ybycbx = (maxY - p2.get2Dy()) * cbx;
-            double ycyacx = (maxY - p3.get2Dy()) * acx;
+            yaybax = yaybax0;
+            ybycbx = ybycbx0;
+            ycyacx = ycyacx0;
 
             for (int pY = maxY; pY >= minY; pY-=1, yaybax -= bax, ybycbx -= cbx, ycyacx -= acx) {
                 try {
